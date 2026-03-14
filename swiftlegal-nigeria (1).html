@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SwiftLegal Nigeria — Trusted Legal Counsel</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,600&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#0A0A0A;
+  --charcoal:#141414;
+  --charcoal-mid:#1E1E1E;
+  --charcoal-light:#2A2A2A;
+  --gold:#B8975A;
+  --gold-light:#D4B278;
+  --gold-pale:#F0E4CC;
+  --white:#FAFAF8;
+  --off:#F2EDE4;
+  --muted:#888070;
+  --border:rgba(184,151,90,0.18);
+  --red:#8B1A1A;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Barlow',sans-serif;background:var(--charcoal);color:var(--white);overflow-x:hidden;}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 5%;height:68px;
+  transition:background 0.3s,border-bottom 0.3s;
+}
+nav.scrolled{background:rgba(10,10,10,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+.nav-wordmark{
+  font-family:'EB Garamond',serif;font-size:1.3rem;font-weight:500;
+  color:var(--white);letter-spacing:0.04em;
+}
+.nav-wordmark span{color:var(--gold);}
+.nav-links{display:flex;gap:2rem;list-style:none;align-items:center;}
+.nav-links a{text-decoration:none;font-size:0.82rem;font-weight:500;color:rgba(250,250,248,0.65);transition:color 0.2s,transform 0.25s;display:inline-block;letter-spacing:0.04em;text-transform:uppercase;}
+.nav-links a:hover{color:var(--gold);transform:translateY(-1px);}
+.nav-consult{background:var(--gold);color:var(--black)!important;opacity:1!important;padding:0.5rem 1.25rem;font-weight:600!important;letter-spacing:0.06em!important;transition:background 0.2s,transform 0.3s!important;}
+.nav-consult:hover{background:var(--gold-light)!important;transform:scale(1.04)!important;}
+
+/* HERO */
+.hero{
+  min-height:100vh;position:relative;overflow:hidden;
+  display:flex;align-items:center;padding:7rem 5% 5rem;
+}
+.hero-bg{position:absolute;inset:0;background:#0A0A0A;}
+.hero-texture{
+  position:absolute;inset:0;opacity:0.03;
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(184,151,90,0.5) 60px,rgba(184,151,90,0.5) 61px),
+                   repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(184,151,90,0.5) 60px,rgba(184,151,90,0.5) 61px);
+}
+.hero-img{
+  position:absolute;right:0;top:0;width:55%;height:100%;
+  background:url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1200&q=80') center/cover no-repeat;
+}
+.hero-img::before{content:'';position:absolute;inset:0;background:linear-gradient(to right,#0A0A0A 0%,rgba(10,10,10,0.85) 40%,rgba(10,10,10,0.3) 100%);}
+.hero-content{position:relative;z-index:2;max-width:580px;}
+.hero-rule{display:flex;align-items:center;gap:1rem;margin-bottom:2rem;}
+.rule-line{width:3rem;height:1px;background:var(--gold);}
+.rule-text{font-family:'Barlow Condensed',sans-serif;font-size:0.72rem;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;}
+.hero-title{
+  font-family:'EB Garamond',serif;
+  font-size:clamp(3rem,5.5vw,6rem);
+  font-weight:500;line-height:1.05;
+  margin-bottom:1.75rem;letter-spacing:-0.01em;
+}
+.hero-title em{font-style:italic;color:var(--gold);}
+.hero-sub{font-size:1rem;line-height:1.75;color:rgba(250,250,248,0.55);font-weight:300;max-width:450px;margin-bottom:2.5rem;}
+.hero-sub strong{color:var(--white);font-weight:400;}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;}
+.btn-gold{background:var(--gold);color:var(--black);padding:0.9rem 2rem;font-size:0.82rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:background 0.2s,transform 0.3s;}
+.btn-gold:hover{background:var(--gold-light);transform:translateY(-3px);}
+.btn-ghost{background:transparent;color:var(--white);padding:0.9rem 2rem;font-size:0.82rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;border:1px solid rgba(250,250,248,0.25);cursor:pointer;text-decoration:none;display:inline-block;transition:border-color 0.2s,color 0.2s,transform 0.3s;}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-3px);}
+.hero-badges{display:flex;gap:2rem;margin-top:3rem;padding-top:2.5rem;border-top:1px solid var(--border);}
+.badge{display:flex;flex-direction:column;}
+.badge-num{font-family:'EB Garamond',serif;font-size:2.2rem;font-weight:700;color:var(--gold);line-height:1;}
+.badge-label{font-size:0.72rem;color:rgba(250,250,248,0.45);letter-spacing:0.08em;text-transform:uppercase;margin-top:0.2rem;font-family:'Barlow Condensed',sans-serif;}
+
+/* PRACTICE TICKER */
+.ticker{overflow:hidden;background:var(--gold);padding:0.7rem 0;}
+.ticker-inner{display:flex;animation:tick 30s linear infinite;white-space:nowrap;}
+.ticker-item{font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;letter-spacing:0.2em;color:var(--black);padding:0 2.5rem;text-transform:uppercase;font-weight:600;}
+.ticker-sep{color:rgba(10,10,10,0.4);margin:0 0.25rem;}
+@keyframes tick{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* PRACTICE AREAS */
+.practice{padding:6rem 5%;background:var(--charcoal);}
+.section-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:0.7rem;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.75rem;}
+.section-eyebrow::before{content:'';display:inline-block;width:2rem;height:1px;background:var(--gold);}
+.section-heading{font-family:'EB Garamond',serif;font-size:clamp(2rem,3.5vw,3.2rem);font-weight:500;line-height:1.12;margin-bottom:0.75rem;}
+.section-heading em{font-style:italic;color:var(--gold);}
+.practice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:4rem;border:1px solid var(--border);}
+.practice-card{
+  background:var(--charcoal);padding:2.5rem 2rem;
+  transition:background 0.3s,transform 0.35s;
+  position:relative;overflow:hidden;
+}
+.practice-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform 0.35s;}
+.practice-card:hover{background:var(--charcoal-mid);}
+.practice-card:hover::before{transform:scaleX(1);}
+.practice-card:hover .pcard-icon{transform:rotate(8deg) scale(1.15);}
+.pcard-icon{font-size:1.75rem;margin-bottom:1.25rem;display:inline-block;transition:transform 0.4s;}
+.pcard-name{font-family:'EB Garamond',serif;font-size:1.3rem;font-weight:500;margin-bottom:0.75rem;}
+.pcard-desc{font-size:0.85rem;line-height:1.7;color:rgba(250,250,248,0.5);font-weight:300;}
+.pcard-link{display:inline-flex;align-items:center;gap:0.4rem;font-size:0.75rem;color:var(--gold);letter-spacing:0.06em;text-transform:uppercase;text-decoration:none;margin-top:1.25rem;font-family:'Barlow Condensed',sans-serif;font-weight:600;transition:gap 0.2s;}
+.pcard-link:hover{gap:0.8rem;}
+
+/* WHY US */
+.why{padding:6rem 5%;background:var(--black);}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;}
+.why-img-wrap{position:relative;}
+.why-img{width:100%;aspect-ratio:4/5;object-fit:cover;filter:grayscale(20%);}
+.why-gold-block{
+  position:absolute;bottom:-2rem;right:-2rem;
+  background:var(--gold);padding:2rem 2.5rem;
+}
+.why-gold-block .big{font-family:'EB Garamond',serif;font-size:3.5rem;font-weight:700;color:var(--black);line-height:1;}
+.why-gold-block .small{font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;letter-spacing:0.15em;color:var(--charcoal);text-transform:uppercase;margin-top:0.25rem;}
+.why-features{display:flex;flex-direction:column;gap:1.75rem;margin-top:3rem;}
+.why-feat{display:flex;gap:1.25rem;align-items:flex-start;}
+.feat-num{font-family:'EB Garamond',serif;font-size:2rem;font-weight:700;color:rgba(184,151,90,0.25);line-height:1;flex-shrink:0;width:2.5rem;}
+.feat-body{}
+.feat-title{font-size:1rem;font-weight:600;margin-bottom:0.35rem;letter-spacing:0.01em;}
+.feat-desc{font-size:0.85rem;line-height:1.65;color:rgba(250,250,248,0.5);font-weight:300;}
+
+/* TEAM */
+.team{padding:6rem 5%;background:var(--charcoal);}
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:4rem;}
+.team-card{position:relative;overflow:hidden;}
+.team-photo{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:top;filter:grayscale(30%);transition:filter 0.4s,transform 0.5s;}
+.team-card:hover .team-photo{filter:grayscale(0);transform:scale(1.04);}
+.team-info{padding:1.25rem 0;}
+.team-name{font-family:'EB Garamond',serif;font-size:1.2rem;font-weight:500;margin-bottom:0.2rem;}
+.team-role{font-family:'Barlow Condensed',sans-serif;font-size:0.7rem;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;}
+.team-bar{height:2px;background:var(--border);margin-top:0.75rem;position:relative;overflow:hidden;}
+.team-bar::after{content:'';position:absolute;left:0;top:0;height:100%;width:0;background:var(--gold);transition:width 0.4s;}
+.team-card:hover .team-bar::after{width:100%;}
+
+/* TESTIMONIALS */
+.testi{padding:6rem 5%;background:var(--off);color:var(--black);}
+.testi .section-eyebrow{color:var(--red);}
+.testi .section-eyebrow::before{background:var(--red);}
+.testi .section-heading em{color:var(--red);}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:4rem;}
+.testi-card{background:var(--white);padding:2.5rem;border-bottom:3px solid transparent;transition:border-color 0.3s,transform 0.35s,box-shadow 0.35s;}
+.testi-card:hover{border-color:var(--gold);transform:translateY(-5px);box-shadow:0 16px 40px rgba(0,0,0,0.1);}
+.testi-stars{color:var(--gold);font-size:0.8rem;letter-spacing:0.15em;margin-bottom:1rem;}
+.testi-quote{font-family:'EB Garamond',serif;font-size:1rem;font-style:italic;line-height:1.7;color:#2A2A2A;margin-bottom:1.5rem;}
+.testi-author{display:flex;align-items:center;gap:0.85rem;}
+.testi-init{width:2.5rem;height:2.5rem;background:var(--charcoal);display:flex;align-items:center;justify-content:center;font-family:'EB Garamond',serif;font-size:1rem;color:var(--gold);font-weight:500;transition:transform 0.4s;}
+.testi-card:hover .testi-init{transform:rotate(5deg) scale(1.1);}
+.testi-name{font-size:0.875rem;font-weight:600;color:var(--black);}
+.testi-role{font-size:0.72rem;color:#777;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.05em;}
+
+/* AI TOOLS BADGE ROW */
+.ai-strip{padding:3rem 5%;background:var(--charcoal-mid);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.ai-strip-label{font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;letter-spacing:0.25em;color:var(--muted);text-transform:uppercase;margin-bottom:1.25rem;}
+.ai-tools-row{display:flex;gap:0.75rem;flex-wrap:wrap;}
+.ai-tool{
+  background:rgba(184,151,90,0.08);border:1px solid var(--border);
+  color:var(--gold);font-family:'Barlow Condensed',sans-serif;
+  font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;
+  padding:0.5rem 1rem;cursor:default;display:inline-block;
+  transition:background 0.3s,transform 0.4s ease;
+}
+.ai-tool:nth-child(1):hover{transform:translateX(6px);background:rgba(184,151,90,0.18);}
+.ai-tool:nth-child(2):hover{transform:rotate(4deg);background:rgba(184,151,90,0.18);}
+.ai-tool:nth-child(3):hover{transform:scaleX(1.1);background:rgba(184,151,90,0.18);}
+.ai-tool:nth-child(4):hover{transform:translateY(-4px);background:rgba(184,151,90,0.18);}
+.ai-tool:nth-child(5):hover{transform:scale(1.12);background:rgba(184,151,90,0.18);}
+.ai-tool:nth-child(6):hover{transform:rotateY(15deg);background:rgba(184,151,90,0.18);}
+.ai-tool:nth-child(7):hover{transform:rotate(-4deg);background:rgba(184,151,90,0.18);}
+
+/* PROCESS */
+.process{padding:6rem 5%;background:var(--black);}
+.process-steps{display:grid;grid-template-columns:repeat(4,1fr);margin-top:4rem;border:1px solid var(--border);}
+.pstep{padding:2.5rem 1.75rem;border-right:1px solid var(--border);transition:background 0.3s,transform 0.3s;}
+.pstep:last-child{border-right:none;}
+.pstep:hover{background:var(--charcoal);transform:scaleY(1.02);}
+.pstep-num{font-family:'EB Garamond',serif;font-size:4rem;font-weight:700;color:rgba(184,151,90,0.15);line-height:1;margin-bottom:0.75rem;}
+.pstep-title{font-size:0.9rem;font-weight:600;letter-spacing:0.04em;color:var(--gold);margin-bottom:0.6rem;text-transform:uppercase;font-family:'Barlow Condensed',sans-serif;}
+.pstep-desc{font-size:0.83rem;line-height:1.65;color:rgba(250,250,248,0.45);font-weight:300;}
+
+/* CTA */
+.cta{padding:6rem 5%;background:var(--charcoal-mid);display:grid;grid-template-columns:1fr auto;align-items:center;gap:3rem;}
+.cta-text h2{font-family:'EB Garamond',serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:500;line-height:1.15;margin-bottom:0.75rem;}
+.cta-text h2 em{font-style:italic;color:var(--gold);}
+.cta-text p{font-size:0.95rem;color:rgba(250,250,248,0.5);line-height:1.7;font-weight:300;max-width:520px;}
+.cta-btns{display:flex;flex-direction:column;gap:0.85rem;flex-shrink:0;}
+.btn-wp{background:#25D366;color:var(--white);padding:0.9rem 2rem;font-size:0.82rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;transition:background 0.2s,transform 0.3s;letter-spacing:0.04em;}
+.btn-wp:hover{background:#1ebe5d;transform:scale(1.04);}
+
+/* CONTACT */
+.contact{padding:6rem 5%;background:var(--black);}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;}
+.contact-info{display:flex;flex-direction:column;gap:2rem;}
+.cinfo-item{display:flex;gap:1.25rem;align-items:flex-start;}
+.cinfo-icon{font-size:1.25rem;flex-shrink:0;margin-top:0.1rem;}
+.cinfo-label{font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;margin-bottom:0.3rem;}
+.cinfo-value{font-size:0.9rem;color:rgba(250,250,248,0.7);}
+.contact-form{display:flex;flex-direction:column;gap:1rem;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.form-group{display:flex;flex-direction:column;gap:0.4rem;}
+.form-group label{font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;letter-spacing:0.18em;color:var(--muted);text-transform:uppercase;}
+.form-group input,.form-group select,.form-group textarea{background:var(--charcoal);border:1px solid var(--border);color:var(--white);padding:0.85rem 1rem;font-family:'Barlow',sans-serif;font-size:0.875rem;outline:none;transition:border-color 0.2s;resize:none;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--gold);}
+.form-group textarea{height:110px;}
+.form-submit{background:var(--gold);color:var(--black);padding:1rem;font-size:0.85rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;border:none;cursor:pointer;font-family:'Barlow',sans-serif;transition:background 0.2s,transform 0.3s;}
+.form-submit:hover{background:var(--gold-light);transform:scaleX(1.03);}
+
+/* FOOTER */
+footer{background:#050505;padding:3rem 5%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem;border-top:1px solid var(--border);}
+.footer-brand{font-family:'EB Garamond',serif;font-size:1.25rem;font-weight:500;color:var(--white);}
+.footer-brand span{color:var(--gold);}
+.footer-mid{font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;letter-spacing:0.15em;color:rgba(250,250,248,0.25);text-transform:uppercase;text-align:center;}
+.footer-credit{font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;letter-spacing:0.1em;color:rgba(184,151,90,0.4);text-transform:uppercase;}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.8);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:2rem;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--charcoal);max-width:480px;width:100%;padding:2.5rem;position:relative;}
+.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--muted);font-size:1.25rem;cursor:pointer;transition:color 0.2s;}
+.modal-close:hover{color:var(--gold);}
+.modal h3{font-family:'EB Garamond',serif;font-size:1.75rem;margin-bottom:0.35rem;}
+.modal-sub{font-size:0.8rem;color:var(--muted);margin-bottom:1.75rem;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.08em;text-transform:uppercase;}
+.modal-form{display:flex;flex-direction:column;gap:0.85rem;}
+.modal-form input,.modal-form select,.modal-form textarea{background:var(--charcoal-light);border:1px solid var(--border);color:var(--white);padding:0.85rem 1rem;font-family:'Barlow',sans-serif;font-size:0.875rem;outline:none;transition:border-color 0.2s;resize:none;width:100%;}
+.modal-form input:focus,.modal-form select:focus,.modal-form textarea:focus{border-color:var(--gold);}
+.modal-form textarea{height:90px;}
+.modal-submit{background:var(--gold);color:var(--black);padding:0.95rem;font-size:0.85rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;border:none;cursor:pointer;font-family:'Barlow',sans-serif;width:100%;transition:background 0.2s;}
+.modal-submit:hover{background:var(--gold-light);}
+
+/* ANIM */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:900px){
+  .hero-img{display:none;}
+  .practice-grid{grid-template-columns:1fr;}
+  .why-grid{grid-template-columns:1fr;}
+  .team-grid{grid-template-columns:1fr 1fr;}
+  .testi-grid{grid-template-columns:1fr;}
+  .process-steps{grid-template-columns:1fr 1fr;}
+  .cta{grid-template-columns:1fr;}
+  .contact-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  nav .nav-links{display:none;}
+}
+</style>
+</head>
+<body>
+
+<nav id="mainNav">
+  <div class="nav-wordmark">Swift<span>Legal</span> Nigeria</div>
+  <ul class="nav-links">
+    <li><a href="#practice">Practice Areas</a></li>
+    <li><a href="#team">Our Team</a></li>
+    <li><a href="#testimonials">Clients</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#" class="nav-consult" onclick="openConsult();return false;">Free Consultation</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-texture"></div>
+  <div class="hero-img"></div>
+  <div class="hero-content">
+    <div class="hero-rule"><span class="rule-line"></span><span class="rule-text">Abuja · Lagos · Port Harcourt</span></div>
+    <h1 class="hero-title">Trusted Legal<br>Counsel for<br><em>Nigerian Business.</em></h1>
+    <p class="hero-sub">From corporate transactions to dispute resolution, <strong>SwiftLegal Nigeria</strong> delivers sharp, decisive legal strategy for businesses that refuse to be slowed down.</p>
+    <div class="hero-btns">
+      <a href="#" class="btn-gold" onclick="openConsult();return false;">Book Free Consultation</a>
+      <a href="#practice" class="btn-ghost">Our Practice Areas</a>
+    </div>
+    <div class="hero-badges">
+      <div class="badge"><div class="badge-num">14+</div><div class="badge-label">Years of Practice</div></div>
+      <div class="badge"><div class="badge-num">800+</div><div class="badge-label">Matters Resolved</div></div>
+      <div class="badge"><div class="badge-num">97%</div><div class="badge-label">Client Retention</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item">Corporate Law <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Contract Drafting <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Property Law <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Employment Law <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Litigation <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">IP & Technology <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Tax Advisory <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Dispute Resolution <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Corporate Law <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Contract Drafting <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Property Law <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Employment Law <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Litigation <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">IP & Technology <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Tax Advisory <span class="ticker-sep">·</span></span>
+    <span class="ticker-item">Dispute Resolution <span class="ticker-sep">·</span></span>
+  </div>
+</div>
+
+<!-- PRACTICE AREAS -->
+<section class="practice reveal" id="practice">
+  <div class="section-eyebrow">Our Expertise</div>
+  <h2 class="section-heading">Comprehensive legal services<br>for <em>Nigerian businesses.</em></h2>
+  <div class="practice-grid">
+    <div class="practice-card">
+      <div class="pcard-icon">⚖️</div>
+      <div class="pcard-name">Corporate & Commercial Law</div>
+      <div class="pcard-desc">Company formation, shareholders agreements, mergers & acquisitions, joint ventures, and all commercial transactions requiring sharp legal structuring.</div>
+      <a href="#" class="pcard-link" onclick="openConsult();return false;">Enquire →</a>
+    </div>
+    <div class="practice-card">
+      <div class="pcard-icon">📋</div>
+      <div class="pcard-name">Contract Drafting & Review</div>
+      <div class="pcard-desc">Airtight contracts that protect your business interests. Service agreements, NDAs, supplier contracts, and employment agreements reviewed and drafted with precision.</div>
+      <a href="#" class="pcard-link" onclick="openConsult();return false;">Enquire →</a>
+    </div>
+    <div class="practice-card">
+      <div class="pcard-icon">🏠</div>
+      <div class="pcard-name">Property & Real Estate Law</div>
+      <div class="pcard-desc">C of O verification, deed of assignment, land documentation, conveyancing, and property dispute resolution across all Nigerian states.</div>
+      <a href="#" class="pcard-link" onclick="openConsult();return false;">Enquire →</a>
+    </div>
+    <div class="practice-card">
+      <div class="pcard-icon">👥</div>
+      <div class="pcard-name">Employment & Labour Law</div>
+      <div class="pcard-desc">Staff contracts, employment policies, wrongful termination defence, labour dispute resolution, and HR compliance for Nigerian companies.</div>
+      <a href="#" class="pcard-link" onclick="openConsult();return false;">Enquire →</a>
+    </div>
+    <div class="practice-card">
+      <div class="pcard-icon">🛡️</div>
+      <div class="pcard-name">Litigation & Dispute Resolution</div>
+      <div class="pcard-desc">Aggressive courtroom representation and strategic alternative dispute resolution — mediation, arbitration, and negotiated settlements.</div>
+      <a href="#" class="pcard-link" onclick="openConsult();return false;">Enquire →</a>
+    </div>
+    <div class="practice-card">
+      <div class="pcard-icon">💡</div>
+      <div class="pcard-name">IP & Technology Law</div>
+      <div class="pcard-desc">Trademark registration, copyright protection, technology agreements, data privacy compliance, and legal frameworks for Nigerian tech startups and fintechs.</div>
+      <a href="#" class="pcard-link" onclick="openConsult();return false;">Enquire →</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="why reveal">
+  <div class="why-grid">
+    <div class="why-img-wrap">
+      <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=700&q=80" alt="SwiftLegal Nigeria Office" class="why-img">
+      <div class="why-gold-block">
+        <div class="big">14+</div>
+        <div class="small">Years Serving<br>Nigerian Business</div>
+      </div>
+    </div>
+    <div>
+      <div class="section-eyebrow">Why SwiftLegal</div>
+      <h2 class="section-heading">Not just lawyers.<br><em>Strategic partners</em><br>for your business.</h2>
+      <div class="why-features">
+        <div class="why-feat">
+          <div class="feat-num">01</div>
+          <div class="feat-body">
+            <div class="feat-title">Response Within 24 Hours</div>
+            <div class="feat-desc">We operate on your business timeline. Every client query receives a substantive response within one business day — not days later.</div>
+          </div>
+        </div>
+        <div class="why-feat">
+          <div class="feat-num">02</div>
+          <div class="feat-body">
+            <div class="feat-title">AI-Enhanced Legal Research</div>
+            <div class="feat-desc">Our team uses cutting-edge AI tools including Claude, Gemini, and NotebookLM to conduct deeper, faster legal research — saving you cost without sacrificing quality.</div>
+          </div>
+        </div>
+        <div class="why-feat">
+          <div class="feat-num">03</div>
+          <div class="feat-body">
+            <div class="feat-title">Transparent, Fixed Fees</div>
+            <div class="feat-desc">No billing surprises. We quote fixed fees for clearly defined work so your legal budget stays predictable and under control.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team reveal" id="team">
+  <div class="section-eyebrow">Our Counsel</div>
+  <h2 class="section-heading">Experienced attorneys<br><em>at every level.</em></h2>
+  <div class="team-grid">
+    <div class="team-card">
+      <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?w=400&q=80" alt="Partner" class="team-photo">
+      <div class="team-info">
+        <div class="team-name">Chukwuemeka Obi</div>
+        <div class="team-role">Senior Partner · Corporate Law</div>
+        <div class="team-bar"></div>
+      </div>
+    </div>
+    <div class="team-card">
+      <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80" alt="Partner" class="team-photo">
+      <div class="team-info">
+        <div class="team-name">Adaeze Nwosu-Bright</div>
+        <div class="team-role">Partner · Property & Litigation</div>
+        <div class="team-bar"></div>
+      </div>
+    </div>
+    <div class="team-card">
+      <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80" alt="Associate" class="team-photo">
+      <div class="team-info">
+        <div class="team-name">Tunde Akinyele</div>
+        <div class="team-role">Senior Associate · Tech & IP Law</div>
+        <div class="team-bar"></div>
+      </div>
+    </div>
+    <div class="team-card">
+      <img src="https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?w=400&q=80" alt="Associate" class="team-photo">
+      <div class="team-info">
+        <div class="team-name">Fatima Al-Hassan</div>
+        <div class="team-role">Associate · Employment & Labour</div>
+        <div class="team-bar"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi reveal" id="testimonials">
+  <div class="section-eyebrow">Client Stories</div>
+  <h2 class="section-heading">What our clients<br><em>say about us.</em></h2>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-quote">"SwiftLegal handled our company's acquisition process with remarkable efficiency. Their corporate team reviewed and negotiated every clause — we closed in 6 weeks. Exceptional."</div>
+      <div class="testi-author">
+        <div class="testi-init">EO</div>
+        <div><div class="testi-name">Emeka Okafor</div><div class="testi-role">CEO · TechBridge Nigeria</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-quote">"We had a complex land dispute that had dragged for 3 years. SwiftLegal resolved it in 4 months. Their property law team knows Nigerian land law inside and out."</div>
+      <div class="testi-author">
+        <div class="testi-init">BM</div>
+        <div><div class="testi-name">Blessing Makinde</div><div class="testi-role">Director · Evergreen Properties</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-quote">"Their fixed-fee approach to contract review is exactly what we needed as a growing startup. Clear costs, fast turnaround, and they actually explain things in plain language."</div>
+      <div class="testi-author">
+        <div class="testi-init">KA</div>
+        <div><div class="testi-name">Kemi Adeyemi</div><div class="testi-role">Founder · PayFast Nigeria</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI TOOLS -->
+<div class="ai-strip reveal">
+  <div class="ai-strip-label">Built with AI — Tools used in this project</div>
+  <div class="ai-tools-row">
+    <span class="ai-tool">Claude AI</span>
+    <span class="ai-tool">Gemini</span>
+    <span class="ai-tool">NotebookLM</span>
+    <span class="ai-tool">Kimi AI</span>
+    <span class="ai-tool">ChatGPT</span>
+    <span class="ai-tool">Bolt.new</span>
+    <span class="ai-tool">Vercel</span>
+  </div>
+</div>
+
+<!-- PROCESS -->
+<section class="process reveal">
+  <div class="section-eyebrow">How We Work</div>
+  <h2 class="section-heading">From first call to<br><em>matter resolved.</em></h2>
+  <div class="process-steps">
+    <div class="pstep">
+      <div class="pstep-num">01</div>
+      <div class="pstep-title">Free Consultation</div>
+      <div class="pstep-desc">30-minute call to understand your legal matter, assess complexity, and recommend the right approach — at no cost.</div>
+    </div>
+    <div class="pstep">
+      <div class="pstep-num">02</div>
+      <div class="pstep-title">Clear Engagement</div>
+      <div class="pstep-desc">We provide a written engagement letter with fixed fees, scope, and timeline. You know exactly what you're paying before we begin.</div>
+    </div>
+    <div class="pstep">
+      <div class="pstep-num">03</div>
+      <div class="pstep-title">Expert Execution</div>
+      <div class="pstep-desc">Our team works swiftly using AI-enhanced research tools to deliver high-quality legal work faster than traditional firms.</div>
+    </div>
+    <div class="pstep">
+      <div class="pstep-num">04</div>
+      <div class="pstep-title">Ongoing Support</div>
+      <div class="pstep-desc">We don't disappear after resolution. Our retainer clients get priority access for all future legal needs.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta reveal">
+  <div class="cta-text">
+    <h2>Your business deserves<br><em>legal counsel that moves</em><br>as fast as you do.</h2>
+    <p>Book a free 30-minute consultation with a SwiftLegal partner today. No obligation — just clear, expert legal guidance.</p>
+  </div>
+  <div class="cta-btns">
+    <a href="#" class="btn-gold" onclick="openConsult();return false;">📅 Book a Consultation</a>
+    <a href="https://wa.me/2349054045597" class="btn-wp">💬 WhatsApp Us</a>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<section class="contact reveal" id="contact">
+  <div class="section-eyebrow">Get in Touch</div>
+  <h2 class="section-heading" style="margin-bottom:3rem;">Talk to a lawyer<br><em>today.</em></h2>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <div class="cinfo-item">
+        <div class="cinfo-icon">📍</div>
+        <div>
+          <div class="cinfo-label">Head Office</div>
+          <div class="cinfo-value">Plot 23, Ahmadu Bello Way,<br>Central Business District, Abuja</div>
+        </div>
+      </div>
+      <div class="cinfo-item">
+        <div class="cinfo-icon">📍</div>
+        <div>
+          <div class="cinfo-label">Lagos Office</div>
+          <div class="cinfo-value">7 Kofo Abayomi Street,<br>Victoria Island, Lagos</div>
+        </div>
+      </div>
+      <div class="cinfo-item">
+        <div class="cinfo-icon">📞</div>
+        <div>
+          <div class="cinfo-label">Phone / WhatsApp</div>
+          <div class="cinfo-value">+234 905 404 5597</div>
+        </div>
+      </div>
+      <div class="cinfo-item">
+        <div class="cinfo-icon">✉️</div>
+        <div>
+          <div class="cinfo-label">Email</div>
+          <div class="cinfo-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="422a272e2e2d0231352b24362e2725232e6c2c25">[email&#160;protected]</a></div>
+        </div>
+      </div>
+    </div>
+    <form class="contact-form" onsubmit="submitForm(event)">
+      <div class="form-row">
+        <div class="form-group"><label>Full Name</label><input type="text" placeholder="Your full name" required></div>
+        <div class="form-group"><label>Phone / WhatsApp</label><input type="tel" placeholder="+234 905 404 5597" required></div>
+      </div>
+      <div class="form-group"><label>Email Address</label><input type="email" placeholder="your@email.com"></div>
+      <div class="form-group">
+        <label>Practice Area</label>
+        <select>
+          <option>Corporate & Commercial Law</option>
+          <option>Contract Drafting & Review</option>
+          <option>Property & Real Estate</option>
+          <option>Employment & Labour</option>
+          <option>Litigation</option>
+          <option>IP & Technology</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Brief Description</label><textarea placeholder="Briefly describe your legal matter..."></textarea></div>
+      <button type="submit" class="form-submit">Send Enquiry →</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">Swift<span>Legal</span> Nigeria</div>
+  <div class="footer-mid">© 2025 SwiftLegal Nigeria. All rights reserved. RC 987654 · SAN Accredited</div>
+  <div class="footer-credit">Built with AI by B.I.E.AI</div>
+</footer>
+
+<!-- CONSULTATION MODAL -->
+<div class="modal-overlay" id="consultModal">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('consultModal').classList.remove('open')">✕</button>
+    <h3>Free Consultation</h3>
+    <div class="modal-sub">30 minutes · No obligation · Expert legal guidance</div>
+    <form class="modal-form" onsubmit="submitConsult(event)">
+      <input type="text" placeholder="Full Name" required>
+      <input type="tel" placeholder="WhatsApp Number" required>
+      <select>
+        <option>Corporate & Commercial Law</option>
+        <option>Contract Drafting</option>
+        <option>Property Law</option>
+        <option>Employment Law</option>
+        <option>Litigation</option>
+        <option>Other</option>
+      </select>
+      <textarea placeholder="Briefly describe your situation..."></textarea>
+      <button type="submit" class="modal-submit">Book My Free Consultation →</button>
+    </form>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));
+
+const reveals = document.querySelectorAll('.reveal');
+new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.1}).observe? reveals.forEach(el=>{
+  new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+  },{threshold:0.1}).observe(el);
+}):null;
+
+// stagger
+document.querySelectorAll('.practice-grid,.team-grid,.testi-grid,.process-steps').forEach(g=>{
+  Array.from(g.children).forEach((c,i)=>c.style.transitionDelay=`${i*0.1}s`);
+});
+
+function openConsult(){document.getElementById('consultModal').classList.add('open');}
+document.getElementById('consultModal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
+
+function showToast(msg){
+  const t=document.createElement('div');
+  t.style.cssText='position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#B8975A;color:#0A0A0A;padding:1rem 2rem;font-family:Barlow,sans-serif;font-size:0.875rem;font-weight:600;z-index:1000;box-shadow:0 8px 30px rgba(0,0,0,0.4);';
+  t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),4000);
+}
+function submitForm(e){e.preventDefault();showToast('✅ Enquiry sent! A lawyer will contact you within

@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.I.E.AI — Nigerian AI Consultant</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0D0D0D;
+    --paper: #F5F0E8;
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --green: #1A3C34;
+    --green-mid: #2A5C4E;
+    --rust: #C4501A;
+    --cream: #FAF6EE;
+    --muted: #6B6455;
+    --border: rgba(201,168,76,0.25);
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--ink); color: var(--paper); overflow-x: hidden; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 5%; background: rgba(13,13,13,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: 'Space Mono', monospace; font-size: 0.8rem; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { text-decoration: none; font-size: 0.85rem; font-weight: 500; color: var(--paper); opacity: 0.7; transition: opacity 0.2s, color 0.2s, transform 0.25s; letter-spacing: 0.03em; display: inline-block; }
+  .nav-links a:hover { opacity: 1; color: var(--gold); transform: translateY(-2px); }
+  .nav-cta { background: var(--gold); color: var(--ink) !important; opacity: 1 !important; padding: 0.5rem 1.2rem; font-weight: 600 !important; transition: background 0.2s, transform 0.25s !important; }
+  .nav-cta:hover { background: var(--gold-light) !important; transform: scale(1.05) !important; }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; padding: 8rem 5% 5rem; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 70% 50%, rgba(26,60,52,0.4) 0%, transparent 70%); pointer-events: none; }
+  .hero-tag { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.25em; color: var(--gold); text-transform: uppercase; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
+  .hero-tag::before { content: ''; display: inline-block; width: 2rem; height: 1px; background: var(--gold); }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 5.5vw, 6rem); font-weight: 900; line-height: 1.02; margin-bottom: 1.5rem; letter-spacing: -0.02em; }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-sub { font-size: 1.1rem; line-height: 1.7; color: rgba(245,240,232,0.65); max-width: 480px; margin-bottom: 2.5rem; font-weight: 300; }
+  .hero-sub strong { color: var(--paper); font-weight: 500; }
+  .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary { background: var(--gold); color: var(--ink); padding: 0.9rem 2rem; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.03em; border: none; cursor: pointer; text-decoration: none; display: inline-block; transition: background 0.2s, transform 0.3s; }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-3px) scale(1.03); }
+  .btn-secondary { background: transparent; color: var(--paper); padding: 0.9rem 2rem; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500; border: 1px solid rgba(245,240,232,0.3); cursor: pointer; text-decoration: none; display: inline-block; transition: border-color 0.2s, color 0.2s, transform 0.3s; }
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-3px); }
+  .hero-right { display: flex; justify-content: flex-end; align-items: center; }
+  .hero-stats { display: grid; grid-template-rows: 1fr 1fr 1fr; border: 1px solid var(--border); background: rgba(26,60,52,0.15); backdrop-filter: blur(8px); }
+  .stat-block { padding: 2rem 2.5rem; border-bottom: 1px solid var(--border); transition: background 0.3s, transform 0.3s; }
+  .stat-block:last-child { border-bottom: none; }
+  .stat-block:hover { background: rgba(201,168,76,0.08); transform: scale(1.03); }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 0.35rem; }
+  .stat-label { font-size: 0.8rem; color: rgba(245,240,232,0.55); letter-spacing: 0.05em; line-height: 1.4; }
+
+  /* TICKER */
+  .ticker { overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--green); padding: 0.75rem 0; }
+  .ticker-inner { display: flex; animation: ticker 25s linear infinite; white-space: nowrap; }
+  .ticker-item { font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; color: var(--gold); padding: 0 3rem; text-transform: uppercase; }
+  .ticker-dot { color: var(--gold-light); margin: 0 0.5rem; }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* SECTIONS */
+  section { padding: 6rem 5%; }
+  .section-tag { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.25em; color: var(--gold); text-transform: uppercase; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
+  .section-tag::before { content: ''; display: inline-block; width: 1.5rem; height: 1px; background: var(--gold); }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 3.5vw, 3.5rem); font-weight: 700; line-height: 1.1; margin-bottom: 1rem; }
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  /* ABOUT */
+  .about { background: var(--cream); color: var(--ink); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 5rem; align-items: center; }
+  .about .section-tag { color: var(--green); }
+  .about .section-tag::before { background: var(--green); }
+  .about .section-title em { color: var(--green-mid); }
+  .about-body { font-size: 1.05rem; line-height: 1.8; color: #2A2519; font-weight: 300; }
+  .about-body p { margin-bottom: 1.25rem; }
+  .about-body strong { font-weight: 600; color: var(--ink); }
+
+  /* AI TOOLS GRID — with CSS transforms */
+  .tools-label { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.18em; color: var(--green); text-transform: uppercase; margin: 2rem 0 0.85rem; }
+  .tools-grid { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+  .tool-tag {
+    background: var(--green); color: var(--paper);
+    font-size: 0.72rem; font-family: 'Space Mono', monospace;
+    padding: 0.5rem 0.9rem; letter-spacing: 0.05em;
+    cursor: default; display: inline-block;
+    transition: transform 0.45s ease, background 0.3s;
+  }
+  .tool-tag:hover { background: var(--gold); color: var(--ink); }
+  /* Each tool gets its own CSS transform — the exact transforms from your uploaded CSS */
+  .tool-tag:nth-child(1):hover  { transform: translateX(10px); }
+  .tool-tag:nth-child(2):hover  { transform: rotate(6deg); }
+  .tool-tag:nth-child(3):hover  { transform: rotateX(25deg); }
+  .tool-tag:nth-child(4):hover  { transform: rotateY(25deg); }
+  .tool-tag:nth-child(5):hover  { transform: scaleX(1.18); }
+  .tool-tag:nth-child(6):hover  { transform: scale(1.2); }
+  .tool-tag:nth-child(7):hover  { transform: translateX(-10px); }
+  .tool-tag:nth-child(8):hover  { transform: rotate(-5deg); }
+  .tool-tag:nth-child(9):hover  { transform: translateY(-6px); }
+  .tool-tag:nth-child(10):hover { transform: scaleX(1.15) rotate(2deg); }
+  .tool-tag:nth-child(11):hover { transform: scale(1.15) rotate(-2deg); }
+
+  .about-visual { background: var(--green); padding: 3rem; position: relative; margin-top: 4rem; }
+  .about-visual::before { content: '"'; font-family: 'Playfair Display', serif; font-size: 8rem; color: rgba(201,168,76,0.2); position: absolute; top: -1rem; left: 1.5rem; line-height: 1; }
+  .quote-text { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-style: italic; color: var(--paper); line-height: 1.5; margin-bottom: 1.5rem; position: relative; z-index: 1; }
+  .quote-attr { font-family: 'Space Mono', monospace; font-size: 0.72rem; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* CSS TRANSFORM DEMO */
+  .transform-demo { background: #080808; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 2rem 5%; overflow: hidden; }
+  .transform-demo-label { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; margin-bottom: 1.25rem; }
+  .demo-boxes { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
+  .demo-box { width: 60px; height: 60px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-family: 'Space Mono', monospace; font-size: 0.48rem; font-weight: 700; letter-spacing: 0.04em; text-align: center; line-height: 1.4; cursor: pointer; transition: transform 0.55s ease, box-shadow 0.3s; }
+  .demo-box:nth-child(1) { background: var(--gold); color: var(--ink); }
+  .demo-box:nth-child(2) { background: #b388f4; color: #1a0050; }
+  .demo-box:nth-child(3) { background: #a66cff; color: #1a0050; }
+  .demo-box:nth-child(4) { background: #814de1; color: var(--paper); }
+  .demo-box:nth-child(5) { background: var(--gold-light); color: var(--ink); }
+  .demo-box:nth-child(6) { background: var(--green-mid); color: var(--paper); }
+  .demo-box:nth-child(1):hover { transform: translateX(100px); }
+  .demo-box:nth-child(2):hover { transform: rotate(360deg); }
+  .demo-box:nth-child(3):hover { transform: rotateX(360deg); }
+  .demo-box:nth-child(4):hover { transform: rotateY(360deg); }
+  .demo-box:nth-child(5):hover { transform: scaleX(1.5); }
+  .demo-box:nth-child(6):hover { transform: scale(1.35); box-shadow: 0 10px 30px rgba(42,92,78,0.6); }
+  .demo-hint { font-family: 'Space Mono', monospace; font-size: 0.58rem; color: var(--muted); margin-left: auto; letter-spacing: 0.08em; align-self: center; }
+
+  /* SERVICES */
+  .services { background: var(--ink); }
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 4rem; }
+  .service-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 2rem; position: relative; transition: border-color 0.3s, background 0.3s, transform 0.35s; }
+  .service-card:hover { border-color: var(--gold); background: rgba(201,168,76,0.05); transform: translateY(-6px) scale(1.02); }
+  .service-num { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--gold); letter-spacing: 0.15em; margin-bottom: 1.25rem; opacity: 0.6; }
+  .service-icon { font-size: 1.75rem; margin-bottom: 1rem; display: inline-block; transition: transform 0.4s ease; }
+  .service-card:hover .service-icon { transform: rotate(12deg) scale(1.2); }
+  .service-name { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 0.75rem; line-height: 1.2; }
+  .service-desc { font-size: 0.875rem; line-height: 1.65; color: rgba(245,240,232,0.55); margin-bottom: 1.5rem; font-weight: 300; }
+  .service-price { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--gold); letter-spacing: 0.05em; padding-top: 1.25rem; border-top: 1px solid var(--border); }
+  .service-badge { position: absolute; top: 1rem; right: 1rem; background: var(--rust); color: white; font-size: 0.6rem; font-family: 'Space Mono', monospace; letter-spacing: 0.1em; padding: 0.25rem 0.6rem; text-transform: uppercase; }
+
+  /* PORTFOLIO */
+  .portfolio { background: #111008; }
+  .portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 4rem; }
+  .project-card { overflow: hidden; border: 1px solid var(--border); transition: transform 0.35s, border-color 0.3s, box-shadow 0.35s; cursor: pointer; }
+  .project-card:hover { transform: translateY(-8px); border-color: var(--gold); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+  .project-card.featured { grid-column: span 3; display: grid; grid-template-columns: 1.4fr 1fr; }
+  .project-card.featured:hover { transform: translateY(-5px) scale(1.01); }
+  .project-screen { aspect-ratio: 16/10; position: relative; overflow: hidden; }
+  .project-card.featured .project-screen { aspect-ratio: auto; min-height: 360px; }
+
+  /* Live preview */
+  .proj-live { width: 100%; height: 100%; position: relative; overflow: hidden; }
+  .proj-live img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s, opacity 0.4s; opacity: 0.75; }
+  .project-card.featured:hover .proj-live img { transform: scale(1.04); opacity: 0.88; }
+  .proj-live-grad { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 55%, rgba(0,0,0,0.5) 100%); }
+  .browser-bar { position: absolute; top: 0; left: 0; right: 0; height: 2.4rem; z-index: 3; background: rgba(10,10,10,0.97); display: flex; align-items: center; padding: 0 1rem; gap: 0.4rem; }
+  .b-dot { width: 9px; height: 9px; border-radius: 50%; }
+  .b-url { flex: 1; background: rgba(255,255,255,0.07); border-radius: 4px; height: 1.2rem; margin: 0 0.75rem; display: flex; align-items: center; padding: 0 0.6rem; }
+  .b-url span { font-family: 'Space Mono', monospace; font-size: 0.55rem; color: rgba(255,255,255,0.35); }
+  .live-badge { position: absolute; top: 3rem; left: 1rem; z-index: 4; background: #25D366; color: white; font-family: 'Space Mono', monospace; font-size: 0.56rem; letter-spacing: 0.1em; padding: 0.26rem 0.65rem; text-transform: uppercase; display: flex; align-items: center; gap: 0.35rem; }
+  .live-dot { width: 6px; height: 6px; background: white; border-radius: 50%; animation: blink 1.4s infinite; }
+  @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+  /* Small mockups */
+  .proj-law { background: linear-gradient(160deg, #1C1C1C 0%, #2D2416 100%); display: flex; flex-direction: column; padding: 1.5rem; justify-content: space-between; height: 100%; }
+  .proj-law .mock-logo { font-family: 'Playfair Display', serif; font-size: 1rem; color: #D4AF37; letter-spacing: 0.05em; }
+  .proj-law .mock-nav { display: flex; gap: 0.5rem; }
+  .proj-law .mock-nav span { font-size: 0.44rem; color: rgba(255,255,255,0.45); font-family: monospace; }
+  .proj-law .mock-hero { border-left: 2px solid #D4AF37; padding-left: 0.75rem; }
+  .proj-law .mock-big { font-family: 'Playfair Display', serif; font-size: 1.35rem; color: white; line-height: 1.2; }
+  .proj-law .mock-sub { font-size: 0.52rem; color: rgba(255,255,255,0.45); margin-top: 0.3rem; font-family: monospace; }
+  .proj-law .mock-bars { display: flex; flex-direction: column; gap: 0.3rem; }
+  .proj-law .mock-bar { height: 0.3rem; background: rgba(212,175,55,0.25); border-radius: 1px; }
+
+  .proj-nutri { background: linear-gradient(135deg, #3D5A47 0%, #2A3D2E 60%); display: flex; flex-direction: column; padding: 1.5rem; justify-content: space-between; height: 100%; }
+  .proj-nutri .mock-logo { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: #FAF7F0; }
+  .proj-nutri .mock-logo span { color: #E07845; }
+  .proj-nutri .mock-big { font-family: 'Playfair Display', serif; font-size: 1.35rem; color: white; line-height: 1.2; }
+  .proj-nutri .mock-accent { color: #C8E6C9; font-style: italic; }
+  .proj-nutri .mock-pills { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .proj-nutri .mock-pill { background: rgba(197,233,199,0.15); border: 1px solid rgba(197,233,199,0.3); color: #C8E6C9; font-size: 0.44rem; padding: 0.2rem 0.45rem; font-family: monospace; border-radius: 999px; }
+  .proj-nutri .mock-bmi { background: rgba(255,255,255,0.1); padding: 0.6rem; margin-top: 0.5rem; }
+  .proj-nutri .mock-bmi-label { font-family: monospace; font-size: 0.45rem; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; text-transform: uppercase; }
+  .proj-nutri .mock-bmi-bar { height: 4px; background: rgba(255,255,255,0.2); margin-top: 0.3rem; border-radius: 2px; position: relative; overflow: hidden; }
+  .proj-nutri .mock-bmi-fill { height: 100%; width: 65%; background: #E07845; border-radius: 2px; }
+
+  .project-info { padding: 1.5rem; }
+  .project-card.featured .project-info { padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
+  .project-type { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .project-name { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .project-card.featured .project-name { font-size: 2rem; margin-bottom: 1rem; }
+  .project-desc { font-size: 0.8rem; color: rgba(245,240,232,0.5); line-height: 1.65; font-weight: 300; }
+  .project-card.featured .project-desc { font-size: 0.95rem; color: rgba(245,240,232,0.65); }
+  .project-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem; }
+  .project-tag { font-family: 'Space Mono', monospace; font-size: 0.6rem; background: rgba(201,168,76,0.1); border: 1px solid var(--border); color: var(--gold); padding: 0.25rem 0.6rem; letter-spacing: 0.05em; display: inline-block; transition: transform 0.3s ease, background 0.2s; }
+  .project-tag:nth-child(odd):hover { transform: rotate(3deg) scale(1.1); background: rgba(201,168,76,0.2); }
+  .project-tag:nth-child(even):hover { transform: translateX(4px) scale(1.1); background: rgba(201,168,76,0.2); }
+  .view-live-btn { display: inline-flex; align-items: center; gap: 0.6rem; background: var(--gold); color: var(--ink); padding: 0.85rem 1.75rem; font-size: 0.875rem; font-weight: 600; text-decoration: none; font-family: 'DM Sans', sans-serif; margin-top: 1.75rem; width: fit-content; transition: background 0.2s, transform 0.3s; }
+  .view-live-btn:hover { background: var(--gold-light); transform: translateX(6px); }
+
+  /* Small project link */
+  .proj-link { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'Space Mono', monospace; font-size: 0.62rem; color: var(--gold); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 1.25rem; border-bottom: 1px solid rgba(201,168,76,0.35); padding-bottom: 2px; transition: gap 0.2s, border-color 0.2s; }
+  .proj-link:hover { gap: 0.85rem; border-color: var(--gold); }
+
+  /* PROCESS */
+  .process { background: var(--green); }
+  .process .section-tag { color: var(--gold-light); }
+  .process .section-tag::before { background: var(--gold-light); }
+  .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 4rem; }
+  .process-step { padding: 2.5rem 2rem; border-right: 1px solid rgba(201,168,76,0.2); transition: background 0.3s, transform 0.3s; }
+  .process-step:last-child { border-right: none; }
+  .process-step:hover { background: rgba(201,168,76,0.07); transform: scaleX(1.03); }
+  .step-num { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 900; color: rgba(201,168,76,0.2); line-height: 1; margin-bottom: 1rem; }
+  .step-title { font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 600; color: var(--gold); margin-bottom: 0.75rem; }
+  .step-desc { font-size: 0.85rem; line-height: 1.65; color: rgba(245,240,232,0.6); font-weight: 300; }
+
+  /* TESTIMONIALS */
+  .testimonials { background: var(--cream); color: var(--ink); }
+  .testimonials .section-tag { color: var(--green); }
+  .testimonials .section-tag::before { background: var(--green); }
+  .testimonials .section-title em { color: var(--green-mid); }
+  .testi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 4rem; }
+  .testi-card { background: white; padding: 2.5rem; box-shadow: 0 4px 30px rgba(0,0,0,0.06); transition: transform 0.35s, box-shadow 0.35s; }
+  .testi-card:hover { transform: translateY(-6px) rotate(0.4deg); box-shadow: 0 16px 40px rgba(0,0,0,0.1); }
+  .testi-quote-mark { font-family: 'Playfair Display', serif; font-size: 5rem; color: var(--green); opacity: 0.15; line-height: 0.8; margin-bottom: 0.5rem; }
+  .testi-text { font-size: 1rem; line-height: 1.75; color: #2A2519; font-style: italic; margin-bottom: 1.5rem; font-weight: 300; }
+  .testi-author { display: flex; align-items: center; gap: 1rem; }
+  .testi-avatar { width: 2.75rem; height: 2.75rem; background: var(--green); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--gold); font-weight: 700; flex-shrink: 0; transition: transform 0.4s; }
+  .testi-card:hover .testi-avatar { transform: scale(1.15) rotate(5deg); }
+  .testi-name { font-weight: 600; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.15rem; }
+  .testi-role { font-size: 0.78rem; color: var(--muted); font-family: 'Space Mono', monospace; }
+  .testi-coming { background: rgba(26,60,52,0.06); border: 2px dashed rgba(26,60,52,0.2); padding: 2.5rem; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 0.75rem; text-align: center; grid-column: span 2; }
+  .testi-coming p { color: var(--muted); font-size: 0.9rem; }
+  .testi-coming strong { color: var(--green); font-size: 1.1rem; font-family: 'Playfair Display', serif; }
+
+  /* PRICING */
+  .pricing { background: var(--ink); }
+  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 4rem; }
+  .pricing-card { border: 1px solid var(--border); padding: 2.5rem 2rem; transition: border-color 0.3s, transform 0.35s; }
+  .pricing-card:hover { border-color: var(--gold); transform: translateY(-8px) scale(1.02); }
+  .pricing-card.featured { background: var(--green); border-color: var(--gold); }
+  .pricing-card.featured .pkg-price { color: var(--gold); }
+  .pricing-label { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; }
+  .pkg-name { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .pkg-desc { font-size: 0.85rem; color: rgba(245,240,232,0.5); margin-bottom: 2rem; font-weight: 300; }
+  .pkg-price { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; color: var(--paper); margin-bottom: 0.25rem; line-height: 1; }
+  .pkg-unit { font-size: 0.8rem; color: rgba(245,240,232,0.4); margin-bottom: 2rem; font-family: 'Space Mono', monospace; }
+  .pkg-features { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem; }
+  .pkg-features li { font-size: 0.875rem; color: rgba(245,240,232,0.7); padding-left: 1.25rem; position: relative; }
+  .pkg-features li::before { content: '→'; position: absolute; left: 0; color: var(--gold); font-size: 0.75rem; }
+  .pkg-cta { display: block; text-align: center; text-decoration: none; background: var(--gold); color: var(--ink); padding: 0.85rem; font-weight: 600; font-size: 0.875rem; transition: background 0.2s, transform 0.3s; }
+  .pkg-cta:hover { background: var(--gold-light); transform: scaleX(1.04); }
+  .pkg-cta.outlined { background: transparent; color: var(--paper); border: 1px solid var(--border); }
+  .pkg-cta.outlined:hover { border-color: var(--gold); color: var(--gold); background: transparent; }
+
+  /* CTA */
+  .cta-strip { background: var(--gold); padding: 5rem 5%; text-align: center; color: var(--ink); }
+  .cta-strip h2 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 900; margin-bottom: 1rem; line-height: 1.1; }
+  .cta-strip p { font-size: 1.1rem; max-width: 550px; margin: 0 auto 2.5rem; opacity: 0.75; }
+  .cta-strip .btn-dark { background: var(--ink); color: var(--paper); padding: 1rem 2.5rem; font-size: 0.95rem; font-weight: 600; text-decoration: none; display: inline-block; transition: background 0.2s, transform 0.3s; }
+  .cta-strip .btn-dark:hover { background: var(--green); transform: scale(1.05); }
+
+  footer { background: #080808; padding: 3rem 5%; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 1.5rem; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: var(--paper); }
+  .footer-logo span { color: var(--gold); }
+  .footer-contact { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: rgba(245,240,232,0.4); letter-spacing: 0.08em; text-align: center; }
+  .footer-contact a { color: var(--gold); text-decoration: none; }
+  .footer-right { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: rgba(245,240,232,0.25); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  .fade-in { opacity: 1; transform: none; }
+  /* fade handled by CSS animation */
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .about-grid { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    .portfolio-grid { grid-template-columns: 1fr; }
+    .project-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .testi-coming { grid-column: span 1; }
+    nav .nav-links { display: none; }
+    .demo-hint { display: none; }
+  }
+
+  /* MOBILE NAV */
+  .nav-burger { display: none; background: none; border: none; color: var(--gold); font-size: 1.5rem; cursor: pointer; padding: 0.25rem; line-height: 1; }
+  .mobile-nav {
+    display: none; flex-direction: column; gap: 0;
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 300;
+    background: rgba(13,13,13,0.98); backdrop-filter: blur(16px);
+    padding: 5rem 5% 3rem; justify-content: center; align-items: flex-start;
+  }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav-close { position: absolute; top: 1.5rem; right: 5%; background: none; border: none; color: var(--paper); font-size: 1.5rem; cursor: pointer; opacity: 0.6; transition: opacity 0.2s; }
+  .mobile-nav-close:hover { opacity: 1; }
+  .mobile-nav a { text-decoration: none; font-family: 'Playfair Display', serif; font-size: clamp(2rem, 8vw, 3rem); font-weight: 700; color: var(--paper); padding: 0.5rem 0; border-bottom: 1px solid var(--border); width: 100%; transition: color 0.2s, padding-left 0.2s; }
+  .mobile-nav a:hover { color: var(--gold); padding-left: 0.5rem; }
+  .mobile-nav .mobile-nav-cta { color: var(--gold); border-bottom: none; margin-top: 1.5rem; }
+  @media (max-width: 900px) { .nav-burger { display: block; } }
+
+
+  /* CSS-ONLY REVEAL ANIMATIONS — no JS dependency */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero-content  { animation: fadeUp 0.8s ease 0.1s both; }
+  .hero-right    { animation: fadeUp 0.8s ease 0.3s both; }
+  .about-grid    { animation: fadeUp 0.7s ease 0.1s both; }
+  .about-visual  { animation: fadeUp 0.7s ease 0.2s both; }
+  .services-grid .service-card:nth-child(1) { animation: fadeUp 0.6s ease 0.05s both; }
+  .services-grid .service-card:nth-child(2) { animation: fadeUp 0.6s ease 0.15s both; }
+  .services-grid .service-card:nth-child(3) { animation: fadeUp 0.6s ease 0.25s both; }
+  .services-grid .service-card:nth-child(4) { animation: fadeUp 0.6s ease 0.35s both; }
+  .services-grid .service-card:nth-child(5) { animation: fadeUp 0.6s ease 0.45s both; }
+  .services-grid .service-card:nth-child(6) { animation: fadeUp 0.6s ease 0.55s both; }
+  .portfolio-grid .project-card:nth-child(1) { animation: fadeUp 0.7s ease 0.1s both; }
+  .portfolio-grid .project-card:nth-child(2) { animation: fadeUp 0.7s ease 0.2s both; }
+  .portfolio-grid .project-card:nth-child(3) { animation: fadeUp 0.7s ease 0.3s both; }
+  .process-steps .process-step:nth-child(1) { animation: fadeUp 0.6s ease 0.05s both; }
+  .process-steps .process-step:nth-child(2) { animation: fadeUp 0.6s ease 0.15s both; }
+  .process-steps .process-step:nth-child(3) { animation: fadeUp 0.6s ease 0.25s both; }
+  .process-steps .process-step:nth-child(4) { animation: fadeUp 0.6s ease 0.35s both; }
+  .testi-grid .testi-card  { animation: fadeUp 0.6s ease 0.1s both; }
+  .testi-grid .testi-coming { animation: fadeUp 0.6s ease 0.2s both; }
+  .pricing-card:nth-child(1) { animation: fadeUp 0.6s ease 0.05s both; }
+  .pricing-card:nth-child(2) { animation: fadeUp 0.6s ease 0.2s both; }
+  .pricing-card:nth-child(3) { animation: fadeUp 0.6s ease 0.35s both; }
+
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">B.I.E.AI</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#contact" class="nav-cta">Book a Call</a></li>
+  </ul>
+  <button class="nav-burger" onclick="toggleMobileNav()" aria-label="Open menu">&#9776;</button>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-nav-close" onclick="toggleMobileNav()">✕</button>
+  <a href="#about" onclick="toggleMobileNav()">About</a>
+  <a href="#services" onclick="toggleMobileNav()">Services</a>
+  <a href="#portfolio" onclick="toggleMobileNav()">Portfolio</a>
+  <a href="#pricing" onclick="toggleMobileNav()">Pricing</a>
+  <a href="#contact" class="mobile-nav-cta" onclick="toggleMobileNav()">Book a Call</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content fade-in">
+    <div class="hero-tag">B.I.E.AI — Nigeria's AI Consultant</div>
+    <h1 class="hero-title">I help Nigerian<br>businesses <em>work smarter</em><br>with AI.</h1>
+    <p class="hero-sub">From <strong>AI-built websites delivered in 48 hours</strong> to custom automation tools — I bridge the gap between global AI technology and Nigerian business needs.</p>
+    <div class="hero-buttons">
+      <a href="#services" class="btn-primary">See My Services</a>
+      <a href="#portfolio" class="btn-secondary">View Portfolio</a>
+    </div>
+  </div>
+  <div class="hero-right fade-in">
+    <div class="hero-stats">
+      <div class="stat-block"><div class="stat-num">48h</div><div class="stat-label">Website delivery<br>turnaround time</div></div>
+      <div class="stat-block"><div class="stat-num">6+</div><div class="stat-label">AI service offerings<br>for Nigerian SMEs</div></div>
+      <div class="stat-block"><div class="stat-num">₦50k</div><div class="stat-label">Starting investment<br>for AI transformation</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item">AI Website in 48 Hours <span class="ticker-dot">✦</span></span>
+    <span class="ticker-item">Custom Prompt Packs <span class="ticker-dot">✦</span></span>
+    <span class="ticker-item">AI Automation Setup <span class="ticker-dot">✦</span></span>
+    <span class="ticker-item">Lead Magnet Tools <span class="ticker-dot">✦</span></span>
+    <span class="ticker-item">Internal AI Dashboards <span class="ticker-dot">✦</span></span>
+    <span class="ticker-item">AI Training Workshops <span class="ticker-dot">✦</span></span>
+    <span class="ticker-item">AI Website in 48 Hours <span class="ticker-dot">✦</span></span>
+    <span class="ticker-item">Custom Prompt Packs <span class="ticker-dot">✦</span></span>
+    <span class="ticker-item">AI Automation Setup <span class="ticker-dot">✦</span></span>
+    <span class="ticker-item">Lead Magnet Tools <span class="ticker-dot">✦</span></span>
+    <span class="ticker-item">Internal AI Dashboards <span class="ticker-dot">✦</span></span>
+    <span class="ticker-item">AI Training Workshops <span class="ticker-dot">✦</span></span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-grid fade-in">
+    <div>
+      <div class="section-tag">About B.I.E.AI</div>
+      <h2 class="section-title">The translator<br>between <em>global AI</em><br>& Nigerian business.</h2>
+    </div>
+    <div>
+      <div class="about-body">
+        <p>I'm Emmanuel Bamidele, founder of B.I.E.AI — an AI consulting brand based in Nigeria. While most businesses are still asking <strong>"what is AI?"</strong> — I've spent years immersed in the world's leading AI resources, studying what actually works and what doesn't.</p>
+        <p>I follow, test, and implement tools and strategies from the best minds in the global AI space — then distil that into <strong>practical, affordable solutions built specifically for Nigerian businesses.</strong> I don't just read about AI. I use it, break it, rebuild it, and only bring you what actually delivers results.</p>
+        <p>My edge: I know which tools save real time, which ones waste money, and exactly how to apply them to your industry right here in Nigeria.</p>
+      </div>
+      <p class="tools-label">AI tools I use — hover each one</p>
+      <div class="tools-grid">
+        <span class="tool-tag">Claude AI</span>
+        <span class="tool-tag">ChatGPT</span>
+        <span class="tool-tag">Gemini</span>
+        <span class="tool-tag">Kimi AI</span>
+        <span class="tool-tag">NotebookLM</span>
+        <span class="tool-tag">Higgsfield</span>
+        <span class="tool-tag">Bolt.new</span>
+        <span class="tool-tag">Replit</span>
+        <span class="tool-tag">Vercel</span>
+        <span class="tool-tag">Make.com</span>
+        <span class="tool-tag">Prompt Engineering</span>
+      </div>
+    </div>
+  </div>
+  <div class="about-visual fade-in">
+    <div class="quote-text">"AI agents currently complete only 2.5% of real-world tasks. Nigerian businesses need a human expert to bridge that gap — and that's exactly what I do."</div>
+    <div class="quote-attr">B.I.E.AI — Emmanuel Bamidele, Nigeria</div>
+  </div>
+</section>
+
+<!-- CSS TRANSFORM DEMO -->
+<div class="transform-demo">
+  <div class="transform-demo-label">Hover each block to see AI-built interactive effects in action</div>
+  <div class="demo-boxes">
+    <div class="demo-box">Slide</div>
+    <div class="demo-box">Spin</div>
+    <div class="demo-box">Flip X</div>
+    <div class="demo-box">Flip Y</div>
+    <div class="demo-box">Stretch</div>
+    <div class="demo-box">Grow</div>
+    <span class="demo-hint">← Built in minutes using AI tools</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="section-tag fade-in">What I Offer</div>
+  <h2 class="section-title fade-in">Six ways I can<br><em>transform your business</em><br>with AI.</h2>
+  <div class="services-grid fade-in">
+    <div class="service-card"><div class="service-badge">Most Popular</div><div class="service-num">01</div><div class="service-icon">🌐</div><div class="service-name">AI Website in 48 Hours</div><div class="service-desc">A fully functional, mobile-ready business website built and delivered in 48 hours. Professional design, contact forms, and hosting included.</div><div class="service-price">FROM ₦80,000</div></div>
+    <div class="service-card"><div class="service-badge">Best for Teams</div><div class="service-num">02</div><div class="service-icon">📦</div><div class="service-name">Custom AI Prompt Pack</div><div class="service-desc">25–30 ready-to-use prompts built for your industry. Your team saves hours every week on proposals, emails, and client communications.</div><div class="service-price">FROM ₦50,000</div></div>
+    <div class="service-card"><div class="service-num">03</div><div class="service-icon">🧲</div><div class="service-name">Interactive Lead Magnet Tool</div><div class="service-desc">ROI calculators, quizzes, and interactive tools that attract and convert prospects for your marketing campaigns automatically.</div><div class="service-price">FROM ₦50,000</div></div>
+    <div class="service-card"><div class="service-num">04</div><div class="service-icon">⚡</div><div class="service-name">AI Automation Setup</div><div class="service-desc">Automated workflows that save your team 5–15 hours per week. Works with email, WhatsApp, CRM, and more.</div><div class="service-price">FROM ₦100,000</div></div>
+    <div class="service-card"><div class="service-num">05</div><div class="service-icon">📊</div><div class="service-name">Internal AI Dashboard</div><div class="service-desc">A custom dashboard your team uses daily — track performance, generate reports, and manage workflows in one place.</div><div class="service-price">FROM ₦150,000</div></div>
+    <div class="service-card"><div class="service-num">06</div><div class="service-icon">🎓</div><div class="service-name">AI Workshop & Training</div><div class="service-desc">Live training sessions for your team on using AI tools daily. Practical, hands-on, industry-specific. In-person or virtual across Nigeria.</div><div class="service-price">FROM ₦75,000 / SESSION</div></div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="portfolio" id="portfolio">
+  <div class="section-tag fade-in">Portfolio</div>
+  <h2 class="section-title fade-in">Three full demo sites.<br><em>Three industries.</em><br>All built with AI.</h2>
+
+  <div class="portfolio-grid fade-in">
+
+    <!-- FEATURED: Lagos Premier Realty -->
+    <div class="project-card featured" onclick="window.open('lagos-premier-realty.html','_blank')">
+      <div class="project-screen">
+        <div class="proj-live">
+          <div class="browser-bar">
+            <span class="b-dot" style="background:#ff5f57"></span>
+            <span class="b-dot" style="background:#ffbd2e"></span>
+            <span class="b-dot" style="background:#28c840"></span>
+            <div class="b-url"><span>lagospremierrealty.com</span></div>
+          </div>
+          <div class="live-badge"><span class="live-dot"></span>Live Demo</div>
+          <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&q=80" alt="Lagos Premier Realty">
+          <div class="proj-live-grad"></div>
+        </div>
+      </div>
+      <div class="project-info">
+        <div class="project-type">⭐ Featured · Real Estate · AI Website</div>
+        <div class="project-name">Lagos Premier Realty</div>
+        <div class="project-desc">Full real estate agency website with live property listings, smart search & filters, neighbourhood explorer, agent profiles, WhatsApp integration, and booking modals. Delivered in 48 hours.</div>
+        <div class="project-tags">
+          <span class="project-tag">Claude AI</span><span class="project-tag">Bolt.new</span><span class="project-tag">Vercel</span><span class="project-tag">WhatsApp API</span><span class="project-tag">48hr Delivery</span>
+        </div>
+        <a href="lagos-premier-realty.html" target="_blank" class="view-live-btn" onclick="event.stopPropagation()">Open Full Site →</a>
+      </div>
+    </div>
+
+    <!-- SwiftLegal -->
+    <div class="project-card" onclick="window.open('swiftlegal-nigeria.html','_blank')">
+      <div class="project-screen">
+        <div class="proj-law">
+          <div class="mock-nav"><span>HOME</span><span>PRACTICE</span><span>TEAM</span><span>CONTACT</span></div>
+          <div class="mock-hero">
+            <div class="mock-big">SwiftLegal<br>Nigeria</div>
+            <div class="mock-sub">TRUSTED LEGAL COUNSEL · ABUJA & LAGOS</div>
+          </div>
+          <div class="mock-bars">
+            <div class="mock-bar" style="width:80%"></div>
+            <div class="mock-bar" style="width:55%"></div>
+            <div class="mock-bar" style="width:90%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="project-info">
+        <div class="project-type">Law Firm · AI Website + Prompt Pack</div>
+        <div class="project-name">SwiftLegal Nigeria</div>
+        <div class="project-desc">Dark, authoritative law firm site with 6 practice areas, team profiles, client testimonials, and contact forms with consultation booking.</div>
+        <div class="project-tags">
+          <span class="project-tag">Claude AI</span><span class="project-tag">Gemini</span><span class="project-tag">NotebookLM</span><span class="project-tag">Vercel</span>
+        </div>
+        <a href="swiftlegal-nigeria.html" target="_blank" class="proj-link" onclick="event.stopPropagation()">Open Full Site →</a>
+      </div>
+    </div>
+
+    <!-- NutriCoach -->
+    <div class="project-card" onclick="window.open('nutricoach-abuja.html','_blank')">
+      <div class="project-screen">
+        <div class="proj-nutri">
+          <div><div class="mock-logo">Nutri<span>Coach</span> Abuja</div></div>
+          <div>
+            <div class="mock-big">Transform Your<br><span class="mock-accent">Health</span> with<br>Expert Coaching</div>
+          </div>
+          <div class="mock-pills">
+            <span class="mock-pill">WEIGHT LOSS</span>
+            <span class="mock-pill">MEAL PLANS</span>
+            <span class="mock-pill">PRENATAL</span>
+          </div>
+          <div class="mock-bmi">
+            <div class="mock-bmi-label">BMI Calculator — Free Tool</div>
+            <div class="mock-bmi-bar"><div class="mock-bmi-fill"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="project-info">
+        <div class="project-type">Health Coach · AI Website + Lead Magnet</div>
+        <div class="project-name">NutriCoach Abuja</div>
+        <div class="project-desc">Warm, organic health coaching site with 6 programs, a live BMI calculator lead magnet, client transformations, and WhatsApp booking.</div>
+        <div class="project-tags">
+          <span class="project-tag">Kimi AI</span><span class="project-tag">Higgsfield</span><span class="project-tag">Gemini</span><span class="project-tag">Lead Magnet</span>
+        </div>
+        <a href="nutricoach-abuja.html" target="_blank" class="proj-link" onclick="event.stopPropagation()">Open Full Site →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="section-tag fade-in">How It Works</div>
+  <h2 class="section-title fade-in">From first call<br>to <em>live results</em><br>in days — not months.</h2>
+  <div class="process-steps fade-in">
+    <div class="process-step"><div class="step-num">01</div><div class="step-title">Free Discovery Call</div><div class="step-desc">20 minutes to understand your business, goals, and the right AI solution for your needs and budget.</div></div>
+    <div class="process-step"><div class="step-num">02</div><div class="step-title">Custom Proposal</div><div class="step-desc">A clear proposal with exact deliverables, pricing, and timeline. No surprises, no hidden fees.</div></div>
+    <div class="process-step"><div class="step-num">03</div><div class="step-title">Build & Deliver</div><div class="step-desc">I build using proven AI tools and deliver on time. Websites in 48 hours. Prompt packs in 5 days.</div></div>
+    <div class="process-step"><div class="step-num">04</div><div class="step-title">Handoff & Support</div><div class="step-desc">Full walkthrough of everything built. Optional ongoing support retainer available.</div></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <div class="section-tag fade-in">Client Feedback</div>
+  <h2 class="section-title fade-in">What Nigerian<br>businesses <em>say</em><br>about working with me.</h2>
+  <div class="testi-grid fade-in">
+    <div class="testi-card">
+      <div class="testi-quote-mark">"</div>
+      <div class="testi-text">B.I.E.AI built our real estate website in less than 48 hours. It looks better than sites agencies charged us ₦500,000 for. We're already getting leads through it.</div>
+      <div class="testi-author"><div class="testi-avatar">AO</div><div><div class="testi-name">Adaeze Okonkwo</div><div class="testi-role">Director · Lagos Premier Realty</div></div></div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-quote-mark">"</div>
+      <div class="testi-text">The AI prompt pack B.I.E.AI created has saved our law firm at least 8 hours every week. Writing client briefs and contracts now takes minutes, not hours.</div>
+      <div class="testi-author"><div class="testi-avatar">BN</div><div><div class="testi-name">Babatunde Nwosu</div><div class="testi-role">Managing Partner · SwiftLegal Nigeria</div></div></div>
+    </div>
+    <div class="testi-coming">
+      <strong>More testimonials coming soon.</strong>
+      <p>Currently onboarding new clients. Book a free discovery call to be among the first businesses transformed by AI in Nigeria.</p>
+      <a href="#contact" class="btn-primary" style="font-size:0.85rem;padding:0.75rem 1.75rem;">Book Your Free Call</a>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="section-tag fade-in">Investment</div>
+  <h2 class="section-title fade-in">Transparent pricing<br>for <em>every budget</em><br>and business size.</h2>
+  <div class="pricing-grid fade-in">
+    <div class="pricing-card">
+      <div class="pricing-label">Starter</div>
+      <div class="pkg-name">Foundation</div>
+      <div class="pkg-desc">Perfect for small businesses taking their first AI step.</div>
+      <div class="pkg-price">₦80k</div>
+      <div class="pkg-unit">one-time · delivery in 48–72hrs</div>
+      <ul class="pkg-features">
+        <li>3-page AI-built business website</li>
+        <li>Mobile-responsive design</li>
+        <li>Contact form + WhatsApp link</li>
+        <li>Free hosting setup (Vercel)</li>
+        <li>1 round of revisions</li>
+      </ul>
+      <a href="#contact" class="pkg-cta outlined">Get Started</a>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-label">⭐ Most Popular</div>
+      <div class="pkg-name">Business</div>
+      <div class="pkg-desc">The complete AI transformation package for growing businesses.</div>
+      <div class="pkg-price">₦200k</div>
+      <div class="pkg-unit">one-time · delivery in 5–7 days</div>
+      <ul class="pkg-features">
+        <li>5-page AI website + branding</li>
+        <li>25-prompt custom AI pack for your team</li>
+        <li>1hr onboarding training session</li>
+        <li>Contact form + email automation</li>
+        <li>SEO basics setup</li>
+        <li>2 rounds of revisions</li>
+      </ul>
+      <a href="#contact" class="pkg-cta">Get Started</a>
+    </div>
+    <div class="pricing-card">
+      <div class="pricing-label">Enterprise</div>
+      <div class="pkg-name">Full Stack</div>
+      <div class="pkg-desc">For businesses ready for full AI-powered operations.</div>
+      <div class="pkg-price">₦500k</div>
+      <div class="pkg-unit">one-time · delivery in 2–3 weeks</div>
+      <ul class="pkg-features">
+        <li>Full website + lead magnet tool</li>
+        <li>AI automation workflow setup</li>
+        <li>Internal team dashboard</li>
+        <li>50-prompt industry pack</li>
+        <li>Group training (up to 10 staff)</li>
+        <li>30-day post-delivery support</li>
+      </ul>
+      <a href="#contact" class="pkg-cta outlined">Get Started</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-strip" id="contact">
+  <h2>Ready to bring AI into your Nigerian business?</h2>
+  <p>Book a free 20-minute discovery call. No pressure, no commitment — just clarity on what AI can do for you.</p>
+  <a href="https://wa.me/2349054045597" class="btn-dark">📱 Book via WhatsApp</a>
+</div>
+
+<footer>
+  <div class="footer-logo">B.I.E.<span>AI</span></div>
+  <div class="footer-contact">B.I.E.AI · AI Consulting for Nigerian Businesses<br><a href="mailto:techwithbie@gmail.com">techwithbie@gmail.com</a> · <a href="https://wa.me/2349054045597">WhatsApp</a></div>
+  <div class="footer-right">© 2025 B.I.E.AI</div>
+</footer>
+
+
+
+<script>
+  function toggleMobileNav() {
+    var nav = document.getElementById('mobileNav');
+    if (nav) {
+      nav.classList.toggle('open');
+      document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+    }
+  }
+</script>
+</body>
+</html>
