@@ -1,0 +1,62 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/radar",
+      "destination": "/radar.html"
+    },
+    {
+      "source": "/media-kit",
+      "destination": "/media-kit.html"
+    },
+    {
+      "source": "/lagos-premier-realty",
+      "destination": "/lagos-premier-realty.html"
+    },
+    {
+      "source": "/swiftlegal-nigeria",
+      "destination": "/swiftlegal-nigeria.html"
+    },
+    {
+      "source": "/nutricoach-abuja",
+      "destination": "/nutricoach-abuja.html"
+    },
+    {
+      "source": "/invoice-generator",
+      "destination": "/invoice-generator.html"
+    },
+    {
+      "source": "/roi-calculator",
+      "destination": "/roi-calculator.html"
+    },
+    {
+      "source": "/roi-business",
+      "destination": "/roi-business.html"
+    },
+    {
+      "source": "/demo-apex-fintech-corp-senior-full-stack-en",
+      "destination": "/demo-apex-fintech-corp-senior-full-stack-en.html"
+    },
+    {
+      "source": "/demo-dreem-health-digital-workplace-au",
+      "destination": "/demo-dreem-health-digital-workplace-au.html"
+    },
+    {
+      "source": "/demo-nova-commerce-clou-full-stack-next-js-e",
+      "destination": "/demo-nova-commerce-clou-full-stack-next-js-e.html"
+    },
+    {
+      "source": "/demo-anori-tech-hardware-engineer",
+      "destination": "/demo-anori-tech-hardware-engineer.html"
+    },
+    {
+      "source": "/demo-highlevel-lead-product-designe",
+      "destination": "/demo-highlevel-lead-product-designe.html"
+    },
+    {
+      "source": "/demo-fuel50-product-design-lead",
+      "destination": "/demo-fuel50-product-design-lead.html"
+    }
+  ]
+}

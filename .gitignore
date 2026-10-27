@@ -1,0 +1,26 @@
+# Environment and Secrets
+.env
+.env.local
+.env.*.local
+apikeys.txt
+api_keys_pool.json
+
+# Databases and runtime data
+data/*.db
+data/*.sqlite
+data/*.sqlite3
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.log
+
+# Dependencies and caches
+node_modules/
+.npm/
+.vercel/
+
+# Archives and build artifacts
+*.zip
+*.tar.gz

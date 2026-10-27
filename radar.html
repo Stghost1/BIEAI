@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scoutdesk | B.I.E.AI Live Opportunity Engine</title>
+  <meta name="description" content="A live, human-approved opportunity discovery workspace for web development, AI media, and system architecture." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="scoutdesk.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand-lockup">
+        <div class="brand-mark">S</div>
+        <div>
+          <strong>scoutdesk</strong>
+          <span>opportunity engine</span>
+        </div>
+      </div>
+      <div class="workspace-pill"><span class="pulse-dot"></span> Live workspace</div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-item active" data-view="opportunities"><span>◎</span> Opportunities <b id="navOppCount">0</b></button>
+        <button class="nav-item" data-view="surveys"><span>★</span> Surveys &amp; Research <b id="navSurveyCount">22</b></button>
+        <button class="nav-item" data-view="pipeline"><span>↗</span> Outreach pipeline <b id="navDraftCount">0</b></button>
+        <button class="nav-item" data-view="vault"><span>🏛</span> Tailored Demos <b id="navVaultCount">0</b></button>
+        <button class="nav-item" data-view="demos"><span>◇</span> Demo library <b>6</b></button>
+        <button class="nav-item" data-view="sources"><span>⌁</span> Sources <b>3</b></button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="mini-card">
+          <span class="eyebrow">Active Target</span>
+          <strong>Bamsemma Studio</strong>
+          <small id="sidebarSummary">Connected to live feeds</small>
+        </div>
+        <div class="profile-row">
+          <div class="avatar">EB</div>
+          <div><strong>Emmanuel B.</strong><small>B.I.E.AI Lead</small></div>
+          <span class="more">•••</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="crumb"><span id="crumbSection">Workspace</span><i>/</i><strong id="crumbPage">Opportunity radar</strong></div>
+        <div class="topbar-actions">
+          <a href="/" style="text-decoration:none; font-size:11px; font-weight:700; color:#278b68; background:#edf7f2; border:1px solid #d5e6df; padding:6px 12px; border-radius:6px; margin-right:4px;">← Agency Portfolio</a>
+          <a href="/media-kit" target="_blank" rel="noopener" style="text-decoration:none; font-size:11px; font-weight:700; color:#38bdf8; background:#0f172a; border:1px solid #0284c7; padding:6px 12px; border-radius:6px; margin-right:4px;">🚀 Media Kit ↗</a>
+          <button class="secondary-button" onclick="openAntiJobPlaybookModal()" style="background:#fff; border:1px solid #f59e0b; color:#b45309; padding:6px 12px; border-radius:6px; font-weight:700; font-size:11px; cursor:pointer;" title="The Anti-Job Strategy: Bypass ATS & Reach Founders Directly">⚡ Anti-Job Playbook</button>
+          <button class="primary-button" onclick="openBatchAutopilotModal()" style="background:#0f172a; color:#38bdf8; border:1px solid #0284c7; padding:6px 12px; font-size:11px; font-weight:700; border-radius:6px; cursor:pointer;" title="Run autonomous demo builder and proposal generator across top leads">🚀 Auto-Pilot Top Leads</button>
+          <button class="secondary-button" onclick="openSettingsModal()" style="background:#fff; border:1px solid var(--line); padding:6px 12px; border-radius:6px; font-weight:600; font-size:11px; cursor:pointer;">⚙ Config</button>
+          <span id="scanStatusBadge" style="font-size:10px; color:#278b68; font-family:'DM Mono',monospace; margin-right:8px; display:none;">Scanning feeds...</span>
+          <button class="icon-button" aria-label="Notifications" onclick="showToast('Live connection active.')">◌<span class="notification-dot"></span></button>
+          <button class="help-button" onclick="showToast('Scoutdesk builds tailored demos and cold proposals.')">?</button>
+        </div>
+      </header>
+
+      <!-- VIEW 1: OPPORTUNITIES FEED -->
+      <div id="view-opportunities" class="tab-view active">
+        <section class="page-heading">
+          <div>
+            <span class="eyebrow green" id="liveDate">Real-Time Signal Engine</span>
+            <h1>Find work worth<br><em>showing up for.</em></h1>
+            <p>Scout real public signals across remote tech boards, calculate fit against your actual stack, draft tailored cold proposals, and approve before sending.</p>
+          </div>
+          <button class="primary-button" id="scanButton" onclick="triggerScan()"><span>＋</span> Run fresh scan</button>
+        </section>
+
+        <section class="stat-grid" aria-label="Workspace metrics">
+          <article class="stat-card featured">
+            <span class="eyebrow">Qualified signals</span>
+            <strong id="statQualified">0</strong>
+            <small><span class="up">↑ Real-time</span> score &ge; 85</small>
+            <div class="sparkline"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </article>
+          <article class="stat-card">
+            <span class="eyebrow">Potential pipeline</span>
+            <strong id="statValue">$0k</strong>
+            <small>Across qualified opportunities</small>
+          </article>
+          <article class="stat-card">
+            <span class="eyebrow">Tailored Vault Demos</span>
+            <strong id="statVaultDemos">0</strong>
+            <small id="statVaultSub">Built &amp; deployed live</small>
+          </article>
+          <article class="stat-card">
+            <span class="eyebrow">Outreach drafted</span>
+            <strong id="statDrafts">0</strong>
+            <small id="statSent">0 sent</small>
+          </article>
+        </section>
+
+        <section class="content-grid">
+          <div class="feed-panel panel">
+            <div class="panel-header">
+              <div>
+                <span class="eyebrow">Signal feed</span>
+                <h2>Qualified opportunities</h2>
+              </div>
+              <div style="display:flex; gap:8px;">
+                <input type="text" id="searchInput" placeholder="Search title, tech..." oninput="handleSearch(this.value)" style="border:1px solid var(--line); border-radius:6px; padding:6px 10px; font-size:11px; outline:none; background:#fff;" />
+              </div>
+            </div>
+            <div class="filter-row" id="filterRow">
+              <button class="filter-chip active" data-filter="all" onclick="setFilter('all')">All</button>
+              <button class="filter-chip" data-filter="high" onclick="setFilter('high')">High fit (&ge;88)</button>
+              <button class="filter-chip" data-filter="website" onclick="setFilter('website')">Web / Full-Stack</button>
+              <button class="filter-chip" data-filter="automation" onclick="setFilter('automation')">AI &amp; Automation</button>
+              <button class="filter-chip" data-filter="design" onclick="setFilter('design')">UI/UX &amp; Design</button>
+              <button class="filter-chip" data-filter="video" onclick="setFilter('video')">Media &amp; Video</button>
+            </div>
+            <div class="opportunity-list" id="opportunityList">
+              <div style="padding:24px 0; text-align:center; color:var(--muted); font-size:12px;">Loading live opportunities...</div>
+            </div>
+          </div>
+
+          <aside class="right-column">
+            <div class="panel radar-panel">
+              <div class="panel-header">
+                <div><span class="eyebrow">Your radar</span><h2>Signal sources</h2></div>
+                <button class="plain-link" onclick="switchView('sources')">View all</button>
+              </div>
+              <div class="radar-visual">
+                <div class="radar-ring ring-one"></div>
+                <div class="radar-ring ring-two"></div>
+                <div class="radar-ring ring-three"></div>
+                <div class="radar-sweep"></div>
+                <span class="radar-center">YOU</span>
+                <span class="radar-label l1">RemoteOK</span>
+                <span class="radar-label l2">Jobicy</span>
+                <span class="radar-label l3">Arbeitnow</span>
+                <span class="radar-label l4">Direct</span>
+                <span class="radar-signal s1"></span>
+                <span class="radar-signal s2"></span>
+                <span class="radar-signal s3"></span>
+              </div>
+              <div class="radar-legend">
+                <span><i class="legend-dot mint"></i> 3 active public APIs</span>
+                <span id="radarNewTag"><i class="legend-dot orange"></i> Live</span>
+              </div>
+            </div>
+
+            <div class="panel activity-panel">
+              <div class="panel-header">
+                <div><span class="eyebrow">Execution telemetry</span><h2>Activity log</h2></div>
+              </div>
+              <div id="activityList">
+                <div class="activity-item">
+                  <div class="activity-icon mint-bg">◎</div>
+                  <div>
+                    <strong>Radar initialized</strong>
+                    <p>Scoutdesk connected to local SQLite cache.</p>
+                    <small>Real-time</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </section>
+      </div>
+
+      <!-- VIEW: SURVEYS & FAST INCOME -->
+      <div id="view-surveys" class="tab-view" style="display:none;">
+        <section class="page-heading">
+          <div>
+            <span class="eyebrow green">Market Research &amp; Fast Income</span>
+            <h1>Verified Survey Panels<br><em>&amp; Research Hubs.</em></h1>
+            <p>Direct monetization panels categorized by location. Filter between zero-ban Nigerian direct platforms and high-yield Tier-1 panels for US, UK, and France.</p>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button class="secondary-button" onclick="openPlaybookModal()" style="background:#fff; border:1px solid var(--line); font-weight:600;">
+              <span>📖</span> Read VPN Anti-Ban Playbook
+            </button>
+          </div>
+        </section>
+
+        <section class="stat-grid" aria-label="Survey metrics">
+          <article class="stat-card featured">
+            <span class="eyebrow">Available Panels</span>
+            <strong id="statSurveyTotal">22</strong>
+            <small><span class="up">100% Vetted</span> active opportunities</small>
+          </article>
+          <article class="stat-card">
+            <span class="eyebrow">Nigeria Direct (Ban-Safe)</span>
+            <strong id="statSurveyLocal">11</strong>
+            <small>Local IP &bull; Zero VPN Required</small>
+          </article>
+          <article class="stat-card">
+            <span class="eyebrow">Tier-1 Panels (VPN Required)</span>
+            <strong id="statSurveyVPN">11</strong>
+            <small>USA &bull; UK &bull; France</small>
+          </article>
+          <article class="stat-card">
+            <span class="eyebrow">Avg Earning Potential</span>
+            <strong>$15 - $60+</strong>
+            <small>Per hour on high-tier studies</small>
+          </article>
+        </section>
+
+        <div class="panel" style="padding:24px;">
+          <div class="panel-header" style="margin-bottom:16px;">
+            <div>
+              <span class="eyebrow">Panel Directory</span>
+              <h2>Vetted Survey &amp; Research Platforms</h2>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <input type="text" id="surveySearchInput" placeholder="Search platforms, payment methods..." oninput="handleSurveySearch(this.value)" style="border:1px solid var(--line); border-radius:6px; padding:6px 10px; font-size:11px; outline:none; background:#fff;" />
+            </div>
+          </div>
+
+          <div class="filter-row" id="surveyFilterRow" style="margin-bottom:20px;">
+            <button class="filter-chip active" data-scat="all" onclick="setSurveyCategory('all')">All Platforms (22)</button>
+            <button class="filter-chip" data-scat="nigeria_direct" onclick="setSurveyCategory('nigeria_direct')">Nigeria Direct (Zero VPN)</button>
+            <button class="filter-chip" data-scat="vpn_tier1" onclick="setSurveyCategory('vpn_tier1')">Tier-1 Panels (VPN Required)</button>
+            <button class="filter-chip" data-scat="us" onclick="setSurveyCountry('US')">USA Panels</button>
+            <button class="filter-chip" data-scat="uk" onclick="setSurveyCountry('UK')">UK Panels</button>
+            <button class="filter-chip" data-scat="fr" onclick="setSurveyCountry('FR')">France Panels</button>
+          </div>
+
+          <div class="survey-grid" id="surveyGrid">
+            <div style="padding:24px 0; text-align:center; color:var(--muted); font-size:12px;">Loading survey platforms...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW: TAILORED DEMOS & PORTFOLIO VAULT -->
+      <div id="view-vault" class="tab-view" style="display:none;">
+        <section class="page-heading">
+          <div>
+            <span class="eyebrow green">AI Proof of Work Engine</span>
+            <h1>Tailored Prototypes<br><em>&amp; Portfolio Vault.</em></h1>
+            <p>Interactive micro-applications synthesized for specific client roles, deployed with live Vercel routes, and automatically added to your permanent portfolio library.</p>
+          </div>
+          <button class="primary-button" onclick="openBatchAutopilotModal()"><span>🚀</span> Auto-Pilot Top Leads</button>
+        </section>
+
+        <div class="panel">
+          <div class="panel-header" style="padding:16px 20px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <span class="eyebrow">Live Portfolio Vault</span>
+              <h2 style="font-size:16px; margin:2px 0 0;">Synthesized Prototypes &amp; Demos (<span id="vaultCount">0</span>)</h2>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <input type="text" id="vaultSearchInput" placeholder="Filter company, stack..." oninput="filterVaultDemos(this.value)" style="border:1px solid var(--line); border-radius:6px; padding:6px 10px; font-size:11px; outline:none; background:#fff;" />
+            </div>
+          </div>
+          <div style="padding:14px 20px; border-bottom:1px solid var(--line); display:flex; gap:6px; flex-wrap:wrap;" id="vaultFilterChips">
+            <button class="filter-chip active" data-vcat="all" onclick="setVaultCategory('all')">All Vault Demos</button>
+            <button class="filter-chip" data-vcat="finance" onclick="setVaultCategory('finance')">Fintech &amp; Ledger</button>
+            <button class="filter-chip" data-vcat="saas" onclick="setVaultCategory('saas')">SaaS &amp; Telemetry</button>
+            <button class="filter-chip" data-vcat="ai" onclick="setVaultCategory('ai')">AI &amp; Workflows</button>
+            <button class="filter-chip" data-vcat="automation" onclick="setVaultCategory('automation')">Automation</button>
+            <button class="filter-chip" data-vcat="health" onclick="setVaultCategory('health')">HealthTech</button>
+            <button class="filter-chip" data-vcat="corporate" onclick="setVaultCategory('corporate')">Legal &amp; Corp</button>
+            <button class="filter-chip" data-vcat="realty" onclick="setVaultCategory('realty')">Real Estate</button>
+          </div>
+          <div id="vaultGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:16px; padding:20px;">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 2: OUTREACH PIPELINE & KANBAN (JOBASSIST BENCHMARK) -->
+      <div id="view-pipeline" class="tab-view" style="display:none;">
+        <section class="page-heading">
+          <div>
+            <span class="eyebrow green">JobAssist Application Tracking</span>
+            <h1>Application Pipeline<br><em>&amp; Outreach Cadence.</em></h1>
+            <p>Track every application across 6 verified stages: Discovered, Prototype Ready, Pitched, Follow-Up, Interview, and Won. Advance stages with one click.</p>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button class="secondary-button" onclick="openAntiJobPlaybookModal()" style="border:1px solid #f59e0b; color:#b45309; font-weight:700;">⚡ Anti-Job Playbook</button>
+            <button class="primary-button" onclick="openBatchAutopilotModal()"><span>🚀</span> Auto-Pilot Top Leads</button>
+          </div>
+        </section>
+        <div class="panel" style="padding:20px;">
+          <div class="pipeline-view-controls">
+            <div class="view-toggle-group">
+              <button class="view-toggle-btn active" id="btnViewKanban" onclick="setPipelineViewMode('kanban')">📊 Kanban Board (JobAssist)</button>
+              <button class="view-toggle-btn" id="btnViewList" onclick="setPipelineViewMode('list')">📋 Outreach Drafts List</button>
+            </div>
+            <div style="font-size:11px; font-family:'DM Mono',monospace; color:var(--muted);">
+              Live SQLite synchronization &bull; Multi-touch follow-up cadence active
+            </div>
+          </div>
+          <div id="pipelineKanbanContainer">
+            <div style="color:var(--muted); font-size:12px; padding:24px 0; text-align:center;">Loading Kanban board...</div>
+          </div>
+          <div id="pipelineContainer" style="display:none;">
+            <div style="color:var(--muted); font-size:12px;">Loading outreach drafts...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 3: DEMO LIBRARY -->
+      <div id="view-demos" class="tab-view" style="display:none;">
+        <section class="page-heading">
+          <div>
+            <span class="eyebrow green">Baseline Demos</span>
+            <h1>Interactive Proof<br><em>of Work.</em></h1>
+            <p>These verified applications from your biework studio are automatically attached to cold proposals to give prospects instant proof of technical execution.</p>
+          </div>
+        </section>
+        <div class="panel" style="padding:24px;">
+          <div id="demosContainer" style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
+            <div style="color:var(--muted); font-size:12px;">Loading demo library...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 4: SOURCES -->
+      <div id="view-sources" class="tab-view" style="display:none;">
+        <section class="page-heading">
+          <div>
+            <span class="eyebrow green">Public Job Feeds</span>
+            <h1>Configured Signal<br><em>Feeds &amp; APIs.</em></h1>
+            <p>Zero-cost, public APIs queried directly by Scoutdesk without requiring third-party API keys or scraping proxies.</p>
+          </div>
+          <button class="primary-button" onclick="triggerScan()"><span>＋</span> Scan all feeds now</button>
+        </section>
+        <div class="panel" style="padding:24px;">
+          <div id="sourcesContainer">
+            <div style="color:var(--muted); font-size:12px;">Loading sources...</div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <!-- OPPORTUNITY DETAIL MODAL -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <span class="eyebrow green" id="modalCompany">Company</span>
+      <h2 id="modalTitle">Opportunity Details</h2>
+      <div class="modal-meta" id="modalMeta"></div>
+      <p id="modalBody" style="max-height:220px; overflow-y:auto; font-size:11px; line-height:1.6; border:1px solid var(--line); border-radius:6px; padding:10px; background:#f7faf8;"></p>
+      <div class="modal-actions" style="justify-content:space-between; flex-wrap:wrap; gap:8px;">
+        <div style="display:flex; gap:6px;">
+          <a class="secondary-button" id="modalExtUrl" href="#" target="_blank" rel="noopener" style="text-decoration:none; display:inline-flex; align-items:center; gap:4px;">
+            <span>↗</span> Original Listing
+          </a>
+        </div>
+        <div style="display:flex; gap:6px;">
+          <button class="secondary-button" id="modalDraftBtn" onclick="draftFromModal()">Draft Outreach</button>
+          <button class="primary-button" id="modalAutopilotBtn" style="background:#0f172a; color:#38bdf8; border:1px solid #0284c7;" onclick="autopilotFromModal()">🚀 Auto-Pilot</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROPOSAL OUTREACH MODAL -->
+  <div class="modal-backdrop" id="draftModalBackdrop">
+    <div class="modal" style="max-width:680px;" role="dialog" aria-modal="true" aria-labelledby="draftModalTitle">
+      <button class="modal-close" onclick="closeDraftModal()">×</button>
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:4px;">
+        <div>
+          <span class="eyebrow green" id="draftCompany">Company</span>
+          <h2 id="draftModalTitle" style="font-size:20px; margin:4px 0 6px;">Tailored Outreach Proposal</h2>
+        </div>
+        <div style="display:flex; gap:6px;">
+          <button type="button" class="filter-chip" onclick="insertPortfolioLink('vercel')" title="Insert live Vercel portfolio link" style="font-size:10px; padding:3px 8px;">▲ Vercel</button>
+          <button type="button" class="filter-chip" onclick="insertPortfolioLink('github')" title="Insert verified GitHub link" style="font-size:10px; padding:3px 8px;">★ GitHub</button>
+        </div>
+      </div>
+      <p style="font-size:11px; color:var(--muted); margin:0 0 12px;">
+        Interactive prototype attached: <strong id="draftDemoName" style="color:#278b68;">Demo</strong> &bull; <a id="draftDemoUrl" href="#" target="_blank" rel="noopener" style="color:#278b68; text-decoration:underline;">preview link</a>
+      </p>
+
+      <!-- Pitch Angles (The Anti Job) -->
+      <div style="margin-bottom:10px;">
+        <label style="display:block; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-bottom:4px;">
+          The Anti-Job Pitch Angle:
+        </label>
+        <div class="pitch-angle-bar" id="draftAngleBar">
+          <button type="button" class="pitch-angle-btn active" data-angle="proof_of_work" onclick="switchDraftAngle('proof_of_work')">⚡ Proof-of-Work (Anti-Resume)</button>
+          <button type="button" class="pitch-angle-btn" data-angle="problem_audit" onclick="switchDraftAngle('problem_audit')">🔍 Problem &amp; Bottleneck Audit</button>
+          <button type="button" class="pitch-angle-btn" data-angle="mvp_sprint" onclick="switchDraftAngle('mvp_sprint')">⏱ 14-Day MVP Sprint</button>
+        </div>
+      </div>
+
+      <!-- Decision-Maker Finder & ATS Badge -->
+      <div class="decision-maker-box" id="draftDecisionBox">
+        <div class="decision-maker-title">
+          <span>🎯 Bypass HR &bull; Direct Decision-Maker Finder:</span>
+          <span id="draftAtsBadge" class="ats-badge-pill">90% ATS Match</span>
+        </div>
+        <div class="decision-links-row" id="draftDecisionLinks">
+          <a class="decision-link-btn" id="dorkGoogleLink" href="#" target="_blank" rel="noopener">🔍 Find CTO/Lead on LinkedIn</a>
+          <a class="decision-link-btn" id="dorkCompanyLink" href="#" target="_blank" rel="noopener">🏢 Company People</a>
+          <a class="decision-link-btn" id="dorkXLink" href="#" target="_blank" rel="noopener">🐦 X Hiring Signals</a>
+        </div>
+      </div>
+
+      <div style="margin-bottom:8px;">
+        <label style="display:block; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-bottom:4px;">Recipient Email (To:)</label>
+        <input type="email" id="draftRecipientEmail" placeholder="Enter recipient email address (e.g. hiring@company.com)..." style="width:100%; padding:6px 10px; font-size:12px; border:1px solid var(--line); border-radius:6px; background:#f7faf8;" />
+      </div>
+
+      <div style="margin-bottom:8px;">
+        <label style="display:block; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-bottom:4px;">Email Subject</label>
+        <input type="text" id="draftSubject" style="width:100%; padding:6px 10px; font-size:12px; border:1px solid var(--line); border-radius:6px; font-weight:600;" />
+      </div>
+
+      <div>
+        <label style="display:block; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-bottom:4px;">Cold Proposal Body</label>
+        <textarea id="draftBody" rows="9" style="width:100%; padding:10px; font-size:12px; border:1px solid var(--line); border-radius:6px; font-family:'DM Mono',monospace; line-height:1.6; resize:vertical;"></textarea>
+      </div>
+
+      <!-- JobAssist Multi-Touch Cadence Toolbar -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin:8px 0 12px; padding:6px 10px; background:#f8fafc; border:1px solid var(--line); border-radius:6px;">
+        <span style="font-size:10px; font-family:'DM Mono',monospace; color:var(--muted);">JobAssist Follow-Up Cadence:</span>
+        <div style="display:flex; gap:6px;">
+          <button type="button" class="stage-advance-btn" onclick="applyCadenceFollowup(2)" title="Generate Day 3 check-in verifying prototype test">🔄 Day 3 Nudge</button>
+          <button type="button" class="stage-advance-btn" onclick="applyCadenceFollowup(3)" title="Generate Day 7 value-add feature expansion">✨ Day 7 Feature Update</button>
+        </div>
+      </div>
+
+      <div class="modal-actions" style="justify-content:space-between; flex-wrap:wrap; gap:8px;">
+        <div style="display:flex; gap:6px;">
+          <a class="secondary-button" id="draftJobLink" href="#" target="_blank" rel="noopener" style="text-decoration:none; display:inline-flex; align-items:center; gap:4px;">
+            <span>↗</span> Job Post
+          </a>
+          <button class="secondary-button" onclick="copyDraftToClipboard()">📋 Copy All</button>
+          <button class="secondary-button" onclick="saveDraftEdits()">💾 Save</button>
+        </div>
+        <div style="display:flex; gap:6px;">
+          <button class="primary-button" style="background:#ea4335; color:#ffffff;" onclick="sendViaGmail()" title="Open direct compose in Gmail web">
+            <span>✉</span> Send with Gmail ↗
+          </button>
+          <button class="primary-button" style="background:#0078d4; color:#ffffff;" onclick="sendViaOutlook()" title="Open direct compose in Outlook web">
+            <span>✉</span> Outlook ↗
+          </button>
+          <button class="primary-button" id="draftMailtoBtn" onclick="sendViaDesktopMail()" title="Trigger default desktop mail client">
+            <span>↗</span> Default App
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTOPILOT EXECUTION & PREVIEW MODAL -->
+  <div class="modal-backdrop" id="autopilotModalBackdrop">
+    <div class="modal" style="max-width:740px; max-height:92vh; overflow-y:auto;" role="dialog" aria-modal="true" aria-labelledby="apModalTitle">
+      <button class="modal-close" onclick="closeAutopilotModal()">×</button>
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:12px;">
+        <div>
+          <span class="eyebrow green" id="apEyebrow">Autonomous Pipeline</span>
+          <h2 id="apModalTitle" style="font-size:22px; margin:4px 0;">Auto-Pilot Execution</h2>
+        </div>
+        <span id="apStatusBadge" style="font-size:11px; font-family:'DM Mono',monospace; padding:4px 10px; border-radius:12px; font-weight:700; background:#f0f9ff; color:#0369a1; border:1px solid #bae6fd;">Running...</span>
+      </div>
+
+      <!-- Execution Steps Indicator -->
+      <div id="apStepsList" style="margin-bottom:16px;">
+        <div class="autopilot-step" id="apStep1"><span>1</span> Analyze Job Opportunity &amp; Target Stack</div>
+        <div class="autopilot-step" id="apStep2"><span>2</span> Engineer Tailored Interactive Prototype</div>
+        <div class="autopilot-step" id="apStep3"><span>3</span> Deploy Route to Vercel (vercel.json)</div>
+        <div class="autopilot-step" id="apStep4"><span>4</span> Register in Portfolio Vault</div>
+        <div class="autopilot-step" id="apStep5"><span>5</span> Synthesize High-Converting Cold Proposal</div>
+        <div class="autopilot-step" id="apStep6"><span>6</span> Dispatch Email (SMTP / Webmail Ready)</div>
+      </div>
+
+      <!-- Tailored Demo Product Banner -->
+      <div id="apDemoCard" style="display:none; background:#0f172a; color:#fff; border-radius:10px; padding:16px; margin-bottom:16px; border:1px solid #1e293b;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <span style="font-size:10px; font-family:'DM Mono',monospace; color:#38bdf8; text-transform:uppercase;">Tailored Interactive Prototype</span>
+          <span id="apDemoStack" style="font-size:10px; font-family:'DM Mono',monospace; color:#94a3b8;">React / Next.js</span>
+        </div>
+        <h3 id="apDemoTitle" style="font-size:16px; margin:0 0 4px; color:#fff;"></h3>
+        <p id="apDemoDesc" style="font-size:11px; color:#94a3b8; margin:0 0 12px; line-height:1.5;"></p>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <a id="apDemoLink" href="#" target="_blank" rel="noopener" style="text-decoration:none; background:#0284c7; color:#fff; padding:6px 14px; border-radius:6px; font-size:11px; font-weight:700; display:inline-flex; align-items:center; gap:6px;">
+            <span>Open Live Prototype</span> ↗
+          </a>
+          <button class="secondary-button" onclick="copyApDemoUrl()" style="background:#1e293b; color:#e2e8f0; border:1px solid #334155; padding:6px 12px; font-size:11px;">
+            📋 Copy Demo URL
+          </button>
+        </div>
+      </div>
+
+      <!-- Proposal Draft Section -->
+      <div id="apProposalCard" style="display:none; margin-bottom:16px;">
+        <div style="margin-bottom:8px;">
+          <label style="display:block; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-bottom:4px;">Recipient Email (To:)</label>
+          <input type="email" id="apRecipientEmail" placeholder="Enter recipient email address..." style="width:100%; padding:8px 10px; font-size:12px; border:1px solid var(--line); border-radius:6px;" />
+        </div>
+        <div style="margin-bottom:8px;">
+          <label style="display:block; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-bottom:4px;">Email Subject</label>
+          <input type="text" id="apSubject" style="width:100%; padding:8px 10px; font-size:12px; border:1px solid var(--line); border-radius:6px; font-weight:600;" />
+        </div>
+        <div>
+          <label style="display:block; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-bottom:4px;">Synthesized Cold Proposal</label>
+          <textarea id="apBody" rows="8" style="width:100%; padding:10px; font-size:12px; border:1px solid var(--line); border-radius:6px; font-family:'DM Mono',monospace; line-height:1.6; resize:vertical;"></textarea>
+        </div>
+      </div>
+
+      <!-- Dispatch Actions -->
+      <div class="modal-actions" style="justify-content:space-between; flex-wrap:wrap; gap:8px;">
+        <button class="secondary-button" onclick="closeAutopilotModal()">Close</button>
+        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+          <button class="secondary-button" onclick="copyApProposal()">📋 Copy Proposal</button>
+          <button class="primary-button" style="background:#ea4335; color:#ffffff;" onclick="sendApViaGmail()">✉ Send with Gmail ↗</button>
+          <button class="primary-button" style="background:#0078d4; color:#ffffff;" onclick="sendApViaOutlook()">✉ Outlook ↗</button>
+          <button class="primary-button" style="background:#16a34a; color:#ffffff;" id="apSendSmtpBtn" onclick="dispatchApViaSmtp()">🚀 Send Email Now (SMTP)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BATCH AUTOPILOT MODAL -->
+  <div class="modal-backdrop" id="batchAutopilotModalBackdrop">
+    <div class="modal" style="max-width:540px;" role="dialog" aria-modal="true" aria-labelledby="batchApTitle">
+      <button class="modal-close" onclick="closeBatchAutopilotModal()">×</button>
+      <span class="eyebrow green">Bulk Execution Pipeline</span>
+      <h2 id="batchApTitle" style="font-size:20px; margin:4px 0 8px;">Auto-Pilot Top Leads</h2>
+      <p style="font-size:11px; color:var(--muted); line-height:1.5; margin:0 0 16px;">
+        Automatically builds dedicated interactive prototypes, deploys Vercel rewrites, appends to your portfolio vault, and drafts proposals for top qualifying opportunities.
+      </p>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+        <div>
+          <label style="display:block; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-bottom:4px;">Number of Leads to Process</label>
+          <select id="batchLimitSelect" style="width:100%; padding:8px 10px; font-size:12px; border:1px solid var(--line); border-radius:6px; background:#fff;">
+            <option value="1">1 Lead (Immediate)</option>
+            <option value="3" selected>Top 3 Leads</option>
+            <option value="5">Top 5 Leads</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-bottom:4px;">Minimum Fit Score</label>
+          <select id="batchScoreSelect" style="width:100%; padding:8px 10px; font-size:12px; border:1px solid var(--line); border-radius:6px; background:#fff;">
+            <option value="85" selected>&ge; 85 Score (High Fit)</option>
+            <option value="80">&ge; 80 Score (Good Fit)</option>
+            <option value="70">&ge; 70 Score (Broad)</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="margin-bottom:16px; padding:10px 12px; background:#f0f9ff; border:1px solid #bae6fd; border-radius:8px;">
+        <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-size:11px; font-weight:600; color:#0369a1;">
+          <input type="checkbox" id="batchAutoSendCheck" style="accent-color:#0284c7;" />
+          <span>Attempt direct SMTP send when email is detected in job post</span>
+        </label>
+      </div>
+
+      <div id="batchProgressBox" style="display:none; margin-bottom:16px;">
+        <div style="font-size:11px; font-weight:700; color:var(--muted); margin-bottom:6px;" id="batchStatusText">Processing leads...</div>
+        <div style="width:100%; background:#e2e8f0; height:6px; border-radius:3px; overflow:hidden;">
+          <div id="batchProgressBar" style="width:20%; height:100%; background:#0284c7; transition:width 0.3s;"></div>
+        </div>
+        <div id="batchLogList" style="margin-top:10px; max-height:120px; overflow-y:auto; font-family:'DM Mono',monospace; font-size:10px; color:#475569; background:#f8fafc; padding:8px; border-radius:6px; border:1px solid #e2e8f0;"></div>
+      </div>
+
+      <div class="modal-actions" style="justify-content:flex-end;">
+        <button class="secondary-button" onclick="closeBatchAutopilotModal()">Cancel</button>
+        <button class="primary-button" id="startBatchBtn" style="background:#0f172a; color:#38bdf8; border:1px solid #0284c7;" onclick="executeBatchAutopilot()">🚀 Run Auto-Pilot Batch</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VPN & STEALTH PLAYBOOK MODAL -->
+  <div class="modal-backdrop" id="playbookModalBackdrop">
+    <div class="playbook-modal" role="dialog" aria-modal="true" aria-labelledby="playbookTitle">
+      <button class="modal-close" onclick="closePlaybookModal()">×</button>
+      <div class="playbook-header">
+        <span class="eyebrow green">Field Operations Playbook</span>
+        <h2 id="playbookTitle" style="font-size:22px; line-height:1.2; margin:6px 0 10px;">VPN &amp; Anti-Ban Playbook for Nigerian Operators</h2>
+        <p style="font-size:12px; color:var(--muted); line-height:1.6; margin:0;">
+          Operating protocol to prevent account bans, pass fraud heuristics on US, UK, and France panels, and liquidate balances into Naira with zero US bank requirements.
+        </p>
+      </div>
+
+      <div id="playbookChaptersContainer">
+        <!-- Rendered dynamically by javascript -->
+      </div>
+
+      <div class="modal-actions" style="justify-content:flex-end; margin-top:20px;">
+        <button class="primary-button" onclick="closePlaybookModal()">Understood &bull; Return to Radar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS / CONFIG MODAL (PORTFOLIO LINKS + SMTP CREDENTIALS) -->
+  <div class="modal-backdrop" id="settingsModalBackdrop">
+    <div class="modal" style="max-width:620px; max-height:90vh; overflow-y:auto;" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle">
+      <button class="modal-close" onclick="closeSettingsModal()">×</button>
+      <span class="eyebrow green">System Configuration &amp; Channels</span>
+      <h2 id="settingsModalTitle" style="font-size:20px; margin:4px 0 8px;">Configure Links &amp; Automated Email</h2>
+      <p style="font-size:11px; color:var(--muted); line-height:1.5; margin:0 0 14px;">
+        Manage your live Vercel portfolio domain, GitHub profile, and background SMTP credentials for 100% automated outreach delivery.
+      </p>
+
+      <div style="margin-bottom:16px;">
+        <div style="font-size:11px; font-weight:800; color:var(--ink); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; border-bottom:1px solid var(--line); padding-bottom:4px;">
+          1. Live Deployment &amp; Portfolio Links
+        </div>
+        <div style="margin-bottom:8px;">
+          <label style="display:block; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-bottom:4px;">Live Portfolio URL (Vercel / Custom Domain)</label>
+          <input type="url" id="settingPortfolioUrl" placeholder="https://biework.vercel.app" style="width:100%; padding:8px 10px; font-size:12px; border:1px solid var(--line); border-radius:6px; background:#f7faf8;" />
+        </div>
+
+        <div style="margin-bottom:8px;">
+          <label style="display:block; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-bottom:4px;">GitHub Profile / Portfolio</label>
+          <input type="url" id="settingGithubUrl" placeholder="https://github.com/bamsemma" style="width:100%; padding:8px 10px; font-size:12px; border:1px solid var(--line); border-radius:6px; background:#f7faf8;" />
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:8px;">
+          <div>
+            <label style="display:block; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-bottom:4px;">Contact Email</label>
+            <input type="email" id="settingEmail" placeholder="techwithbie@gmail.com" style="width:100%; padding:8px 10px; font-size:12px; border:1px solid var(--line); border-radius:6px; background:#f7faf8;" />
+          </div>
+          <div>
+            <label style="display:block; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-bottom:4px;">WhatsApp Number</label>
+            <input type="text" id="settingWhatsapp" placeholder="+234 905 404 5597" style="width:100%; padding:8px 10px; font-size:12px; border:1px solid var(--line); border-radius:6px; background:#f7faf8;" />
+          </div>
+        </div>
+
+        <div>
+          <label style="display:block; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-bottom:4px;">Upwork Profile</label>
+          <input type="url" id="settingUpwork" placeholder="https://www.upwork.com/freelancers/~015875b6ee71b82e73" style="width:100%; padding:8px 10px; font-size:12px; border:1px solid var(--line); border-radius:6px; background:#f7faf8;" />
+        </div>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <div style="font-size:11px; font-weight:800; color:var(--ink); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; border-bottom:1px solid var(--line); padding-bottom:4px;">
+          2. Automated Email Sending (SMTP / Gmail App Password)
+        </div>
+        <p style="font-size:10px; color:var(--muted); margin:0 0 10px; line-height:1.5;">
+          To enable hands-free automatic email sending via Gmail, generate a 16-character App Password at: <em>Google Account &rarr; Security &rarr; 2-Step Verification &rarr; App Passwords</em>.
+        </p>
+
+        <div style="display:grid; grid-template-columns:2fr 1fr; gap:10px; margin-bottom:8px;">
+          <div>
+            <label style="display:block; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-bottom:4px;">SMTP Host</label>
+            <input type="text" id="settingSmtpHost" placeholder="smtp.gmail.com" style="width:100%; padding:8px 10px; font-size:12px; border:1px solid var(--line); border-radius:6px; background:#f7faf8;" />
+          </div>
+          <div>
+            <label style="display:block; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-bottom:4px;">Port</label>
+            <input type="number" id="settingSmtpPort" placeholder="587" style="width:100%; padding:8px 10px; font-size:12px; border:1px solid var(--line); border-radius:6px; background:#f7faf8;" />
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:8px;">
+          <div>
+            <label style="display:block; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-bottom:4px;">SMTP Username / Email</label>
+            <input type="text" id="settingSmtpUser" placeholder="techwithbie@gmail.com" style="width:100%; padding:8px 10px; font-size:12px; border:1px solid var(--line); border-radius:6px; background:#f7faf8;" />
+          </div>
+          <div>
+            <label style="display:block; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-bottom:4px;">App Password / Password</label>
+            <input type="password" id="settingSmtpPass" placeholder="16-digit Gmail App Password" style="width:100%; padding:8px 10px; font-size:12px; border:1px solid var(--line); border-radius:6px; background:#f7faf8;" />
+          </div>
+        </div>
+
+        <div style="margin-bottom:10px;">
+          <label style="display:block; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-bottom:4px;">Sender Display Name</label>
+          <input type="text" id="settingSmtpFromName" placeholder="Emmanuel Pelumi Bamidele (Bamsemma)" style="width:100%; padding:8px 10px; font-size:12px; border:1px solid var(--line); border-radius:6px; background:#f7faf8;" />
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 12px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; margin-bottom:10px;">
+          <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-size:11px; font-weight:600; color:#166534;">
+            <input type="checkbox" id="settingAutoSend" style="accent-color:#16a34a;" />
+            <span>Enable Direct Automated Background SMTP Sending</span>
+          </label>
+          <button type="button" class="secondary-button" onclick="testSmtpConnection()" style="font-size:10px; padding:4px 10px; background:#fff; border:1px solid #86efac; color:#166534; font-weight:700;">Test Connection</button>
+        </div>
+        <div id="smtpTestFeedback" style="display:none; font-size:11px; font-family:'DM Mono',monospace; padding:8px 10px; border-radius:6px; margin-bottom:10px;"></div>
+      </div>
+
+      <div class="modal-actions" style="justify-content:flex-end;">
+        <button class="secondary-button" onclick="closeSettingsModal()">Cancel</button>
+        <button class="primary-button" onclick="saveSettings()">Save Configuration</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- THE ANTI-JOB STRATEGY PLAYBOOK MODAL -->
+  <div class="modal-backdrop" id="antijobPlaybookModalBackdrop">
+    <div class="playbook-modal" role="dialog" aria-modal="true" aria-labelledby="antiJobTitle">
+      <button class="modal-close" onclick="closeAntiJobPlaybookModal()">×</button>
+      <div class="playbook-header">
+        <span class="eyebrow green">The Anti-Job Strategy Engine</span>
+        <h2 id="antiJobTitle" style="font-size:22px; line-height:1.2; margin:6px 0 10px;">The Anti-Job Operating Protocol</h2>
+        <p style="font-size:12px; color:var(--muted); line-height:1.6; margin:0;">
+          Tactical blueprint for bypassing applicant tracking systems, identifying technical decision-makers (CTOs &amp; Founders), pitching unsolicited bespoke prototypes, and closing high-value contractor retainers.
+        </p>
+      </div>
+
+      <div id="antijobChaptersContainer">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <div class="modal-actions" style="justify-content:flex-end; margin-top:20px;">
+        <button class="primary-button" onclick="closeAntiJobPlaybookModal()">Understood &bull; Return to Radar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- IN-DASHBOARD DEVICE SANDBOX MODAL (CREATORKIT HQ BENCHMARK) -->
+  <div class="modal-backdrop" id="sandboxModalBackdrop">
+    <div class="sandbox-modal" role="dialog" aria-modal="true" aria-labelledby="sandboxTitle">
+      <div class="sandbox-topbar">
+        <div>
+          <span style="font-size:10px; font-family:'DM Mono',monospace; color:#38bdf8; text-transform:uppercase;">Interactive Device Sandbox</span>
+          <h3 id="sandboxTitle" style="font-size:15px; margin:2px 0 0; color:#fff;">Live Prototype Sandbox</h3>
+        </div>
+        <div class="device-toggles">
+          <button class="device-btn active" id="sbBtnDesktop" onclick="setSandboxDevice('desktop')">Desktop</button>
+          <button class="device-btn" id="sbBtnTablet" onclick="setSandboxDevice('tablet')">Tablet</button>
+          <button class="device-btn" id="sbBtnMobile" onclick="setSandboxDevice('mobile')">Mobile (120Hz)</button>
+        </div>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <a id="sandboxExtLink" href="#" target="_blank" rel="noopener" class="secondary-button" style="background:#1e293b; color:#e2e8f0; border:1px solid #334155; padding:4px 10px; font-size:11px; text-decoration:none;">
+            Open Tab ↗
+          </a>
+          <button onclick="closeSandboxModal()" style="background:none; border:none; color:#fff; font-size:22px; cursor:pointer; padding:0 8px;">×</button>
+        </div>
+      </div>
+      <div class="sandbox-iframe-wrap">
+        <iframe id="sandboxIframe" src="about:blank" title="Live Prototype Sandbox Frame"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script src="scoutdesk.js"></script>
+</body>
+</html>
