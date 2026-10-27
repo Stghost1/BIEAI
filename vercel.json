@@ -57,6 +57,10 @@
     {
       "source": "/demo-fuel50-product-design-lead",
       "destination": "/demo-fuel50-product-design-lead.html"
+    },
+    {
+      "source": "/demo-wagmo-senior-software-en",
+      "destination": "/demo-wagmo-senior-software-en.html"
     }
   ]
 }
