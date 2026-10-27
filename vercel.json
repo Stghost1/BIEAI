@@ -89,6 +89,10 @@
     {
       "source": "/demo-bluetuskr-graphic-designer-v",
       "destination": "/demo-bluetuskr-graphic-designer-v.html"
+    },
+    {
+      "source": "/demo-lemon-io-senior-devops-engi",
+      "destination": "/demo-lemon-io-senior-devops-engi.html"
     }
   ]
 }
