@@ -65,6 +65,10 @@
     {
       "source": "/demo-dreem-health-digital-workplace",
       "destination": "/demo-dreem-health-digital-workplace.html"
+    },
+    {
+      "source": "/demo-huzzle-account-executive",
+      "destination": "/demo-huzzle-account-executive.html"
     }
   ]
 }
