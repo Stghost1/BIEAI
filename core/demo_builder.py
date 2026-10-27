@@ -29,13 +29,13 @@ def sanitize_slug(text: str, max_len: int = 40) -> str:
 
 
 def get_base_portfolio_url() -> str:
-    url = get_setting("portfolio_url", os.environ.get("PORTFOLIO_URL", "https://biework.vercel.app"))
-    return (url or "https://biework.vercel.app").rstrip("/")
+    url = get_setting("portfolio_url", os.environ.get("PORTFOLIO_URL", "https://bieai.vercel.app"))
+    return (url or "https://bieai.vercel.app").rstrip("/")
 
 
 def get_github_url() -> str:
-    url = get_setting("github_url", os.environ.get("GITHUB_URL", "https://github.com/bamsemma"))
-    return (url or "https://github.com/bamsemma").rstrip("/")
+    url = get_setting("github_url", os.environ.get("GITHUB_URL", "https://github.com/Stghost1/BIEAI"))
+    return (url or "https://github.com/Stghost1/BIEAI").rstrip("/")
 
 
 def detect_archetype(title: str, desc: str, tags: List[str], company: str) -> Dict[str, Any]:
@@ -571,7 +571,7 @@ def build_demo_html(
     github_url = get_github_url()
     widget_html = generate_interactive_widget(archetype["key"], company, title)
     canonical_vercel_url = f"{portfolio_base}/{slug}"
-    canonical_github_file_url = f"https://github.com/bamsemma/biework/blob/main/{slug}.html"
+    canonical_github_file_url = f"https://github.com/Stghost1/BIEAI/blob/main/{slug}.html"
 
     return f"""<!DOCTYPE html>
 <html lang="en" class="dark">
@@ -715,9 +715,9 @@ def build_demo_html(
         Engineered by <strong class="text-slate-300">Emmanuel Pelumi Bamidele (Bamsemma)</strong> &bull; Founder, B.I.E.AI
       </div>
       <div class="flex items-center gap-4">
-        <a href="{portfolio_base}" class="hover:text-blue-400 transition">biework.vercel.app</a>
+        <a href="{portfolio_base}" class="hover:text-blue-400 transition">bieai.vercel.app</a>
         <span>&bull;</span>
-        <a href="{github_url}" target="_blank" rel="noopener" class="hover:text-blue-400 transition">github.com/bamsemma</a>
+        <a href="{github_url}" target="_blank" rel="noopener" class="hover:text-blue-400 transition">github.com/Stghost1/BIEAI</a>
         <span>&bull;</span>
         <a href="{portfolio_base}/media-kit" class="hover:text-emerald-400 transition">Media Kit</a>
       </div>
@@ -787,7 +787,7 @@ def build_tailored_demo(opp: Dict[str, Any]) -> Dict[str, Any]:
 
     # 4. Commit and push to GitHub
     github_res = push_demo_to_github(file_name, slug, company, title)
-    github_url = github_res.get("github_url", f"https://github.com/bamsemma/biework/blob/main/{file_name}")
+    github_url = github_res.get("github_url", f"https://github.com/Stghost1/BIEAI/blob/main/{file_name}")
 
     # 5. Scour recipient email
     email_res = scour_company_email(company, opp_url=opp_url, title=title, desc=desc)

@@ -66,11 +66,6 @@ def init_db() -> None:
         );
     """)
 
-    try:
-        cursor.execute("ALTER TABLE outreach_drafts ADD COLUMN recipient_email TEXT DEFAULT ''")
-    except Exception:
-        pass
-
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS scan_logs (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -81,6 +76,22 @@ def init_db() -> None:
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
     """)
+
+    # Dynamic migrations for schema additions
+    migrations = [
+        ("opportunities", "recipient_email", "TEXT DEFAULT ''"),
+        ("opportunities", "company_domain", "TEXT DEFAULT ''"),
+        ("portfolio_demos", "github_url", "TEXT DEFAULT ''"),
+        ("portfolio_demos", "vercel_url", "TEXT DEFAULT ''"),
+        ("outreach_drafts", "recipient_email", "TEXT DEFAULT ''"),
+        ("outreach_drafts", "github_url", "TEXT DEFAULT ''"),
+        ("outreach_drafts", "vercel_url", "TEXT DEFAULT ''"),
+    ]
+    for table, col, col_def in migrations:
+        try:
+            cursor.execute(f"ALTER TABLE {table} ADD COLUMN {col} {col_def}")
+        except Exception:
+            pass
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS portfolio_demos (
@@ -134,8 +145,8 @@ def init_db() -> None:
     """)
 
     defaults = {
-        "portfolio_url": "https://biework.vercel.app",
-        "github_url": "https://github.com/bamsemma",
+        "portfolio_url": "https://bieai.vercel.app",
+        "github_url": "https://github.com/Stghost1/BIEAI",
         "email": "techwithbie@gmail.com",
         "whatsapp": "+234 905 404 5597",
         "upwork_url": "https://www.upwork.com/freelancers/~015875b6ee71b82e73",
@@ -166,7 +177,7 @@ def seed_baseline_demos(conn: sqlite3.Connection) -> None:
             "SwiftLegal Partners",
             "corporate",
             "React, TypeScript, Tailwind, Node.js",
-            "https://biework.vercel.app/swiftlegal-nigeria",
+            "https://bieai.vercel.app/swiftlegal-nigeria",
             "swiftlegal-nigeria.html",
             "Authoritative corporate portal with practice areas, team profiles, and consultation booking."
         ),
@@ -176,7 +187,7 @@ def seed_baseline_demos(conn: sqlite3.Connection) -> None:
             "Lagos Premier Realty",
             "realty",
             "Next.js, Tailwind, Dynamic Filters, Leaflet Maps",
-            "https://biework.vercel.app/lagos-premier-realty",
+            "https://bieai.vercel.app/lagos-premier-realty",
             "lagos-premier-realty.html",
             "High-converting property portal with listing filters, neighborhood guides, and WhatsApp lead routing."
         ),
@@ -186,7 +197,7 @@ def seed_baseline_demos(conn: sqlite3.Connection) -> None:
             "NutriCoach Abuja",
             "health",
             "React, Tailwind, Interactive BMI Engine",
-            "https://biework.vercel.app/nutricoach-abuja",
+            "https://bieai.vercel.app/nutricoach-abuja",
             "nutricoach-abuja.html",
             "Health coaching platform featuring an interactive live BMI calculator lead magnet."
         ),
@@ -196,7 +207,7 @@ def seed_baseline_demos(conn: sqlite3.Connection) -> None:
             "Apex Commercial",
             "finance",
             "TypeScript, React, Financial Yield Algorithms",
-            "https://biework.vercel.app/roi-calculator",
+            "https://bieai.vercel.app/roi-calculator",
             "roi-calculator.html",
             "Interactive financial tool calculating yields, break-even periods, and 5-year ROI forecasts."
         ),
@@ -206,7 +217,7 @@ def seed_baseline_demos(conn: sqlite3.Connection) -> None:
             "B.I.E.AI Tools",
             "saas",
             "Vanilla JS, LocalStorage, Canvas/PDF Generation",
-            "https://biework.vercel.app/invoice-generator",
+            "https://bieai.vercel.app/invoice-generator",
             "invoice-generator.html",
             "Professional browser billing tool with line items, tax calculations, and PDF download."
         ),
@@ -537,8 +548,8 @@ def insert_portfolio_demo(demo_data: Dict[str, Any]) -> Dict[str, Any]:
         cursor.execute("""
             INSERT INTO portfolio_demos (
                 slug, title, company, category, tech_stack, opportunity_id,
-                demo_url, file_name, preview_desc, status
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                demo_url, file_name, preview_desc, status, github_url, vercel_url
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ON CONFLICT(slug) DO UPDATE SET
                 title = excluded.title,
                 company = excluded.company,
@@ -547,7 +558,9 @@ def insert_portfolio_demo(demo_data: Dict[str, Any]) -> Dict[str, Any]:
                 demo_url = excluded.demo_url,
                 file_name = excluded.file_name,
                 preview_desc = excluded.preview_desc,
-                status = excluded.status
+                status = excluded.status,
+                github_url = excluded.github_url,
+                vercel_url = excluded.vercel_url
         """, (
             demo_data.get("slug"),
             demo_data.get("title"),
@@ -558,7 +571,9 @@ def insert_portfolio_demo(demo_data: Dict[str, Any]) -> Dict[str, Any]:
             demo_data.get("demo_url"),
             demo_data.get("file_name"),
             demo_data.get("preview_desc", ""),
-            demo_data.get("status", "live")
+            demo_data.get("status", "live"),
+            demo_data.get("github_url", ""),
+            demo_data.get("vercel_url", "")
         ))
         demo_id = cursor.lastrowid
         conn.commit()
@@ -676,5 +691,21 @@ def get_all_settings() -> Dict[str, str]:
         return {r["key"]: r["value"] for r in rows}
     except sqlite3.OperationalError:
         return {}
+    finally:
+        conn.close()
+
+
+def update_opportunity_email(opp_id: int, email: str, domain: str = "") -> bool:
+    """Store scoured recipient email and company domain in SQLite."""
+    conn = get_connection()
+    cursor = conn.cursor()
+    try:
+        if domain:
+            cursor.execute("UPDATE opportunities SET recipient_email = ?, company_domain = ? WHERE id = ?", (email, domain, opp_id))
+        else:
+            cursor.execute("UPDATE opportunities SET recipient_email = ? WHERE id = ?", (email, opp_id))
+        cursor.execute("UPDATE outreach_drafts SET recipient_email = ? WHERE opportunity_id = ?", (email, opp_id))
+        conn.commit()
+        return True
     finally:
         conn.close()

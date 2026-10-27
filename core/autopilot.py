@@ -21,10 +21,12 @@ from core.db import (
     get_setting,
     log_autopilot_run,
     get_portfolio_demos,
+    update_opportunity_email,
 )
 from core.demo_builder import build_tailored_demo
 from core.mailer import extract_email, send_proposal_email, build_webmail_links
 from core.outreach_generator import generate_outreach
+from core.email_scourer import scour_company_email
 
 
 def run_autopilot_pipeline(
@@ -72,6 +74,13 @@ def run_autopilot_pipeline(
     if not recipient:
         detected = extract_email(f"{opp.get('description', '')} {opp.get('url', '')}")
         recipient = detected or ""
+    if not recipient:
+        logs.append(f"Scouring public contact endpoints and DNS MX servers for {company}...")
+        scour_res = scour_company_email(company, opp_url=opp.get("url", ""), title=title, desc=opp.get("description", ""))
+        if scour_res.get("ok") and scour_res.get("email"):
+            recipient = scour_res["email"]
+            update_opportunity_email(opp_id, recipient, scour_res.get("domain", ""))
+            logs.append(f"Discovered recipient email: {recipient} ({scour_res.get('confidence')})")
 
     # 4. Handle email dispatch
     auto_send_pref = get_setting("auto_send_enabled", "false").lower() == "true"

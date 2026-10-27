@@ -12,20 +12,21 @@ import os
 import re
 from typing import Any, Dict, List, Optional
 from urllib.parse import quote_plus
-from core.db import create_outreach_draft, get_setting, get_portfolio_demos
+from core.db import create_outreach_draft, get_setting, get_portfolio_demos, update_opportunity_email
 from core.ats_analyzer import analyze_ats_fit
+from core.email_scourer import scour_company_email
 
 
 def get_base_url() -> str:
     """Return configured live portfolio base URL (Vercel or custom domain)."""
-    val = get_setting("portfolio_url", os.environ.get("PORTFOLIO_URL", "https://biework.vercel.app"))
-    return (val or "https://biework.vercel.app").rstrip("/")
+    val = get_setting("portfolio_url", os.environ.get("PORTFOLIO_URL", "https://bieai.vercel.app"))
+    return (val or "https://bieai.vercel.app").rstrip("/")
 
 
 def get_github_url() -> str:
     """Return configured GitHub profile or portfolio link."""
-    val = get_setting("github_url", os.environ.get("GITHUB_URL", "https://github.com/bamsemma"))
-    return (val or "https://github.com/bamsemma").rstrip("/")
+    val = get_setting("github_url", os.environ.get("GITHUB_URL", "https://github.com/Stghost1/BIEAI"))
+    return (val or "https://github.com/Stghost1/BIEAI").rstrip("/")
 
 
 def get_demo_registry() -> List[Dict[str, Any]]:
@@ -207,6 +208,8 @@ def generate_outreach(
     matched_skills = ats_data.get("matched_skills", [])
     matched_str = ", ".join(matched_skills[:5]) if matched_skills else "Next.js, TypeScript, Node.js"
 
+    github_line = f"\n   GitHub Source: {demo['github_url']}" if demo.get("github_url") else ""
+
     # Angle 1: Interactive Proof of Work (The Anti-Resume)
     if angle == "proof_of_work":
         subject = f"Interactive prototype for {title} at {company} (B.I.E.AI submission)"
@@ -217,14 +220,14 @@ def generate_outreach(
         if demo.get("is_tailored"):
             proof_block = (
                 f"1. Bespoke Prototype: {demo['name']}\n"
-                f"   Live URL: {demo['url']}\n"
+                f"   Live Vercel URL: {demo['url']}{github_line}\n"
                 f"   Stack: {demo.get('tech_stack', 'React, TypeScript, Tailwind')}\n"
                 f"   Architecture: Zero layout shift, mobile-responsive layout tested at 120Hz, clean state management."
             )
         else:
             proof_block = (
                 f"1. Verified Proof of Work: {demo['name']}\n"
-                f"   Live URL: {demo['url']}\n"
+                f"   Live Vercel URL: {demo['url']}{github_line}\n"
                 f"   Key capabilities: Production UI, responsive data tables, client-side input validation."
             )
 
@@ -243,7 +246,7 @@ def generate_outreach(
         )
         proof_block = (
             f"To demonstrate how we eliminate these bottlenecks, I assembled an interactive proof of concept:\n"
-            f"Live Demo: {demo['url']}\n"
+            f"Live Vercel URL: {demo['url']}{github_line}\n"
             f"Highlights: Sub-second initial paint, optimistic state transitions, strict boundary input validation with Zod."
         )
         core_points = (
@@ -261,7 +264,7 @@ def generate_outreach(
         )
         proof_block = (
             f"As tangible evidence of execution speed, I have already engineered the foundation for this role:\n"
-            f"Prototype: {demo['name']} ({demo['url']})\n"
+            f"Prototype: {demo['name']} ({demo['url']}){github_line}\n"
             f"Delivery standard: Production-ready code, 100% typed, documented endpoints, zero placeholder shortcuts."
         )
         core_points = (
@@ -287,8 +290,20 @@ def generate_outreach(
         f"Upwork: {upwork_url}"
     )
 
+    # Determine recipient email, scouring if missing
     email_match = re.search(r'[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+', f"{desc} {opp.get('url', '')}")
     recipient_email = email_match.group(0).rstrip(".,;:!?)'\"") if email_match else ""
+    if not recipient_email and opp.get("recipient_email"):
+        recipient_email = opp.get("recipient_email", "").strip()
+
+    email_confidence = "Direct"
+    if not recipient_email:
+        scour_res = scour_company_email(company, opp_url=opp.get("url", ""), title=title, desc=desc)
+        if scour_res.get("ok") and scour_res.get("email"):
+            recipient_email = scour_res["email"]
+            email_confidence = scour_res.get("confidence", "verified_pattern")
+            if opp_id:
+                update_opportunity_email(opp_id, recipient_email, scour_res.get("domain", ""))
 
     draft = create_outreach_draft(
         opp_id=opp_id,
@@ -303,6 +318,7 @@ def generate_outreach(
     decision_dorks = get_decision_maker_dorks(company, title)
 
     draft["recipient_email"] = recipient_email
+    draft["email_confidence"] = email_confidence
     draft["opp_company"] = company
     draft["opp_title"] = title
     draft["opp_url"] = opp.get("url", "#")

@@ -235,7 +235,7 @@ function openDraftModal(draft) {
 
   const demoLink = document.getElementById('draftDemoUrl');
   if (demoLink) {
-    demoLink.href = draft.demo_url || 'https://biework.vercel.app';
+    demoLink.href = draft.demo_url || 'https://bieai.vercel.app';
     demoLink.textContent = draft.demo_url || 'preview link';
   }
 
@@ -419,8 +419,8 @@ function closeDraftModal() {
 function insertPortfolioLink(type) {
   const bodyEl = document.getElementById('draftBody');
   if (!bodyEl) return;
-  const portfolioUrl = appSettings.portfolio_url || 'https://biework.vercel.app';
-  const githubUrl = appSettings.github_url || 'https://github.com/bamsemma';
+  const portfolioUrl = appSettings.portfolio_url || 'https://bieai.vercel.app';
+  const githubUrl = appSettings.github_url || 'https://github.com/Stghost1/BIEAI';
   const urlToInsert = type === 'vercel' ? portfolioUrl : githubUrl;
 
   const start = bodyEl.selectionStart;
@@ -819,7 +819,7 @@ function renderVault(demos) {
   }
 
   grid.innerHTML = demos.map(d => {
-    const liveUrl = d.demo_url.startsWith('http') ? d.demo_url : `https://biework.vercel.app/${d.slug}`;
+    const liveUrl = d.demo_url.startsWith('http') ? d.demo_url : `https://bieai.vercel.app/${d.slug}`;
     return `
       <div class="vault-card" style="background:#fff; border:1px solid var(--line); border-radius:12px; padding:18px; display:flex; flex-direction:column; justify-content:space-between; transition:transform 0.15s ease, border-color 0.15s ease;">
         <div>
@@ -1122,7 +1122,7 @@ function renderKanbanBoard(opps, drafts, demoByOppId, draftByOppId) {
               ` : cards.map(opp => {
                 const demo = demoByOppId[opp.id];
                 const draft = draftByOppId[opp.id];
-                const demoUrl = demo ? (demo.demo_url.startsWith('http') ? demo.demo_url : `https://biework.vercel.app/${demo.slug}`) : null;
+                const demoUrl = demo ? (demo.demo_url.startsWith('http') ? demo.demo_url : `https://bieai.vercel.app/${demo.slug}`) : null;
                 const nextStageObj = KANBAN_STAGES.find(s => s.key === stage.next);
 
                 return `
@@ -1494,8 +1494,8 @@ function escapeHtml(str) {
 
 // 11. Settings & SMTP Configuration
 let appSettings = {
-  portfolio_url: 'https://biework.vercel.app',
-  github_url: 'https://github.com/bamsemma',
+  portfolio_url: 'https://bieai.vercel.app',
+  github_url: 'https://github.com/Stghost1/BIEAI',
   email: 'techwithbie@gmail.com',
   whatsapp: '+234 905 404 5597',
   upwork_url: 'https://www.upwork.com/freelancers/~015875b6ee71b82e73',
@@ -1522,8 +1522,8 @@ async function loadSettings() {
 function openSettingsModal() {
   const modal = document.getElementById('settingsModalBackdrop');
   if (!modal) return;
-  document.getElementById('settingPortfolioUrl').value = appSettings.portfolio_url || 'https://biework.vercel.app';
-  document.getElementById('settingGithubUrl').value = appSettings.github_url || 'https://github.com/bamsemma';
+  document.getElementById('settingPortfolioUrl').value = appSettings.portfolio_url || 'https://bieai.vercel.app';
+  document.getElementById('settingGithubUrl').value = appSettings.github_url || 'https://github.com/Stghost1/BIEAI';
   document.getElementById('settingEmail').value = appSettings.email || 'techwithbie@gmail.com';
   document.getElementById('settingWhatsapp').value = appSettings.whatsapp || '+234 905 404 5597';
   document.getElementById('settingUpwork').value = appSettings.upwork_url || 'https://www.upwork.com/freelancers/~015875b6ee71b82e73';
