@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lagos Premier Realty — Find Your Dream Home in Lagos</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --forest: #0F2318;
+  --forest-mid: #1A3C2A;
+  --forest-light: #2A5C40;
+  --gold: #C8A96E;
+  --gold-light: #E2C98A;
+  --gold-pale: #F5EDD8;
+  --ivory: #FAF7F0;
+  --ink: #151210;
+  --muted: #7A7060;
+  --border: rgba(200,169,110,0.2);
+  --white: #ffffff;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Outfit', sans-serif; background: var(--ivory); color: var(--ink); overflow-x: hidden; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5%;
+  height: 72px;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+nav.scrolled {
+  background: rgba(15,35,24,0.97);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 var(--border);
+}
+.nav-logo {
+  display: flex; flex-direction: column; line-height: 1;
+}
+.nav-logo-main {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.02em;
+}
+.nav-logo-sub {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.22em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.nav-links { display: flex; gap: 2.25rem; list-style: none; }
+.nav-links a {
+  text-decoration: none; font-size: 0.85rem; font-weight: 500;
+  color: rgba(255,255,255,0.75); transition: color 0.2s;
+  letter-spacing: 0.02em;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-cta {
+  background: var(--gold); color: var(--forest) !important;
+  padding: 0.55rem 1.4rem; font-weight: 600 !important;
+  transition: background 0.2s !important;
+}
+.nav-cta:hover { background: var(--gold-light) !important; }
+.nav-phone {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--gold) !important;
+  letter-spacing: 0.05em;
+}
+
+/* ── HERO ── */
+.hero {
+  height: 100vh; min-height: 680px;
+  position: relative; overflow: hidden;
+  display: flex; align-items: flex-end;
+  padding: 0 5% 7rem;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(160deg, #0F2318 0%, #1A3C2A 40%, #0D1E14 100%);
+}
+.hero-pattern {
+  position: absolute; inset: 0; opacity: 0.04;
+  background-image: 
+    linear-gradient(var(--gold) 1px, transparent 1px),
+    linear-gradient(90deg, var(--gold) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+.hero-glow {
+  position: absolute; top: -20%; right: -10%;
+  width: 70vw; height: 70vw;
+  background: radial-gradient(circle, rgba(200,169,110,0.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-img-overlay {
+  position: absolute; inset: 0;
+  background: 
+    linear-gradient(to right, rgba(15,35,24,0.95) 35%, rgba(15,35,24,0.4) 70%, rgba(15,35,24,0.2) 100%),
+    url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=80') center/cover no-repeat;
+}
+.hero-content { position: relative; z-index: 2; max-width: 620px; }
+.hero-eyebrow {
+  display: flex; align-items: center; gap: 0.75rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem; letter-spacing: 0.25em; color: var(--gold);
+  text-transform: uppercase; margin-bottom: 1.5rem;
+}
+.hero-eyebrow::before {
+  content: ''; display: inline-block;
+  width: 2.5rem; height: 1px; background: var(--gold);
+}
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3.2rem, 6vw, 6.5rem);
+  font-weight: 700; line-height: 1.0;
+  color: var(--white); margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+.hero-title em { font-style: italic; color: var(--gold); }
+.hero-subtitle {
+  font-size: 1.05rem; line-height: 1.7;
+  color: rgba(255,255,255,0.6); font-weight: 300;
+  margin-bottom: 2.5rem; max-width: 460px;
+}
+.hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn-gold {
+  background: var(--gold); color: var(--forest);
+  padding: 0.9rem 2rem; font-size: 0.9rem; font-weight: 600;
+  border: none; cursor: pointer; text-decoration: none;
+  display: inline-block; transition: background 0.2s, transform 0.2s;
+  letter-spacing: 0.02em;
+}
+.btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); }
+.btn-outline {
+  background: transparent; color: var(--white);
+  padding: 0.9rem 2rem; font-size: 0.9rem; font-weight: 500;
+  border: 1px solid rgba(255,255,255,0.3); cursor: pointer;
+  text-decoration: none; display: inline-block;
+  transition: border-color 0.2s, color 0.2s, transform 0.2s;
+}
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+/* hero stats bar */
+.hero-stats {
+  position: absolute; bottom: 0; right: 0;
+  display: flex;
+}
+.hero-stat {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(200,169,110,0.2);
+  border-left: 1px solid rgba(200,169,110,0.2);
+  padding: 1.5rem 2.5rem;
+  text-align: center;
+}
+.hero-stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem; font-weight: 700;
+  color: var(--gold); line-height: 1; margin-bottom: 0.25rem;
+}
+.hero-stat-label {
+  font-size: 0.7rem; color: rgba(255,255,255,0.5);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  font-family: 'Space Mono', monospace;
+}
+
+/* ── SEARCH BAR ── */
+.search-section {
+  background: var(--white);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.1);
+  padding: 2rem 5%;
+  position: sticky; top: 72px; z-index: 100;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.search-bar {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1.5fr 1.5fr auto;
+  gap: 0;
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+}
+.search-field {
+  padding: 1rem 1.25rem;
+  border-right: 1px solid rgba(200,169,110,0.2);
+  display: flex; flex-direction: column; justify-content: center;
+}
+.search-field:last-of-type { border-right: none; }
+.search-field label {
+  font-size: 0.62rem; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 0.25rem;
+  font-family: 'Space Mono', monospace;
+}
+.search-field input, .search-field select {
+  border: none; outline: none; font-size: 0.9rem;
+  font-family: 'Outfit', sans-serif; color: var(--ink);
+  background: transparent; width: 100%;
+}
+.search-field select { cursor: pointer; }
+.search-btn {
+  background: var(--forest);
+  color: var(--white); border: none; cursor: pointer;
+  padding: 0 2rem; font-size: 0.85rem; font-weight: 600;
+  font-family: 'Outfit', sans-serif; letter-spacing: 0.05em;
+  transition: background 0.2s; white-space: nowrap;
+}
+.search-btn:hover { background: var(--forest-light); }
+
+/* ── SECTION BASICS ── */
+.section-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.25em;
+  color: var(--gold); text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.section-label::before {
+  content: ''; display: inline-block;
+  width: 1.5rem; height: 1px; background: var(--gold);
+}
+.section-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 3.5vw, 3.2rem);
+  font-weight: 700; line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+.section-heading em { font-style: italic; color: var(--forest-light); }
+
+/* ── FEATURED LISTINGS ── */
+.listings-section { padding: 5rem 5%; background: var(--ivory); }
+.listings-header {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-bottom: 3rem;
+}
+.view-all {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem; color: var(--forest);
+  text-decoration: none; letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--forest);
+  padding-bottom: 2px; transition: color 0.2s, border-color 0.2s;
+}
+.view-all:hover { color: var(--gold); border-color: var(--gold); }
+
+.filter-tabs {
+  display: flex; gap: 0; margin-bottom: 2.5rem;
+  border: 1px solid var(--border); width: fit-content;
+}
+.filter-tab {
+  padding: 0.6rem 1.5rem; font-size: 0.82rem; font-weight: 500;
+  cursor: pointer; border: none; background: transparent;
+  color: var(--muted); transition: all 0.2s; font-family: 'Outfit', sans-serif;
+  border-right: 1px solid var(--border);
+}
+.filter-tab:last-child { border-right: none; }
+.filter-tab.active { background: var(--forest); color: var(--gold); }
+.filter-tab:hover:not(.active) { background: rgba(15,35,24,0.05); color: var(--forest); }
+
+.listings-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem;
+}
+.listing-card {
+  background: var(--white);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  overflow: hidden; cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.listing-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+
+.listing-img {
+  aspect-ratio: 4/3; position: relative; overflow: hidden;
+}
+.listing-img img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.listing-card:hover .listing-img img { transform: scale(1.06); }
+.listing-badge {
+  position: absolute; top: 1rem; left: 1rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.12em;
+  padding: 0.35rem 0.75rem; text-transform: uppercase;
+}
+.badge-sale { background: var(--forest); color: var(--gold); }
+.badge-rent { background: var(--gold); color: var(--forest); }
+.badge-new { background: #C4501A; color: var(--white); }
+.listing-fav {
+  position: absolute; top: 1rem; right: 1rem;
+  width: 2.25rem; height: 2.25rem;
+  background: rgba(255,255,255,0.9);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 1rem;
+  transition: background 0.2s;
+}
+.listing-fav:hover { background: var(--white); }
+
+.listing-body { padding: 1.5rem; }
+.listing-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem; font-weight: 700;
+  color: var(--forest); margin-bottom: 0.35rem;
+  letter-spacing: -0.01em;
+}
+.listing-price span {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem; font-weight: 400;
+  color: var(--muted); letter-spacing: 0;
+}
+.listing-name {
+  font-size: 1rem; font-weight: 600;
+  margin-bottom: 0.35rem; color: var(--ink);
+}
+.listing-location {
+  font-size: 0.8rem; color: var(--muted);
+  display: flex; align-items: center; gap: 0.35rem;
+  margin-bottom: 1.25rem;
+}
+.listing-features {
+  display: flex; gap: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(0,0,0,0.06);
+}
+.feature {
+  font-size: 0.78rem; color: var(--muted);
+  display: flex; align-items: center; gap: 0.3rem;
+}
+.feature strong { color: var(--ink); font-weight: 600; font-size: 0.85rem; }
+
+/* ── BANNER ── */
+.banner {
+  background: var(--forest);
+  padding: 5rem 5%;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4rem; align-items: center;
+}
+.banner-text .section-label { color: rgba(200,169,110,0.7); }
+.banner-text .section-label::before { background: rgba(200,169,110,0.7); }
+.banner-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 3.5vw, 3.5rem);
+  font-weight: 700; color: var(--white); line-height: 1.1;
+  margin-bottom: 1.25rem;
+}
+.banner-heading em { color: var(--gold); font-style: italic; }
+.banner-body {
+  font-size: 0.95rem; line-height: 1.75;
+  color: rgba(255,255,255,0.6); font-weight: 300;
+  margin-bottom: 2rem;
+}
+.banner-features { display: flex; flex-direction: column; gap: 1rem; }
+.banner-feat {
+  display: flex; align-items: center; gap: 1rem;
+}
+.feat-icon {
+  width: 2.5rem; height: 2.5rem; background: rgba(200,169,110,0.15);
+  border: 1px solid rgba(200,169,110,0.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; flex-shrink: 0;
+}
+.feat-text { font-size: 0.875rem; color: rgba(255,255,255,0.75); }
+.feat-text strong { color: var(--white); font-weight: 600; display: block; margin-bottom: 0.1rem; }
+.banner-right { position: relative; }
+.banner-img {
+  width: 100%; aspect-ratio: 4/5; object-fit: cover;
+  filter: brightness(0.85);
+}
+.banner-number {
+  position: absolute; bottom: -1.5rem; left: -1.5rem;
+  background: var(--gold);
+  padding: 2rem;
+  text-align: center;
+}
+.banner-number .big-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem; font-weight: 700;
+  color: var(--forest); line-height: 1;
+}
+.banner-number .num-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.12em;
+  color: var(--forest-mid); text-transform: uppercase;
+  margin-top: 0.35rem;
+}
+
+/* ── NEIGHBORHOODS ── */
+.neighborhoods { padding: 5rem 5%; background: var(--white); }
+.nbhd-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: auto auto; gap: 1rem; margin-top: 3rem; }
+.nbhd-card {
+  position: relative; overflow: hidden; cursor: pointer;
+  aspect-ratio: 4/3;
+}
+.nbhd-card.large { grid-row: span 2; aspect-ratio: auto; min-height: 400px; }
+.nbhd-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+.nbhd-card:hover img { transform: scale(1.07); }
+.nbhd-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(15,35,24,0.85) 0%, transparent 60%);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 1.5rem;
+}
+.nbhd-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem; font-weight: 700;
+  color: var(--white); margin-bottom: 0.2rem;
+}
+.nbhd-count {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.12em;
+  color: var(--gold); text-transform: uppercase;
+}
+
+/* ── PROCESS ── */
+.process { padding: 5rem 5%; background: var(--gold-pale); }
+.process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 3rem; }
+.process-step {
+  padding: 2.5rem 2rem;
+  border-right: 1px solid rgba(200,169,110,0.3);
+  position: relative;
+}
+.process-step:last-child { border-right: none; }
+.process-step::before {
+  content: '';
+  position: absolute; top: 0; left: 2rem; right: 0;
+  height: 3px; background: transparent;
+  transition: background 0.3s;
+}
+.process-step:hover::before { background: var(--gold); }
+.step-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 4.5rem; font-weight: 700;
+  color: rgba(200,169,110,0.3); line-height: 1;
+  margin-bottom: 0.75rem;
+}
+.step-title {
+  font-size: 1rem; font-weight: 600;
+  color: var(--forest); margin-bottom: 0.6rem;
+}
+.step-desc {
+  font-size: 0.85rem; line-height: 1.65;
+  color: var(--muted); font-weight: 300;
+}
+
+/* ── TESTIMONIALS ── */
+.testimonials { padding: 5rem 5%; background: var(--forest); }
+.testimonials .section-label { color: rgba(200,169,110,0.7); }
+.testimonials .section-label::before { background: rgba(200,169,110,0.7); }
+.testimonials .section-heading { color: var(--white); }
+.testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+.testi-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(200,169,110,0.15); padding: 2rem; }
+.testi-stars { color: var(--gold); font-size: 0.85rem; margin-bottom: 1rem; letter-spacing: 0.1em; }
+.testi-text {
+  font-size: 0.9rem; line-height: 1.75; font-weight: 300;
+  color: rgba(255,255,255,0.7); font-style: italic; margin-bottom: 1.5rem;
+}
+.testi-author { display: flex; align-items: center; gap: 0.85rem; }
+.testi-avatar {
+  width: 2.5rem; height: 2.5rem; border-radius: 50%;
+  background: var(--forest-light);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem; color: var(--gold); font-weight: 700;
+  flex-shrink: 0;
+}
+.testi-name { font-size: 0.875rem; font-weight: 600; color: var(--white); margin-bottom: 0.1rem; }
+.testi-role { font-size: 0.72rem; color: rgba(200,169,110,0.7); font-family: 'Space Mono', monospace; }
+
+/* ── AGENTS ── */
+.agents { padding: 5rem 5%; background: var(--ivory); }
+.agents-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 3rem; }
+.agent-card { text-align: center; }
+.agent-photo {
+  width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: top;
+  margin-bottom: 1.25rem; filter: grayscale(20%);
+  transition: filter 0.3s;
+}
+.agent-card:hover .agent-photo { filter: grayscale(0); }
+.agent-name { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 0.2rem; }
+.agent-title { font-size: 0.75rem; color: var(--muted); font-family: 'Space Mono', monospace; letter-spacing: 0.08em; margin-bottom: 1rem; }
+.agent-stats { display: flex; justify-content: center; gap: 1.5rem; }
+.agent-stat { font-size: 0.78rem; color: var(--muted); text-align: center; }
+.agent-stat strong { display: block; font-size: 1rem; color: var(--forest); font-weight: 700; }
+
+/* ── CTA ── */
+.cta-section {
+  padding: 6rem 5%;
+  background: var(--gold);
+  text-align: center;
+}
+.cta-section h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 700; color: var(--forest);
+  line-height: 1.05; margin-bottom: 1.25rem;
+}
+.cta-section h2 em { font-style: italic; }
+.cta-section p {
+  font-size: 1.05rem; color: rgba(15,35,24,0.65);
+  max-width: 520px; margin: 0 auto 2.5rem; line-height: 1.7;
+}
+.cta-btns { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+.btn-dark {
+  background: var(--forest); color: var(--white);
+  padding: 1rem 2.5rem; font-size: 0.9rem; font-weight: 600;
+  text-decoration: none; display: inline-block;
+  transition: background 0.2s; letter-spacing: 0.02em;
+}
+.btn-dark:hover { background: var(--forest-light); }
+.btn-wp {
+  background: #25D366; color: var(--white);
+  padding: 1rem 2.5rem; font-size: 0.9rem; font-weight: 600;
+  text-decoration: none; display: inline-block;
+  transition: background 0.2s;
+}
+.btn-wp:hover { background: #1ebe5d; }
+
+/* ── CONTACT STRIP ── */
+.contact-strip {
+  background: var(--ink);
+  display: grid; grid-template-columns: repeat(3, 1fr);
+}
+.contact-item {
+  padding: 2.5rem 2rem; text-align: center;
+  border-right: 1px solid rgba(255,255,255,0.07);
+}
+.contact-item:last-child { border-right: none; }
+.contact-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+.contact-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem; letter-spacing: 0.15em;
+  color: var(--gold); text-transform: uppercase; margin-bottom: 0.4rem;
+}
+.contact-value { font-size: 0.9rem; color: rgba(255,255,255,0.75); }
+.contact-value a { color: rgba(255,255,255,0.75); text-decoration: none; }
+.contact-value a:hover { color: var(--gold); }
+
+/* ── FOOTER ── */
+footer {
+  background: #080E0A;
+  padding: 3.5rem 5% 2rem;
+}
+.footer-top {
+  display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 3rem; padding-bottom: 3rem;
+  border-bottom: 1px solid rgba(200,169,110,0.1);
+  margin-bottom: 2rem;
+}
+.footer-brand-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem; font-weight: 700;
+  color: var(--white); margin-bottom: 1rem;
+}
+.footer-tagline {
+  font-size: 0.85rem; line-height: 1.65;
+  color: rgba(255,255,255,0.35); font-weight: 300; margin-bottom: 1.5rem;
+}
+.footer-socials { display: flex; gap: 0.75rem; }
+.social-btn {
+  width: 2.25rem; height: 2.25rem;
+  border: 1px solid rgba(200,169,110,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem; text-decoration: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.social-btn:hover { border-color: var(--gold); background: rgba(200,169,110,0.1); }
+.footer-col h4 {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem; letter-spacing: 0.2em;
+  color: var(--gold); text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; }
+.footer-col ul a {
+  font-size: 0.85rem; color: rgba(255,255,255,0.4);
+  text-decoration: none; transition: color 0.2s;
+}
+.footer-col ul a:hover { color: rgba(255,255,255,0.8); }
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1rem;
+}
+.footer-copy {
+  font-size: 0.78rem; color: rgba(255,255,255,0.2);
+  font-family: 'Space Mono', monospace; letter-spacing: 0.05em;
+}
+.footer-credit {
+  font-size: 0.72rem; color: rgba(200,169,110,0.4);
+  font-family: 'Space Mono', monospace;
+}
+
+/* ── ANIMATIONS ── */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── MODAL ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+  align-items: center; justify-content: center;
+  padding: 2rem;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--white); max-width: 520px; width: 100%;
+  padding: 2.5rem; position: relative; max-height: 90vh; overflow-y: auto;
+}
+.modal-close {
+  position: absolute; top: 1rem; right: 1rem;
+  background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--muted);
+}
+.modal h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.75rem; font-weight: 700; margin-bottom: 0.35rem;
+}
+.modal .modal-loc { font-size: 0.8rem; color: var(--muted); margin-bottom: 1.5rem; font-family: 'Space Mono', monospace; }
+.modal-price { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--forest); font-weight: 700; margin-bottom: 1.5rem; }
+.modal form { display: flex; flex-direction: column; gap: 1rem; }
+.modal input, .modal textarea {
+  padding: 0.85rem 1rem; border: 1.5px solid rgba(0,0,0,0.12);
+  font-family: 'Outfit', sans-serif; font-size: 0.9rem;
+  outline: none; transition: border-color 0.2s; resize: none;
+}
+.modal input:focus, .modal textarea:focus { border-color: var(--forest); }
+.modal textarea { height: 100px; }
+.modal .submit-btn {
+  background: var(--forest); color: var(--white);
+  padding: 1rem; font-size: 0.9rem; font-weight: 600;
+  border: none; cursor: pointer; font-family: 'Outfit', sans-serif;
+  transition: background 0.2s;
+}
+.modal .submit-btn:hover { background: var(--forest-light); }
+.modal .wp-btn {
+  background: #25D366; color: var(--white);
+  padding: 1rem; font-size: 0.9rem; font-weight: 600;
+  border: none; cursor: pointer; font-family: 'Outfit', sans-serif;
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  text-decoration: none;
+}
+
+@media (max-width: 900px) {
+  .search-bar { grid-template-columns: 1fr 1fr; }
+  .listings-grid { grid-template-columns: 1fr; }
+  .banner { grid-template-columns: 1fr; }
+  .nbhd-grid { grid-template-columns: 1fr; }
+  .nbhd-card.large { aspect-ratio: 4/3; }
+  .process-steps { grid-template-columns: 1fr 1fr; }
+  .testi-grid { grid-template-columns: 1fr; }
+  .agents-grid { grid-template-columns: 1fr 1fr; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  nav .nav-links { display: none; }
+  .hero-stats { display: none; }
+  .contact-strip { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="nav-logo">
+    <div class="nav-logo-main">Lagos Premier Realty</div>
+    <div class="nav-logo-sub">Est. 2018 · Lagos, Nigeria</div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#listings">Buy</a></li>
+    <li><a href="#listings">Rent</a></li>
+    <li><a href="#neighborhoods">Neighborhoods</a></li>
+    <li><a href="#agents">Our Agents</a></li>
+    <li><a href="tel:+2349054045597" class="nav-phone">📞 +234 905 404 5597</a></li>
+    <li><a href="#contact" class="nav-cta">Book a Viewing</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-img-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Lagos Premier Realty</div>
+    <h1 class="hero-title">Find Your<br><em>Dream Home</em><br>in Lagos.</h1>
+    <p class="hero-subtitle">Lagos's most trusted real estate agency. From Lekki to Victoria Island, we connect you with premium properties that match your life.</p>
+    <div class="hero-buttons">
+      <a href="#listings" class="btn-gold">Browse Listings</a>
+      <a href="#contact" class="btn-outline">Book a Free Consultation</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">500+</div>
+      <div class="hero-stat-label">Properties Listed</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">12+</div>
+      <div class="hero-stat-label">Years in Lagos</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">98%</div>
+      <div class="hero-stat-label">Client Satisfaction</div>
+    </div>
+  </div>
+</section>
+
+<!-- SEARCH -->
+<div class="search-section">
+  <div class="search-bar">
+    <div class="search-field">
+      <label>Location</label>
+      <input type="text" placeholder="Lekki, VI, Ikoyi, Ajah...">
+    </div>
+    <div class="search-field">
+      <label>Property Type</label>
+      <select>
+        <option>All Types</option>
+        <option>Apartment</option>
+        <option>Duplex</option>
+        <option>Detached House</option>
+        <option>Terrace</option>
+        <option>Land</option>
+      </select>
+    </div>
+    <div class="search-field">
+      <label>Bedrooms</label>
+      <select>
+        <option>Any</option>
+        <option>1 Bedroom</option>
+        <option>2 Bedrooms</option>
+        <option>3 Bedrooms</option>
+        <option>4+ Bedrooms</option>
+      </select>
+    </div>
+    <div class="search-field">
+      <label>Budget</label>
+      <select>
+        <option>Any Price</option>
+        <option>Under ₦50M</option>
+        <option>₦50M – ₦150M</option>
+        <option>₦150M – ₦500M</option>
+        <option>₦500M+</option>
+      </select>
+    </div>
+    <button class="search-btn" onclick="alert('Search functionality active! In a live site, this would filter the listings below.')">Search Properties →</button>
+  </div>
+</div>
+
+<!-- LISTINGS -->
+<section class="listings-section reveal" id="listings">
+  <div class="listings-header">
+    <div>
+      <div class="section-label">Featured Properties</div>
+      <h2 class="section-heading">Handpicked homes<br>for <em>discerning buyers.</em></h2>
+    </div>
+    <a href="#" class="view-all">VIEW ALL 500+ LISTINGS →</a>
+  </div>
+
+  <div class="filter-tabs">
+    <button class="filter-tab active" onclick="setFilter(this,'all')">All Properties</button>
+    <button class="filter-tab" onclick="setFilter(this,'sale')">For Sale</button>
+    <button class="filter-tab" onclick="setFilter(this,'rent')">For Rent</button>
+    <button class="filter-tab" onclick="setFilter(this,'new')">New Listings</button>
+  </div>
+
+  <div class="listings-grid" id="listingsGrid">
+
+    <div class="listing-card" onclick="openModal('Lekki Phase 1 Luxury Apartment','Lekki Phase 1, Lagos','₦85,000,000','For Sale · 3 Bed · 2 Bath · 180sqm')">
+      <div class="listing-img">
+        <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80" alt="Lekki Luxury Apartment" loading="lazy">
+        <span class="listing-badge badge-sale">For Sale</span>
+        <div class="listing-fav" onclick="event.stopPropagation(); this.textContent = this.textContent==='🤍'?'❤️':'🤍'">🤍</div>
+      </div>
+      <div class="listing-body">
+        <div class="listing-price">₦85,000,000 <span>negotiable</span></div>
+        <div class="listing-name">Luxury 3-Bedroom Apartment</div>
+        <div class="listing-location">📍 Lekki Phase 1, Lagos</div>
+        <div class="listing-features">
+          <div class="feature">🛏 <strong>3</strong> Beds</div>
+          <div class="feature">🚿 <strong>2</strong> Baths</div>
+          <div class="feature">📐 <strong>180</strong> sqm</div>
+          <div class="feature">🚗 <strong>2</strong> Parking</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="listing-card" onclick="openModal('Victoria Island Serviced Duplex','Victoria Island, Lagos','₦5,500,000 / year','For Rent · 4 Bed · 4 Bath · 300sqm')">
+      <div class="listing-img">
+        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80" alt="VI Duplex" loading="lazy">
+        <span class="listing-badge badge-rent">For Rent</span>
+        <div class="listing-fav" onclick="event.stopPropagation(); this.textContent = this.textContent==='🤍'?'❤️':'🤍'">🤍</div>
+      </div>
+      <div class="listing-body">
+        <div class="listing-price">₦5,500,000 <span>/ year</span></div>
+        <div class="listing-name">Serviced 4-Bedroom Duplex</div>
+        <div class="listing-location">📍 Victoria Island, Lagos</div>
+        <div class="listing-features">
+          <div class="feature">🛏 <strong>4</strong> Beds</div>
+          <div class="feature">🚿 <strong>4</strong> Baths</div>
+          <div class="feature">📐 <strong>300</strong> sqm</div>
+          <div class="feature">🚗 <strong>3</strong> Parking</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="listing-card" onclick="openModal('Ikoyi Penthouse','Old Ikoyi, Lagos','₦350,000,000','For Sale · 5 Bed · 5 Bath · 600sqm')">
+      <div class="listing-img">
+        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80" alt="Ikoyi Penthouse" loading="lazy">
+        <span class="listing-badge badge-new">New</span>
+        <div class="listing-fav" onclick="event.stopPropagation(); this.textContent = this.textContent==='🤍'?'❤️':'🤍'">🤍</div>
+      </div>
+      <div class="listing-body">
+        <div class="listing-price">₦350,000,000 <span></span></div>
+        <div class="listing-name">5-Bed Ikoyi Penthouse</div>
+        <div class="listing-location">📍 Old Ikoyi, Lagos</div>
+        <div class="listing-features">
+          <div class="feature">🛏 <strong>5</strong> Beds</div>
+          <div class="feature">🚿 <strong>5</strong> Baths</div>
+          <div class="feature">📐 <strong>600</strong> sqm</div>
+          <div class="feature">🌊 Ocean View</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="listing-card" onclick="openModal('Ajah Family Home','Ajah, Lagos','₦45,000,000','For Sale · 3 Bed · 2 Bath · 140sqm')">
+      <div class="listing-img">
+        <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80" alt="Ajah Family Home" loading="lazy">
+        <span class="listing-badge badge-sale">For Sale</span>
+        <div class="listing-fav" onclick="event.stopPropagation(); this.textContent = this.textContent==='🤍'?'❤️':'🤍'">🤍</div>
+      </div>
+      <div class="listing-body">
+        <div class="listing-price">₦45,000,000 <span>negotiable</span></div>
+        <div class="listing-name">3-Bed Detached Family Home</div>
+        <div class="listing-location">📍 Ajah, Lagos</div>
+        <div class="listing-features">
+          <div class="feature">🛏 <strong>3</strong> Beds</div>
+          <div class="feature">🚿 <strong>2</strong> Baths</div>
+          <div class="feature">📐 <strong>140</strong> sqm</div>
+          <div class="feature">🌳 Garden</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="listing-card" onclick="openModal('Oniru Waterfront Apartment','Oniru Estate, Lagos','₦2,800,000 / year','For Rent · 2 Bed · 2 Bath · 110sqm')">
+      <div class="listing-img">
+        <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&q=80" alt="Oniru Apartment" loading="lazy">
+        <span class="listing-badge badge-rent">For Rent</span>
+        <div class="listing-fav" onclick="event.stopPropagation(); this.textContent = this.textContent==='🤍'?'❤️':'🤍'">🤍</div>
+      </div>
+      <div class="listing-body">
+        <div class="listing-price">₦2,800,000 <span>/ year</span></div>
+        <div class="listing-name">Waterfront 2-Bedroom Apartment</div>
+        <div class="listing-location">📍 Oniru Estate, Lagos</div>
+        <div class="listing-features">
+          <div class="feature">🛏 <strong>2</strong> Beds</div>
+          <div class="feature">🚿 <strong>2</strong> Baths</div>
+          <div class="feature">📐 <strong>110</strong> sqm</div>
+          <div class="feature">🌊 Waterfront</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="listing-card" onclick="openModal('Lekki Phase 2 Land','Lekki Phase 2, Lagos','₦28,000,000','For Sale · 600sqm Plot · C of O Available')">
+      <div class="listing-img">
+        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=600&q=80" alt="Lekki Land" loading="lazy">
+        <span class="listing-badge badge-new">New</span>
+        <div class="listing-fav" onclick="event.stopPropagation(); this.textContent = this.textContent==='🤍'?'❤️':'🤍'">🤍</div>
+      </div>
+      <div class="listing-body">
+        <div class="listing-price">₦28,000,000 <span></span></div>
+        <div class="listing-name">600sqm Land · C of O</div>
+        <div class="listing-location">📍 Lekki Phase 2, Lagos</div>
+        <div class="listing-features">
+          <div class="feature">📐 <strong>600</strong> sqm</div>
+          <div class="feature">📋 C of O</div>
+          <div class="feature">🏗 Ready to Build</div>
+          <div class="feature">🛣 Tarred Road</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- BANNER -->
+<section class="banner reveal">
+  <div class="banner-text">
+    <div class="section-label">Why Choose Us</div>
+    <h2 class="banner-heading">Lagos's most<br><em>trusted</em> real estate<br>partner since 2018.</h2>
+    <p class="banner-body">We don't just sell properties — we find you the right home, in the right location, at the right price. Our agents know every street of Lagos, from the mainland to the island.</p>
+    <div class="banner-features">
+      <div class="banner-feat">
+        <div class="feat-icon">🔑</div>
+        <div class="feat-text">
+          <strong>Verified Properties Only</strong>
+          Every listing is physically inspected and legally verified before it appears on our site.
+        </div>
+      </div>
+      <div class="banner-feat">
+        <div class="feat-icon">⚖️</div>
+        <div class="feat-text">
+          <strong>Full Legal Support</strong>
+          We handle all documentation — C of O, deed of assignment, surveys, and transfer.
+        </div>
+      </div>
+      <div class="banner-feat">
+        <div class="feat-icon">💬</div>
+        <div class="feat-text">
+          <strong>WhatsApp-First Service</strong>
+          Reach your agent 7 days a week on WhatsApp. No waiting rooms, no office queues.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="banner-right">
+    <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&q=80" alt="Lagos Real Estate" class="banner-img">
+    <div class="banner-number">
+      <div class="big-num">12+</div>
+      <div class="num-label">Years in<br>Lagos Market</div>
+    </div>
+  </div>
+</section>
+
+<!-- NEIGHBORHOODS -->
+<section class="neighborhoods reveal" id="neighborhoods">
+  <div class="section-label">Explore by Area</div>
+  <h2 class="section-heading">Browse properties by<br><em>neighborhood.</em></h2>
+  <div class="nbhd-grid">
+    <div class="nbhd-card large">
+      <img src="https://images.unsplash.com/photo-1526958097901-5e6d742d3371?w=800&q=80" alt="Lekki">
+      <div class="nbhd-overlay">
+        <div class="nbhd-name">Lekki</div>
+        <div class="nbhd-count">124 Properties Available</div>
+      </div>
+    </div>
+    <div class="nbhd-card">
+      <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80" alt="Victoria Island">
+      <div class="nbhd-overlay">
+        <div class="nbhd-name">Victoria Island</div>
+        <div class="nbhd-count">87 Properties</div>
+      </div>
+    </div>
+    <div class="nbhd-card">
+      <img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=600&q=80" alt="Ikoyi">
+      <div class="nbhd-overlay">
+        <div class="nbhd-name">Ikoyi</div>
+        <div class="nbhd-count">56 Properties</div>
+      </div>
+    </div>
+    <div class="nbhd-card">
+      <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&q=80" alt="Ajah">
+      <div class="nbhd-overlay">
+        <div class="nbhd-name">Ajah</div>
+        <div class="nbhd-count">93 Properties</div>
+      </div>
+    </div>
+    <div class="nbhd-card">
+      <img src="https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=600&q=80" alt="Ikeja GRA">
+      <div class="nbhd-overlay">
+        <div class="nbhd-name">Ikeja GRA</div>
+        <div class="nbhd-count">41 Properties</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process reveal">
+  <div class="section-label">How It Works</div>
+  <h2 class="section-heading">From search to<br><em>keys in hand</em> — step by step.</h2>
+  <div class="process-steps">
+    <div class="process-step">
+      <div class="step-num">01</div>
+      <div class="step-title">Tell Us What You Need</div>
+      <div class="step-desc">Share your budget, preferred location, and requirements. We'll match you with the most suitable properties immediately.</div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">02</div>
+      <div class="step-title">View Properties</div>
+      <div class="step-desc">Our agents schedule viewings at your convenience. We handle transportation and guide you through every property.</div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">03</div>
+      <div class="step-title">Negotiate & Agree</div>
+      <div class="step-desc">We negotiate on your behalf to secure the best possible price. Our track record saves clients an average of 8% off asking price.</div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">04</div>
+      <div class="step-title">Legal & Handover</div>
+      <div class="step-desc">We handle all documentation, verify title, and ensure a smooth, secure transfer. You get your keys — stress-free.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials reveal">
+  <div class="section-label">Client Stories</div>
+  <h2 class="section-heading" style="color:var(--white)">What our clients<br><em>say about us.</em></h2>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-text">"Lagos Premier Realty found us our Lekki home in two weeks. Their agent was always available on WhatsApp and handled everything — even the legal transfer. Couldn't be happier."</div>
+      <div class="testi-author">
+        <div class="testi-avatar">CO</div>
+        <div>
+          <div class="testi-name">Chidera Okafor</div>
+          <div class="testi-role">Buyer · Lekki Phase 1</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-text">"I was relocating from Abuja and needed a VI apartment urgently. They sent me virtual tours on WhatsApp, negotiated the rent down by ₦300k, and had everything ready when I arrived."</div>
+      <div class="testi-author">
+        <div class="testi-avatar">AM</div>
+        <div>
+          <div class="testi-name">Adebola Martins</div>
+          <div class="testi-role">Tenant · Victoria Island</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-text">"I listed my Ikoyi property with them and it sold in 3 weeks above asking price. Their network of serious buyers is unmatched in Lagos. Highly professional team."</div>
+      <div class="testi-author">
+        <div class="testi-avatar">FK</div>
+        <div>
+          <div class="testi-name">Funmi Adekoya-Kuye</div>
+          <div class="testi-role">Seller · Old Ikoyi</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AGENTS -->
+<section class="agents reveal" id="agents">
+  <div class="section-label">Meet the Team</div>
+  <h2 class="section-heading">Our expert agents<br>know <em>every street</em> in Lagos.</h2>
+  <div class="agents-grid">
+    <div class="agent-card">
+      <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80" alt="Agent" class="agent-photo">
+      <div class="agent-name">Emeka Okafor</div>
+      <div class="agent-title">Senior Agent · Island</div>
+      <div class="agent-stats">
+        <div class="agent-stat"><strong>142</strong> Sales</div>
+        <div class="agent-stat"><strong>8yr</strong> Experience</div>
+      </div>
+    </div>
+    <div class="agent-card">
+      <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80" alt="Agent" class="agent-photo">
+      <div class="agent-name">Ngozi Adeyemi</div>
+      <div class="agent-title">Senior Agent · Lekki</div>
+      <div class="agent-stats">
+        <div class="agent-stat"><strong>98</strong> Sales</div>
+        <div class="agent-stat"><strong>6yr</strong> Experience</div>
+      </div>
+    </div>
+    <div class="agent-card">
+      <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80" alt="Agent" class="agent-photo">
+      <div class="agent-name">Tunde Fashola</div>
+      <div class="agent-title">Head of Sales · VI & Ikoyi</div>
+      <div class="agent-stats">
+        <div class="agent-stat"><strong>210</strong> Sales</div>
+        <div class="agent-stat"><strong>12yr</strong> Experience</div>
+      </div>
+    </div>
+    <div class="agent-card">
+      <img src="https://images.unsplash.com/photo-1619946794135-5bc917a27793?w=400&q=80" alt="Agent" class="agent-photo">
+      <div class="agent-name">Amina Bello</div>
+      <div class="agent-title">Agent · Ajah & Mainland</div>
+      <div class="agent-stats">
+        <div class="agent-stat"><strong>67</strong> Sales</div>
+        <div class="agent-stat"><strong>4yr</strong> Experience</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section reveal" id="contact">
+  <h2>Ready to find your<br><em>perfect Lagos home?</em></h2>
+  <p>Book a free consultation with one of our agents today. No pressure — just expert guidance on your next property move.</p>
+  <div class="cta-btns">
+    <a href="#" class="btn-dark" onclick="openContactModal(); return false;">📅 Book a Consultation</a>
+    <a href="https://wa.me/2349054045597?text=Hello%20Lagos%20Premier%20Realty%2C%20I%20would%20like%20to%20enquire%20about%20a%20property." class="btn-wp">💬 WhatsApp Us Now</a>
+  </div>
+</section>
+
+<!-- CONTACT STRIP -->
+<div class="contact-strip">
+  <div class="contact-item">
+    <div class="contact-icon">📍</div>
+    <div class="contact-label">Our Office</div>
+    <div class="contact-value">14 Adeola Odeku Street,<br>Victoria Island, Lagos</div>
+  </div>
+  <div class="contact-item">
+    <div class="contact-icon">📞</div>
+    <div class="contact-label">Call / WhatsApp</div>
+    <div class="contact-value"><a href="tel:+2349054045597">+234 905 404 5597</a></div>
+  </div>
+  <div class="contact-item">
+    <div class="contact-icon">✉️</div>
+    <div class="contact-label">Email Us</div>
+    <div class="contact-value"><a href="/cdn-cgi/l/email-protection#d9b1bcb5b5b699b5b8beb6aaa9abbcb4b0bcababbcb8b5ada0f7bab6b4"><span class="__cf_email__" data-cfemail="58303d3434371834393f372b282a3d35313d2a2a3d39342c21763b3735">[email&#160;protected]</span></a></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-name">Lagos Premier Realty</div>
+      <div class="footer-tagline">Lagos's trusted real estate agency connecting buyers, sellers, and tenants with premium properties across the city since 2018.</div>
+      <div class="footer-socials">
+        <a class="social-btn" href="#">𝕏</a>
+        <a class="social-btn" href="#">in</a>
+        <a class="social-btn" href="#">f</a>
+        <a class="social-btn" href="#">▶</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Properties</h4>
+      <ul>
+        <li><a href="#">For Sale</a></li>
+        <li><a href="#">For Rent</a></li>
+        <li><a href="#">New Listings</a></li>
+        <li><a href="#">Land & Plots</a></li>
+        <li><a href="#">Commercial</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Neighborhoods</h4>
+      <ul>
+        <li><a href="#">Lekki</a></li>
+        <li><a href="#">Victoria Island</a></li>
+        <li><a href="#">Ikoyi</a></li>
+        <li><a href="#">Ajah</a></li>
+        <li><a href="#">Ikeja GRA</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Our Agents</a></li>
+        <li><a href="#">Sell with Us</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Lagos Premier Realty Ltd. All rights reserved. RC 1234567</div>
+    <div class="footer-credit">Built with AI by B.I.E.AI</div>
+  </div>
+</footer>
+
+<!-- PROPERTY ENQUIRY MODAL -->
+<div class="modal-overlay" id="propertyModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3 id="modalTitle">Property Enquiry</h3>
+    <div class="modal-loc" id="modalLoc"></div>
+    <div class="modal-price" id="modalPrice"></div>
+    <p style="font-size:0.85rem; color:var(--muted); margin-bottom:1.5rem;">Fill in your details and one of our agents will contact you within 2 hours.</p>
+    <form onsubmit="submitEnquiry(event)">
+      <input type="text" placeholder="Your Full Name" required>
+      <input type="tel" placeholder="WhatsApp Number" required>
+      <input type="email" placeholder="Email Address">
+      <textarea placeholder="Tell us more — preferred move-in date, any questions..."></textarea>
+      <button type="submit" class="submit-btn">Send Enquiry →</button>
+      <a href="https://wa.me/2349054045597" class="wp-btn">💬 Enquire via WhatsApp Instead</a>
+    </form>
+  </div>
+</div>
+
+<!-- CONTACT MODAL -->
+<div class="modal-overlay" id="contactModal">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('contactModal').classList.remove('open')">✕</button>
+    <h3>Book a Free Consultation</h3>
+    <div class="modal-loc" style="margin-bottom:1.5rem;">Speak with a Lagos Premier Realty agent — no obligation.</div>
+    <form onsubmit="submitContact(event)">
+      <input type="text" placeholder="Your Full Name" required>
+      <input type="tel" placeholder="WhatsApp Number" required>
+      <select style="padding:0.85rem 1rem; border:1.5px solid rgba(0,0,0,0.12); font-family:'Outfit',sans-serif; font-size:0.9rem; width:100%; outline:none;">
+        <option>I want to Buy a property</option>
+        <option>I want to Rent a property</option>
+        <option>I want to Sell my property</option>
+        <option>I want to List my property for Rent</option>
+        <option>I need general advice</option>
+      </select>
+      <textarea placeholder="Briefly describe what you're looking for — location, budget, property type..."></textarea>
+      <button type="submit" class="submit-btn">Book My Free Consultation →</button>
+    </form>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// Navbar scroll effect
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Reveal on scroll
+const reveals = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), 0);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(el => revealObserver.observe(el));
+
+// Stagger children
+document.querySelectorAll('.listings-grid, .testi-grid, .agents-grid, .process-steps, .banner-features').forEach(grid => {
+  Array.from(grid.children).forEach((child, i) => {
+    child.style.transitionDelay = `${i * 0.12}s`;
+  });
+});
+
+// Filter tabs
+function setFilter(btn, type) {
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  // In production this would filter the listings
+}
+
+// Property modal
+function openModal(name, loc, price, details) {
+  document.getElementById('modalTitle').textContent = name;
+  document.getElementById('modalLoc').textContent = '📍 ' + loc + ' · ' + details;
+  document.getElementById('modalPrice').textContent = price;
+  document.getElementById('propertyModal').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('propertyModal').classList.remove('open');
+}
+function openContactModal() {
+  document.getElementById('contactModal').classList.add('open');
+}
+document.getElementById('propertyModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+document.getElementById('contactModal').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.remove('open');
+});
+
+// Form submissions
+function submitEnquiry(e) {
+  e.preventDefault();
+  closeModal();
+  showToast('✅ Enquiry sent! An agent will contact you within 2 hours via WhatsApp.');
+}
+function submitContact(e) {
+  e.preventDefault();
+  document.getElementById('contactModal').classList.remove('open');
+  showToast('✅ Consultation booked! An agent will call you shortly.');
+}
+
+// Toast notification
+function showToast(msg) {
+  const toast = document.createElement('div');
+  toast.style.cssText = `
+    position:fixed; bottom:2rem; left:50%; transform:translateX(-50%);
+    background:var(--forest); color:white; padding:1rem 2rem;
+    font-family:'Outfit',sans-serif; fon

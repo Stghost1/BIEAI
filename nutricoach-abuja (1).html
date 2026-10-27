@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NutriCoach Abuja — Transform Your Health</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;0,800;1,300;1,700&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sage:#3D5A47;
+  --sage-mid:#4E7260;
+  --sage-light:#6B9A7A;
+  --terra:#C4602A;
+  --terra-light:#E07845;
+  --cream:#FAF7F0;
+  --warm:#F5EFE0;
+  --oat:#EDE6D3;
+  --ink:#1C1A14;
+  --muted:#7A7260;
+  --border:rgba(61,90,71,0.18);
+  --white:#FFFFFF;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 5%;height:68px;
+  transition:background 0.3s;
+}
+nav.scrolled{background:rgba(250,247,240,0.97);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--border);}
+.nav-logo{display:flex;flex-direction:column;line-height:1;}
+.nav-logo-main{font-family:'Fraunces',serif;font-size:1.3rem;font-weight:800;color:var(--sage);letter-spacing:-0.01em;}
+.nav-logo-main span{color:var(--terra);}
+.nav-logo-sub{font-family:'Space Mono',monospace;font-size:0.48rem;letter-spacing:0.22em;color:var(--muted);text-transform:uppercase;margin-top:2px;}
+.nav-links{display:flex;gap:1.75rem;list-style:none;align-items:center;}
+.nav-links a{text-decoration:none;font-size:0.83rem;font-weight:500;color:var(--ink);opacity:0.65;transition:opacity 0.2s,color 0.2s,transform 0.25s;display:inline-block;}
+.nav-links a:hover{opacity:1;color:var(--sage);transform:translateY(-2px);}
+.nav-cta{background:var(--terra);color:var(--white)!important;opacity:1!important;padding:0.5rem 1.25rem;border-radius:2px;font-weight:600!important;transition:background 0.2s,transform 0.3s!important;}
+.nav-cta:hover{background:var(--terra-light)!important;transform:scale(1.05)!important;}
+
+/* HERO */
+.hero{
+  min-height:100vh;position:relative;overflow:hidden;
+  display:grid;grid-template-columns:1fr 1fr;
+  align-items:center;padding:7rem 5% 5rem;
+  background:var(--warm);
+}
+.hero::before{content:'';position:absolute;top:-20%;right:-10%;width:60vw;height:60vw;background:radial-gradient(circle,rgba(61,90,71,0.08) 0%,transparent 65%);pointer-events:none;}
+.hero-leaf{position:absolute;bottom:-5%;left:30%;font-size:20rem;opacity:0.04;transform:rotate(-20deg);pointer-events:none;user-select:none;}
+.hero-left{}
+.hero-tag{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.25em;color:var(--terra);text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.75rem;}
+.hero-tag::before{content:'';display:inline-block;width:2rem;height:1px;background:var(--terra);}
+.hero-title{font-family:'Fraunces',serif;font-size:clamp(2.8rem,5vw,5.5rem);font-weight:800;line-height:1.02;margin-bottom:1.5rem;letter-spacing:-0.02em;color:var(--ink);}
+.hero-title em{font-style:italic;color:var(--sage);font-weight:300;}
+.hero-sub{font-size:1.05rem;line-height:1.75;color:var(--muted);max-width:460px;margin-bottom:2.5rem;font-weight:300;}
+.hero-sub strong{color:var(--ink);font-weight:500;}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2.5rem;}
+.btn-terra{background:var(--terra);color:var(--white);padding:0.95rem 2.25rem;font-size:0.9rem;font-weight:600;border:none;cursor:pointer;text-decoration:none;display:inline-block;border-radius:2px;transition:background 0.2s,transform 0.3s;}
+.btn-terra:hover{background:var(--terra-light);transform:translateY(-3px);}
+.btn-sage{background:transparent;color:var(--sage);padding:0.95rem 2.25rem;font-size:0.9rem;font-weight:500;border:2px solid var(--sage);cursor:pointer;text-decoration:none;display:inline-block;border-radius:2px;transition:background 0.2s,color 0.2s,transform 0.3s;}
+.btn-sage:hover{background:var(--sage);color:var(--white);transform:translateY(-3px);}
+.hero-pills{display:flex;gap:0.65rem;flex-wrap:wrap;}
+.hero-pill{background:var(--oat);border:1px solid var(--border);color:var(--sage);font-size:0.75rem;font-weight:500;padding:0.4rem 1rem;border-radius:999px;display:flex;align-items:center;gap:0.4rem;transition:background 0.25s,transform 0.3s;}
+.hero-pill:hover{background:var(--sage);color:var(--white);transform:scale(1.05);}
+
+/* Hero right — big photo + floating card */
+.hero-right{position:relative;display:flex;justify-content:center;align-items:center;}
+.hero-photo-wrap{position:relative;width:90%;max-width:420px;}
+.hero-photo{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:4px;filter:saturate(0.9);}
+.hero-float-card{
+  position:absolute;bottom:-1.5rem;left:-2rem;
+  background:var(--white);padding:1.25rem 1.5rem;
+  box-shadow:0 12px 40px rgba(0,0,0,0.12);
+  min-width:200px;
+}
+.float-card-label{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;color:var(--terra);text-transform:uppercase;margin-bottom:0.35rem;}
+.float-card-num{font-family:'Fraunces',serif;font-size:2rem;font-weight:800;color:var(--sage);line-height:1;}
+.float-card-sub{font-size:0.75rem;color:var(--muted);margin-top:0.15rem;}
+
+/* TICKER */
+.ticker{overflow:hidden;background:var(--sage);padding:0.7rem 0;}
+.ticker-inner{display:flex;animation:tick 28s linear infinite;white-space:nowrap;}
+.ticker-item{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:0.15em;color:rgba(255,255,255,0.8);padding:0 2.5rem;text-transform:uppercase;}
+.ticker-leaf{color:rgba(255,255,255,0.4);margin:0 0.25rem;}
+@keyframes tick{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* SECTION */
+.section-tag{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.25em;color:var(--terra);text-transform:uppercase;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.75rem;}
+.section-tag::before{content:'';display:inline-block;width:1.5rem;height:1px;background:var(--terra);}
+.section-heading{font-family:'Fraunces',serif;font-size:clamp(2rem,3.2vw,3rem);font-weight:700;line-height:1.1;letter-spacing:-0.01em;}
+.section-heading em{font-style:italic;color:var(--sage);font-weight:300;}
+
+/* SERVICES */
+.services{padding:6rem 5%;background:var(--cream);}
+.services-intro{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:end;margin-bottom:4rem;}
+.services-intro p{font-size:1rem;line-height:1.75;color:var(--muted);font-weight:300;}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+.svc-card{
+  background:var(--white);padding:2rem;
+  border:1px solid var(--border);border-bottom:3px solid transparent;
+  transition:border-color 0.3s,transform 0.35s,box-shadow 0.35s;
+}
+.svc-card:hover{border-bottom-color:var(--terra);transform:translateY(-6px);box-shadow:0 16px 40px rgba(61,90,71,0.1);}
+.svc-icon{font-size:2rem;margin-bottom:1rem;display:inline-block;transition:transform 0.4s;}
+.svc-card:hover .svc-icon{transform:scale(1.2) rotate(8deg);}
+.svc-name{font-family:'Fraunces',serif;font-size:1.2rem;font-weight:700;margin-bottom:0.6rem;color:var(--ink);}
+.svc-desc{font-size:0.85rem;line-height:1.7;color:var(--muted);font-weight:300;margin-bottom:1.5rem;}
+.svc-price{font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--sage);letter-spacing:0.05em;padding-top:1.25rem;border-top:1px solid var(--border);}
+
+/* BMI CALCULATOR LEAD MAGNET */
+.bmi-section{padding:6rem 5%;background:var(--sage);}
+.bmi-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+.bmi-left .section-tag{color:rgba(255,255,255,0.6);}
+.bmi-left .section-tag::before{background:rgba(255,255,255,0.6);}
+.bmi-left .section-heading{color:var(--white);}
+.bmi-left .section-heading em{color:var(--oat);}
+.bmi-desc{font-size:0.95rem;line-height:1.75;color:rgba(255,255,255,0.65);font-weight:300;margin-top:1rem;}
+.bmi-card{background:var(--white);padding:2.5rem;}
+.bmi-card h3{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:700;color:var(--ink);margin-bottom:0.35rem;}
+.bmi-card p{font-size:0.82rem;color:var(--muted);margin-bottom:2rem;}
+.bmi-form{display:flex;flex-direction:column;gap:1rem;}
+.bmi-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.bmi-field label{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.15em;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:0.4rem;}
+.bmi-field input,.bmi-field select{width:100%;padding:0.85rem 1rem;border:1.5px solid var(--border);font-family:'DM Sans',sans-serif;font-size:0.9rem;color:var(--ink);background:var(--cream);outline:none;transition:border-color 0.2s;}
+.bmi-field input:focus,.bmi-field select:focus{border-color:var(--sage);}
+.bmi-btn{background:var(--terra);color:var(--white);padding:1rem;font-size:0.9rem;font-weight:600;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;border-radius:2px;transition:background 0.2s,transform 0.3s;}
+.bmi-btn:hover{background:var(--terra-light);transform:scaleX(1.03);}
+.bmi-result{display:none;margin-top:1rem;padding:1.25rem;background:var(--warm);}
+.bmi-result.show{display:block;}
+.bmi-result-num{font-family:'Fraunces',serif;font-size:2.5rem;font-weight:800;line-height:1;}
+.bmi-result-label{font-size:0.85rem;color:var(--muted);margin-top:0.25rem;}
+.bmi-result-tip{font-size:0.82rem;color:var(--sage);margin-top:0.75rem;line-height:1.6;}
+
+/* HOW IT WORKS */
+.howitworks{padding:6rem 5%;background:var(--warm);}
+.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:4rem;}
+.step{padding:2.5rem 2rem;border-right:1px solid var(--border);transition:background 0.3s,transform 0.3s;}
+.step:last-child{border-right:none;}
+.step:hover{background:var(--oat);transform:translateY(-4px);}
+.step-leaf{font-size:2rem;margin-bottom:1rem;display:inline-block;transition:transform 0.4s;}
+.step:hover .step-leaf{transform:rotate(-10deg) scale(1.2);}
+.step-num{font-family:'Fraunces',serif;font-size:4rem;font-weight:800;color:rgba(61,90,71,0.12);line-height:1;margin-bottom:0.5rem;}
+.step-title{font-size:0.95rem;font-weight:600;color:var(--sage);margin-bottom:0.6rem;}
+.step-desc{font-size:0.83rem;line-height:1.65;color:var(--muted);font-weight:300;}
+
+/* TRANSFORMATIONS */
+.transform-section{padding:6rem 5%;background:var(--cream);}
+.transform-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:4rem;}
+.transform-card{background:var(--white);overflow:hidden;border:1px solid var(--border);transition:transform 0.35s,box-shadow 0.35s;}
+.transform-card:hover{transform:translateY(-6px) rotate(0.3deg);box-shadow:0 16px 40px rgba(0,0,0,0.08);}
+.transform-img{width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform 0.5s;}
+.transform-card:hover .transform-img{transform:scale(1.06);}
+.transform-body{padding:1.5rem;}
+.transform-name{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:700;margin-bottom:0.25rem;color:var(--ink);}
+.transform-detail{font-size:0.78rem;color:var(--muted);font-family:'Space Mono',monospace;letter-spacing:0.04em;margin-bottom:0.75rem;}
+.transform-quote{font-size:0.85rem;line-height:1.65;color:var(--muted);font-style:italic;font-weight:300;}
+.transform-result{display:flex;gap:1.5rem;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);}
+.t-stat strong{display:block;font-family:'Fraunces',serif;font-size:1.4rem;font-weight:800;color:var(--sage);}
+.t-stat span{font-size:0.72rem;color:var(--muted);}
+
+/* ABOUT COACH */
+.about-coach{padding:6rem 5%;background:var(--oat);}
+.about-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:5rem;align-items:center;}
+.coach-photo-wrap{position:relative;}
+.coach-photo{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:top;}
+.coach-badge{position:absolute;top:2rem;right:-2rem;background:var(--terra);color:var(--white);padding:1.5rem;text-align:center;}
+.coach-badge .big{font-family:'Fraunces',serif;font-size:2.5rem;font-weight:800;line-height:1;}
+.coach-badge .small{font-size:0.6rem;font-family:'Space Mono',monospace;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.2rem;opacity:0.85;}
+.about-coach .section-tag{color:var(--sage);}
+.about-coach .section-tag::before{background:var(--sage);}
+.about-coach .section-heading em{color:var(--terra);}
+.coach-bio{font-size:1rem;line-height:1.8;color:var(--ink);font-weight:300;margin-top:1.25rem;}
+.coach-bio p{margin-bottom:1rem;}
+.coach-bio strong{font-weight:600;}
+.coach-creds{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.75rem;}
+.coach-cred{
+  background:var(--sage);color:var(--white);
+  font-family:'Space Mono',monospace;font-size:0.62rem;
+  padding:0.4rem 0.85rem;letter-spacing:0.06em;
+  transition:transform 0.3s ease,background 0.2s;display:inline-block;
+}
+.coach-cred:nth-child(odd):hover{transform:translateX(6px);background:var(--sage-mid);}
+.coach-cred:nth-child(even):hover{transform:rotate(3deg) scale(1.08);background:var(--terra);}
+
+/* AI TOOLS */
+.ai-strip{padding:2.5rem 5%;background:var(--ink);}
+.ai-strip-label{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.22em;color:rgba(255,255,255,0.3);text-transform:uppercase;margin-bottom:1rem;}
+.ai-tools{display:flex;gap:0.65rem;flex-wrap:wrap;}
+.ai-tag{
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);
+  color:rgba(255,255,255,0.55);font-family:'Space Mono',monospace;
+  font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;
+  padding:0.4rem 0.9rem;display:inline-block;
+  transition:background 0.25s,color 0.25s,transform 0.4s;
+}
+.ai-tag:nth-child(1):hover{transform:translateX(8px);background:rgba(196,96,42,0.3);color:var(--terra-light);border-color:var(--terra);}
+.ai-tag:nth-child(2):hover{transform:rotate(5deg);background:rgba(61,90,71,0.4);color:#9DC4A8;border-color:var(--sage);}
+.ai-tag:nth-child(3):hover{transform:scaleX(1.12);background:rgba(255,255,255,0.1);color:var(--white);}
+.ai-tag:nth-child(4):hover{transform:translateY(-6px);background:rgba(196,96,42,0.2);color:var(--terra-light);}
+.ai-tag:nth-child(5):hover{transform:scale(1.15);background:rgba(61,90,71,0.3);color:#9DC4A8;}
+.ai-tag:nth-child(6):hover{transform:rotateY(20deg);background:rgba(255,255,255,0.08);color:var(--white);}
+.ai-tag:nth-child(7):hover{transform:rotate(-4deg);background:rgba(196,96,42,0.2);color:var(--terra-light);}
+
+/* CTA */
+.cta{padding:6rem 5%;background:var(--terra);text-align:center;color:var(--white);}
+.cta h2{font-family:'Fraunces',serif;font-size:clamp(2rem,4vw,3.75rem);font-weight:800;line-height:1.05;margin-bottom:1rem;letter-spacing:-0.02em;}
+.cta h2 em{font-style:italic;font-weight:300;}
+.cta p{font-size:1rem;line-height:1.7;max-width:520px;margin:0 auto 2.5rem;opacity:0.8;}
+.cta-btns{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;}
+.btn-white{background:var(--white);color:var(--terra);padding:1rem 2.5rem;font-size:0.9rem;font-weight:700;text-decoration:none;display:inline-block;border-radius:2px;transition:background 0.2s,transform 0.3s;}
+.btn-white:hover{background:var(--oat);transform:scale(1.05);}
+.btn-wp{background:#25D366;color:var(--white);padding:1rem 2.5rem;font-size:0.9rem;font-weight:600;text-decoration:none;display:inline-block;border-radius:2px;transition:background 0.2s,transform 0.3s;}
+.btn-wp:hover{background:#1ebe5d;transform:scale(1.05);}
+
+/* FOOTER */
+footer{background:var(--ink);padding:3rem 5%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem;}
+.footer-logo{font-family:'Fraunces',serif;font-size:1.25rem;font-weight:800;color:var(--white);}
+.footer-logo span{color:var(--terra);}
+.footer-mid{font-size:0.75rem;color:rgba(255,255,255,0.3);font-family:'Space Mono',monospace;letter-spacing:0.06em;text-align:center;}
+.footer-credit{font-size:0.65rem;color:rgba(196,96,42,0.5);font-family:'Space Mono',monospace;letter-spacing:0.08em;text-transform:uppercase;}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:2rem;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--white);max-width:480px;width:100%;padding:2.5rem;position:relative;max-height:90vh;overflow-y:auto;}
+.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.25rem;cursor:pointer;color:var(--muted);}
+.modal h3{font-family:'Fraunces',serif;font-size:1.75rem;font-weight:800;color:var(--ink);margin-bottom:0.35rem;}
+.modal-sub{font-size:0.78rem;color:var(--muted);margin-bottom:1.75rem;font-family:'Space Mono',monospace;letter-spacing:0.06em;text-transform:uppercase;}
+.modal-form{display:flex;flex-direction:column;gap:0.85rem;}
+.modal-form input,.modal-form select,.modal-form textarea{padding:0.85rem 1rem;border:1.5px solid var(--border);font-family:'DM Sans',sans-serif;font-size:0.9rem;color:var(--ink);background:var(--cream);outline:none;transition:border-color 0.2s;resize:none;width:100%;}
+.modal-form input:focus,.modal-form select:focus{border-color:var(--sage);}
+.modal-form textarea{height:90px;}
+.modal-submit{background:var(--terra);color:var(--white);padding:1rem;font-size:0.9rem;font-weight:600;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;border-radius:2px;width:100%;transition:background 0.2s,transform 0.3s;}
+.modal-submit:hover{background:var(--terra-light);transform:scale(1.02);}
+
+/* ANIM */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;}
+  .hero-right{display:none;}
+  .services-intro{grid-template-columns:1fr;}
+  .services-grid{grid-template-columns:1fr;}
+  .bmi-grid{grid-template-columns:1fr;}
+  .steps-grid{grid-template-columns:1fr 1fr;}
+  .transform-grid{grid-template-columns:1fr;}
+  .about-grid{grid-template-columns:1fr;}
+  nav .nav-links{display:none;}
+}
+</style>
+</head>
+<body>
+
+<nav id="mainNav">
+  <div class="nav-logo">
+    <div class="nav-logo-main">Nutri<span>Coach</span></div>
+    <div class="nav-logo-sub">Abuja · Nigeria</div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#services">Programs</a></li>
+    <li><a href="#bmi">BMI Calculator</a></li>
+    <li><a href="#transformations">Results</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#" onclick="openModal();return false;" class="nav-cta">Start Your Journey</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-leaf">🌿</div>
+  <div class="hero-left">
+    <div class="hero-tag">Certified Nutrition &amp; Wellness Coach · Abuja</div>
+    <h1 class="hero-title">
+      Transform Your<br>
+      Health with<br>
+      <em>Expert Coaching.</em>
+    </h1>
+    <p class="hero-sub">Science-backed nutrition coaching designed for <strong>Nigerian bodies and lifestyles.</strong> Lose weight, build energy, and feel your best — without abandoning the foods you love.</p>
+    <div class="hero-btns">
+      <a href="#" class="btn-terra" onclick="openModal();return false;">Start My Transformation</a>
+      <a href="#bmi" class="btn-sage">Try Free BMI Check</a>
+    </div>
+    <div class="hero-pills">
+      <span class="hero-pill">🥗 Weight Loss</span>
+      <span class="hero-pill">💪 Muscle Building</span>
+      <span class="hero-pill">🤰 Pre/Postnatal</span>
+      <span class="hero-pill">🩺 Condition Management</span>
+      <span class="hero-pill">👨‍👩‍👧 Family Nutrition</span>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-photo-wrap">
+      <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=700&q=80" alt="Healthy Nigerian Food" class="hero-photo">
+      <div class="hero-float-card">
+        <div class="float-card-label">Clients Transformed</div>
+        <div class="float-card-num">340+</div>
+        <div class="float-card-sub">across Abuja &amp; online</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item">Weight Loss <span class="ticker-leaf">🌿</span></span>
+    <span class="ticker-item">Meal Planning <span class="ticker-leaf">🌿</span></span>
+    <span class="ticker-item">Muscle Gain <span class="ticker-leaf">🌿</span></span>
+    <span class="ticker-item">PCOS Management <span class="ticker-leaf">🌿</span></span>
+    <span class="ticker-item">Diabetes Diet <span class="ticker-leaf">🌿</span></span>
+    <span class="ticker-item">Prenatal Nutrition <span class="ticker-leaf">🌿</span></span>
+    <span class="ticker-item">Corporate Wellness <span class="ticker-leaf">🌿</span></span>
+    <span class="ticker-item">Weight Loss <span class="ticker-leaf">🌿</span></span>
+    <span class="ticker-item">Meal Planning <span class="ticker-leaf">🌿</span></span>
+    <span class="ticker-item">Muscle Gain <span class="ticker-leaf">🌿</span></span>
+    <span class="ticker-item">PCOS Management <span class="ticker-leaf">🌿</span></span>
+    <span class="ticker-item">Diabetes Diet <span class="ticker-leaf">🌿</span></span>
+    <span class="ticker-item">Prenatal Nutrition <span class="ticker-leaf">🌿</span></span>
+    <span class="ticker-item">Corporate Wellness <span class="ticker-leaf">🌿</span></span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services reveal" id="services">
+  <div class="services-intro">
+    <div>
+      <div class="section-tag">My Programs</div>
+      <h2 class="section-heading">Coaching programs for<br><em>every health goal.</em></h2>
+    </div>
+    <div>
+      <p>Every program is fully personalised to your body type, health history, Nigerian food preferences, and lifestyle. No generic Western diet plans that ignore jollof rice and egusi soup.</p>
+    </div>
+  </div>
+  <div class="services-grid">
+    <div class="svc-card">
+      <div class="svc-icon">⚖️</div>
+      <div class="svc-name">Weight Loss Program</div>
+      <div class="svc-desc">A sustainable 12-week fat-loss program built around your metabolic type and Nigerian food culture. No starvation, no fads — real, lasting results.</div>
+      <div class="svc-price">FROM ₦45,000 / 4 WEEKS</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-icon">📅</div>
+      <div class="svc-name">Custom Meal Plans</div>
+      <div class="svc-desc">Weekly personalised meal plans with Nigerian recipes — complete with shopping lists, prep guides, and macro targets tailored to your goals.</div>
+      <div class="svc-price">FROM ₦25,000 / MONTH</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-icon">💪</div>
+      <div class="svc-name">Muscle &amp; Strength Plan</div>
+      <div class="svc-desc">High-protein nutrition coaching to support your training goals. Structured eating windows, supplementation advice, and progress tracking.</div>
+      <div class="svc-price">FROM ₦50,000 / 4 WEEKS</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-icon">🤰</div>
+      <div class="svc-name">Prenatal &amp; Postnatal</div>
+      <div class="svc-desc">Specialised nutrition plans to support mother and baby through pregnancy and postpartum recovery — safe, evidence-based, and Nigeria-specific.</div>
+      <div class="svc-price">FROM ₦60,000 / TRIMESTER</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-icon">🩺</div>
+      <div class="svc-name">Condition Management</div>
+      <div class="svc-desc">Therapeutic nutrition for diabetes, hypertension, PCOS, fatty liver, and other conditions — working alongside your doctor's treatment plan.</div>
+      <div class="svc-price">FROM ₦55,000 / 4 WEEKS</div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-icon">🏢</div>
+      <div class="svc-name">Corporate Wellness</div>
+      <div class="svc-desc">Group nutrition workshops and healthy eating programmes for companies and organisations in Abuja. Boost productivity, reduce sick days.</div>
+      <div class="svc-price">FROM ₦150,000 / SESSION</div>
+    </div>
+  </div>
+</section>
+
+<!-- BMI CALCULATOR LEAD MAGNET -->
+<section class="bmi-section reveal" id="bmi">
+  <div class="bmi-grid">
+    <div class="bmi-left">
+      <div class="section-tag">Free Tool</div>
+      <h2 class="section-heading">Check your BMI &amp;<br>get a <em>free</em> nutrition<br>recommendation.</h2>
+      <p class="bmi-desc">Enter your details below and instantly get your BMI score, health category, and a personalised nutrition tip from me — completely free. No sign-up required.</p>
+    </div>
+    <div class="bmi-card">
+      <h3>BMI Calculator</h3>
+      <p>Takes 30 seconds · Instant results</p>
+      <div class="bmi-form">
+        <div class="bmi-row">
+          <div class="bmi-field">
+            <label>Age</label>
+            <input type="number" id="bmiAge" placeholder="e.g. 32" min="15" max="80">
+          </div>
+          <div class="bmi-field">
+            <label>Gender</label>
+            <select id="bmiGender">
+              <option value="female">Female</option>
+              <option value="male">Male</option>
+            </select>
+          </div>
+        </div>
+        <div class="bmi-row">
+          <div class="bmi-field">
+            <label>Height (cm)</label>
+            <input type="number" id="bmiHeight" placeholder="e.g. 165" min="100" max="220">
+          </div>
+          <div class="bmi-field">
+            <label>Weight (kg)</label>
+            <input type="number" id="bmiWeight" placeholder="e.g. 72" min="30" max="300">
+          </div>
+        </div>
+        <div class="bmi-field">
+          <label>Activity Level</label>
+          <select id="bmiActivity">
+            <option value="sedentary">Sedentary (desk job, little exercise)</option>
+            <option value="light">Lightly active (1–3 days/week)</option>
+            <option value="moderate">Moderately active (3–5 days/week)</option>
+            <option value="active">Very active (6–7 days/week)</option>
+          </select>
+        </div>
+        <button class="bmi-btn" onclick="calcBMI()">Calculate My BMI →</button>
+        <div class="bmi-result" id="bmiResult">
+          <div class="bmi-result-num" id="bmiScore"></div>
+          <div class="bmi-result-label" id="bmiCategory"></div>
+          <div class="bmi-result-tip" id="bmiTip"></div>
+        </div>
+        <input type="text" placeholder="Your name (to receive full report)" style="margin-top:0.5rem;">
+        <input type="tel" placeholder="WhatsApp number for free consultation">
+        <button class="bmi-btn" onclick="submitBMI()">Get My Free Personalised Plan →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="howitworks reveal">
+  <div class="section-tag">The Process</div>
+  <h2 class="section-heading">From first call to<br><em>visible results.</em></h2>
+  <div class="steps-grid">
+    <div class="step"><div class="step-leaf">📞</div><div class="step-num">01</div><div class="step-title">Free Discovery Call</div><div class="step-desc">15 minutes to understand your goals, current health situation, and what's held you back before.</div></div>
+    <div class="step"><div class="step-leaf">📋</div><div class="step-num">02</div><div class="step-title">Health Assessment</div><div class="step-desc">You complete a detailed health questionnaire — food preferences, medical history, lifestyle, and cooking habits.</div></div>
+    <div class="step"><div class="step-leaf">🥗</div><div class="step-num">03</div><div class="step-title">Custom Plan Built</div><div class="step-desc">I use AI tools and nutrition science to build your personalised meal plan within 48 hours of assessment.</div></div>
+    <div class="step"><div class="step-leaf">📈</div><div class="step-num">04</div><div class="step-title">Weekly Coaching</div><div class="step-desc">Regular WhatsApp check-ins, plan adjustments, accountability, and unlimited support for the duration of your program.</div></div>
+  </div>
+</section>
+
+<!-- TRANSFORMATIONS -->
+<section class="transform-section reveal" id="transformations">
+  <div class="section-tag">Client Results</div>
+  <h2 class="section-heading">Real transformations,<br><em>real Nigerians.</em></h2>
+  <div class="transform-grid">
+    <div class="transform-card">
+      <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80" alt="Client Result" class="transform-img">
+      <div class="transform-body">
+        <div class="transform-name">Chioma A.</div>
+        <div class="transform-detail">Abuja · Weight Loss Program · 12 Weeks</div>
+        <div class="transform-quote">"I'd tried every diet before NutriCoach. This was the first time someone actually cooked Nigerian food into my plan. I ate eba and still lost weight!"</div>
+        <div class="transform-result">
+          <div class="t-stat"><strong>18kg</strong><span>Lost</span></div>
+          <div class="t-stat"><strong>12 wks</strong><span>Duration</span></div>
+          <div class="t-stat"><strong>Kept it off</strong><span>6 months later</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="transform-card">
+      <img src="https://images.unsplash.com/photo-1594737625785-a6cbdabd333c?w=600&q=80" alt="Client Result" class="transform-img">
+      <div class="transform-body">
+        <div class="transform-name">Emeka &amp; Family</div>
+        <div class="transform-detail">Abuja · Family Nutrition · Ongoing</div>
+        <div class="transform-quote">"My wife has diabetes and my son is overweight. NutriCoach built us one meal plan that works for everyone. Our blood sugar is under control and my son loves the food."</div>
+        <div class="transform-result">
+          <div class="t-stat"><strong>HbA1c ↓</strong><span>Blood sugar</span></div>
+          <div class="t-stat"><strong>11kg</strong><span>Son lost</span></div>
+          <div class="t-stat"><strong>Whole family</strong><span>Eating well</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="transform-card">
+      <img src="https://images.unsplash.com/photo-1546961342-ea5f62d1a22b?w=600&q=80" alt="Client Result" class="transform-img">
+      <div class="transform-body">
+        <div class="transform-name">Amaka O.</div>
+        <div class="transform-detail">Abuja · Postnatal Recovery · 8 Weeks</div>
+        <div class="transform-quote">"After my second baby I felt completely lost about what to eat while breastfeeding. NutriCoach gave me a plan that boosted my milk and helped me lose the baby weight."</div>
+        <div class="transform-result">
+          <div class="t-stat"><strong>9kg</strong><span>Postpartum</span></div>
+          <div class="t-stat"><strong>8 wks</strong><span>Safe timeline</span></div>
+          <div class="t-stat"><strong>Breastfed</strong><span>12 months</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT COACH -->
+<section class="about-coach reveal" id="about">
+  <div class="about-grid">
+    <div class="coach-photo-wrap">
+      <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600&q=80" alt="NutriCoach Abuja" class="coach-photo">
+      <div class="coach-badge">
+        <div class="big">340+</div>
+        <div class="small">Clients<br>Transformed</div>
+      </div>
+    </div>
+    <div>
+      <div class="section-tag">Meet Your Coach</div>
+      <h2 class="section-heading">Science, culture &amp;<br><em>real results.</em></h2>
+      <div class="coach-bio">
+        <p>I'm Dr. Ngozi Eze, a certified clinical nutritionist and wellness coach based in Abuja. After struggling with my own weight for years using Western diet plans that ignored Nigerian food, I decided to create something better.</p>
+        <p>My approach combines <strong>evidence-based nutritional science</strong> with a deep respect for Nigerian cuisine — because suya, egusi, jollof, and pounded yam are not the enemy. The <em>way</em> you eat them is what matters.</p>
+        <p>I also use cutting-edge AI tools including <strong>Gemini, Kimi, Claude, and Higgsfield</strong> to build personalised plans faster and track client progress with precision previously only available in hospital settings.</p>
+      </div>
+      <div class="coach-creds">
+        <span class="coach-cred">BSc Nutrition Science</span>
+        <span class="coach-cred">MSc Clinical Dietetics</span>
+        <span class="coach-cred">ISSN Certified</span>
+        <span class="coach-cred">NAN Member</span>
+        <span class="coach-cred">AI-Enhanced Coaching</span>
+        <span class="coach-cred">8 Years Practice</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI TOOLS -->
+<div class="ai-strip reveal">
+  <div class="ai-strip-label">AI tools powering this service</div>
+  <div class="ai-tools">
+    <span class="ai-tag">Claude AI</span>
+    <span class="ai-tag">Gemini</span>
+    <span class="ai-tag">Kimi AI</span>
+    <span class="ai-tag">NotebookLM</span>
+    <span class="ai-tag">Higgsfield</span>
+    <span class="ai-tag">Bolt.new</span>
+    <span class="ai-tag">Vercel</span>
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="cta reveal">
+  <h2>Your healthiest self<br><em>is waiting.</em></h2>
+  <p>Book a free 15-minute discovery call today. Let's talk about your goals, your lifestyle, and what's possible for you in the next 12 weeks.</p>
+  <div class="cta-btns">
+    <a href="#" class="btn-white" onclick="openModal();return false;">📅 Book Free Call</a>
+    <a href="https://wa.me/2349054045597" class="btn-wp">💬 WhatsApp Me</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Nutri<span>Coach</span></div>
+  <div class="footer-mid">© 2025 NutriCoach Abuja · Dr. Ngozi Eze · Certified Clinical Nutritionist</div>
+  <div class="footer-credit">Built with AI by B.I.E.AI</div>
+</footer>
+
+<!-- BOOKING MODAL -->
+<div class="modal-overlay" id="bookModal">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('bookModal').classList.remove('open')">✕</button>
+    <h3>Start Your Transformation</h3>
+    <div class="modal-sub">Free 15-min discovery call · No obligation</div>
+    <form class="modal-form" onsubmit="submitModal(event)">
+      <input type="text" placeholder="Your Full Name" required>
+      <input type="tel" placeholder="WhatsApp Number" required>
+      <input type="number" placeholder="Your Age">
+      <select>
+        <option>Weight Loss</option>
+        <option>Custom Meal Plan</option>
+        <option>Muscle Building</option>
+        <option>Prenatal / Postnatal</option>
+        <option>Condition Management (Diabetes, PCOS etc.)</option>
+        <option>Corporate Wellness</option>
+        <option>Not sure yet — need advice</option>
+      </select>
+      <textarea placeholder="Tell me a little about your health goal..."></textarea>
+      <button type="submit" class="modal-submit">Book My Free Call →</button>
+    </form>
+  </div>
+</div>
+
+<script>
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));
+
+const reveals = document.querySelectorAll('.reveal');
+reveals.forEach(el=>{
+  new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+  },{threshold:0.1}).observe(el);
+});
+
+document.querySelectorAll('.services-grid,.transform-grid,.steps-grid').forEach(g=>{
+  Array.from(g.children).forEach((c,i)=>c.style.transitionDelay=`${i*0.1}s`);
+});
+
+function openModal(){document.getElementById('bookModal').classList.add('open');}
+document.getElementById('bookModal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
+
+function showToast(msg){
+  const t=document.createElement('div');
+  t.style.cssText='position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#3D5A47;color:white;padding:1rem 2rem;font-family:DM Sans,sans-serif;font-size:0.875rem;font-weight:600;z-index:1000;border-radius:2px;box-shadow:0 8px 30px rgba(0,0,0,0.3);';
+  t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),4500);
+}
+function submitModal(e){e.preventDefault();document.getElementById('bookModal').classList.remove('open');showToast('🎉 Booked! Dr. Ngozi will WhatsApp you to confirm your free call.');}
+function submitBMI(){showToast('✅ Plan sent! Check your WhatsApp for your personalised nutrition report.');}
+
+function calcBMI(){
+  const h=parseFloat(document.getElementById('bmiHeight').value);
+  const w=parseFloat(document.getElementById('bmiWeight').value);
+  const age=parseInt(document.getElementById('bmiAge').value)||30;
+  const gender=document.getElementById('bmiGender').value;
+  const activity=document.getElementById('bmiActivity').value;
+  if(!h||!w||h<100||w<20){showToast('⚠️ Please enter valid height and weight.');return;}
+  const bmi=(w/((h/100)**2)).toFixed(1);
+  let cat,tip,color;
+  if(bmi<18.5){cat='Underweight';tip='Your goal should be gaining lean muscle mass. I recommend a high-protein Nigerian meal plan with foods like beans, eggs, fish, and groundnut soup. Book a call to discuss a safe weight gain strategy.';color='#E07845';}
+  else if(bmi<25){cat='Healthy Weight ✓';tip='Great news! Your BMI is in the healthy range. My focus for you would be maintaining this through balanced Nigerian meals and sustainable habits — not restriction.';color='#3D5A47';}
+  else if(bmi<30){cat='Overweight';tip='You are in the overweight range, but this is very manageable. A structured 8-12 week plan focusing on portion control and Nigerian-friendly substitutions has helped over 200 of my clients.';color='#C4602A';}
+  else{cat='Obese';tip='Your BMI indicates a higher health risk. I strongly recommend a medically-guided nutrition plan. My Condition Management program is designed exactly for this — safe, evidence-based, and effective.';color='#8B1A1A';}
+  document.getElementById('bmiScore').textContent=`BMI: ${bmi}`;
+  document.getElementById('bmiScore').style.color=color;
+  document.getElementById('bmiCategory').textContent=cat;
+  document.getElementById('bmiTip').textContent=`💬 Coach's note: ${tip}`;
+  document.getElementById('bmiResult').classList.add('show');
+}
+</script>
+</body>
+</html>
