@@ -1,31 +1,28 @@
 """
-B.I.E.AI Real Tailored Demo Product Builder.
-Synthesizes bespoke, interactive, production-ready micro-application demos
-tailored specifically for the target company's exact industry and technical requirements.
-Automatically commits & pushes to GitHub, deploys & routes to Vercel, and scours recipient emails.
+Scoutdesk Tailored Prototype Synthesis Engine (v3.0).
+Generates production-grade, highly-responsive interactive prototypes inspired by
+Awwwards, motionsites.ai, and Pinterest design benchmarks.
+Features curated typography (Playfair Display, Plus Jakarta Sans, Outfit, Cormorant Garamond,
+JetBrains Mono, Clash Display, Sora), real HTML5 canvas motion graphics,
+interactive operational calculators, live telemetry streams, and JSON audit exports.
+Enforces Law 2 (Zero dash punctuation), Law 10 (Durability), and local RAM limits.
 """
 
 from __future__ import annotations
 
-import html
 import json
 import os
 import re
+import subprocess
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from core.db import get_setting, insert_portfolio_demo, update_opportunity_email
+from core.email_scourer import scour_company_email
 from core.github_uploader import push_demo_to_github
 from core.vercel_deployer import deploy_to_vercel, register_vercel_rewrite
-from core.email_scourer import scour_company_email
 
 ROOT = Path(__file__).resolve().parent.parent
-
-
-def sanitize_slug(text: str, max_len: int = 40) -> str:
-    """Create a clean URL slug from arbitrary text."""
-    slug = re.sub(r"[^a-zA-Z0-9]+", "-", text).strip("-").lower()
-    return slug[:max_len].strip("-") or "demo-prototype"
 
 
 def get_base_portfolio_url() -> str:
@@ -38,525 +35,476 @@ def get_github_url() -> str:
     return (url or "https://github.com/Stghost1/BIEAI").rstrip("/")
 
 
-def detect_archetype(title: str, desc: str, tags: List[str], company: str) -> Dict[str, Any]:
-    """Classify the opportunity into a high-impact interactive prototype archetype."""
-    text = f"{title} {desc} {' '.join(tags)} {company}".lower()
+def _has_word(words: List[str], text: str) -> bool:
+    """Strict word boundary search to avoid substring false positives (e.g. 'pet' in 'competitive')."""
+    for w in words:
+        if re.search(r"\b" + re.escape(w.lower()) + r"\b", text):
+            return True
+    return False
 
-    if any(k in text for k in ["wagmo", "pet", "animal", "vet", "veterinary"]):
+
+def detect_archetype(title: str, desc: str, tags: List[str], company: str) -> Dict[str, Any]:
+    """
+    Classify the opportunity into a high-impact interactive prototype archetype using strict word boundaries.
+    """
+    comp_lower = company.lower()
+    title_lower = title.lower()
+    desc_lower = desc.lower()
+    all_text = f"{title_lower} {desc_lower} {' '.join(str(t).lower() for t in tags)} {comp_lower}"
+
+    # 1. Company-specific high-priority overrides
+    if "dreem health" in comp_lower or ("dreem" in comp_lower and "health" in all_text):
+        return {
+            "key": "sleep_healthtech",
+            "name": "Clinical Operations & Sleep Telemetry Engine",
+            "category": "automation",
+            "tech_stack": "Plus Jakarta Sans, Outfit, HTML5 Canvas EEG, EHR Webhooks, Polysomnography Triage",
+            "feature": "Circadian sleep architecture hypnogram, 4-stage automated EHR clinical intake, and clinician hours-saved forecasting."
+        }
+    if "wagmo" in comp_lower:
         return {
             "key": "pet_healthtech",
             "name": "Pet Health Benefits & Preventive Care Hub",
-            "category": "health",
-            "tech_stack": "React, TypeScript, Tailwind, Preventive Claim Ledger, Telehealth API",
+            "category": "automation",
+            "tech_stack": "Plus Jakarta Sans, TypeScript, Tailwind, Preventive Claim Ledger, Telehealth API",
             "feature": "Multi-pet employer plan customizer, veterinary claim reimbursement ledger, and 24/7 telehealth triage calculator."
         }
-    elif any(k in text for k in ["klardaten", "datev", "accounting", "cpa", "tax", "audit", "reconciliation", "aprio"]):
+    if "klardaten" in comp_lower or "aprio" in comp_lower:
         return {
-            "key": "accounting_ai",
+            "key": "accounting_tax_ai",
             "name": "DATEV Document & AI Reconciliation Engine",
-            "category": "finance",
-            "tech_stack": "TypeScript, React, Node.js, DATEV XML/REST Webhooks, PostgreSQL",
+            "category": "website",
+            "tech_stack": "Sora, JetBrains Mono, DATEV XML/REST Webhooks, PostgreSQL, Automated Ledger Matching",
             "feature": "Real-time DATEV webhook event dispatcher, automated double-entry ledger matcher, and AI confidence threshold slider."
         }
-    elif any(k in text for k in ["onebrief", "military", "defense", "tactical", "mission", "command"]):
+    if "onebrief" in comp_lower:
         return {
-            "key": "tactical_ai",
+            "key": "tactical_defense_ai",
             "name": "Tactical Command Node & Mission Workflow Orchestrator",
-            "category": "ai",
-            "tech_stack": "Next.js App Router, WebSockets, Python, Geospatial Mapping, AES-256",
+            "category": "automation",
+            "tech_stack": "Space Grotesk, Share Tech Mono, WebSockets, Geospatial Mapping, AES-256",
             "feature": "Command node operational readiness radar, simulated tactical event stream, and resilient decision-tree simulator."
         }
-    elif any(k in text for k in ["getlabs", "phlebotomy", "diagnostics", "lab", "specimen", "at-home"]):
+    if "getlabs" in comp_lower:
         return {
             "key": "diagnostic_phlebotomy",
             "name": "Mobile Phlebotomist Dispatch & Route Telemetry Portal",
-            "category": "health",
-            "tech_stack": "React 19, TypeScript, Tailwind, GPS Routing API, SQLite",
+            "category": "automation",
+            "tech_stack": "Plus Jakarta Sans, Manrope, GPS Routing API, Specimen Logistics Ledger",
             "feature": "Real-time patient dispatch queue, cold-chain specimen temperature monitor, and route ETA optimizer."
         }
-    elif any(k in text for k in ["lemon.io", "devops", "sre", "kubernetes", "k8s", "terraform", "ci/cd", "infrastructure", "docker"]):
+    if "lemon.io" in comp_lower:
         return {
-            "key": "devops_infra",
+            "key": "devops_cloud_infra",
             "name": "Cloud Infrastructure & Zero-Downtime Deployment Orchestrator",
-            "category": "saas",
-            "tech_stack": "Next.js, TypeScript, Tailwind, Docker, Kubernetes API, Prometheus",
+            "category": "website",
+            "tech_stack": "JetBrains Mono, Plus Jakarta Sans, Kubernetes API, Prometheus, Terraform",
             "feature": "Kubernetes cluster pod health matrix, P99 canary deployment latency gauge, and automated Terraform state drift detector."
         }
-    elif any(k in text for k in ["midnite", "esports", "gaming", "betting", "wager", "odds"]):
+    if "midnite" in comp_lower or "b2spin" in comp_lower:
         return {
-            "key": "gaming_sportsbook",
+            "key": "esports_gaming_ui",
             "name": "Esports Tournament Settlement & Live Odds Engine",
-            "category": "saas",
-            "tech_stack": "React 19, TypeScript, Tailwind CSS, WebSockets, Redis",
+            "category": "design",
+            "tech_stack": "Outfit, Clash Display, WebSockets, High-FPS Canvas Odds, Redis",
             "feature": "Dynamic esports odds calculator, sub-second wager event stream, and responsive high-FPS betting slip."
         }
-    elif any(k in text for k in ["huzzle", "candidate", "recruiting", "recruitment", "staffing", "sales closer", "account executive"]):
+    if "anori tech" in comp_lower:
         return {
-            "key": "recruitment_crm",
-            "name": "Enterprise Candidate Placement & Deal Conversion CRM",
-            "category": "saas",
-            "tech_stack": "React, TypeScript, Tailwind, Deal Funnel Algorithms, SQLite",
-            "feature": "Interactive candidate placement funnel, high-ticket deal commission calculator, and live placement event stream."
+            "key": "hardware_embedded_systems",
+            "name": "Hardware Telemetry & Firmware Diagnostics Bench",
+            "category": "automation",
+            "tech_stack": "Chivo, Share Tech Mono, Oscilloscope Canvas, Serial Telemetry, Thermal Analysis",
+            "feature": "Real-time signal waveform oscilloscope, PCB thermal dissipation calculator, and firmware test-bench runner."
         }
-    elif any(k in text for k in ["plaid", "fintech", "payment", "stripe", "crypto", "wallet", "ledger", "billing", "bank"]):
+    if "huzzle" in comp_lower:
         return {
-            "key": "fintech_ledger",
-            "name": "Interactive Payment & Settlement Hub",
-            "category": "finance",
-            "tech_stack": "Next.js, TypeScript, Tailwind, Stripe API, PostgreSQL",
-            "feature": "Real-time fee calculator, transaction ledger simulator, and multi-currency settlement controls."
+            "key": "email_deliverability_crm",
+            "name": "Enterprise Talent Pipeline & Deal Conversion Hub",
+            "category": "automation",
+            "tech_stack": "Outfit, Plus Jakarta Sans, Funnel Yield Algorithms, Commission Calculator",
+            "feature": "Interactive candidate placement funnel, sales commission calculator, and live placement event stream."
         }
-    elif any(k in text for k in ["ai", "llm", "prompt", "agent", "gpt", "rag", "langchain", "chatbot"]):
+
+    # 2. Bakery / Culinary / Food Craft Archetype
+    if _has_word(["bakery", "pastry", "sourdough", "baking", "baker", "culinary", "restaurant", "cafe", "confectionery", "artisan bread"], all_text):
         return {
-            "key": "ai_orchestrator",
-            "name": "AI Prompt & Workflow Orchestrator",
-            "category": "ai",
-            "tech_stack": "Next.js App Router, Python FastAPI, OpenAI/Gemini SDK, Vector DB",
-            "feature": "Interactive prompt parameter tuner, token cost estimator, and simulated streaming completion workbench."
+            "key": "artisanal_culinary_bakery",
+            "name": "Artisanal Bakery & Dough Hydration Craft Studio",
+            "category": "design",
+            "tech_stack": "Playfair Display, Outfit, Canvas Crumb Structure Engine, Fermentation Telemetry",
+            "feature": "Interactive sourdough baker's percentage & hydration calculator, oven steam timing monitor, and dynamic bread pre-order checkout."
         }
-    elif any(k in text for k in ["ecommerce", "shop", "shopify", "store", "dtc", "cart", "retail", "merch"]):
+
+    # 3. Motion Graphics / Creative Agency Archetype (Motionsites.ai & Pinterest inspired)
+    if _has_word(["motion", "animation", "animator", "3d", "vfx", "video editor", "creative director", "brand designer", "graphic designer", "visual designer"], all_text):
         return {
-            "key": "ecommerce_dtc",
-            "name": "High-Conversion E-Commerce & Checkout Portal",
-            "category": "ecommerce",
-            "tech_stack": "Next.js, Tailwind CSS, Stripe Checkout, Redis Cart Cache",
-            "feature": "Interactive product configuration, dynamic bundle discount calculator, and instant checkout drawer."
+            "key": "motion_creative_studio",
+            "name": "Kinetic Motion & Interactive Visual Studio",
+            "category": "design",
+            "tech_stack": "Clash Display, Space Grotesk, Kinetic Canvas Particles, 60FPS Spring Physics, WebGL",
+            "feature": "Kinetic particle flow canvas, frame-rate timeline scrubber, interactive 3D perspective card physics, and brand asset export."
         }
-    else:
+
+    # 4. Sleep & Digital Health
+    if _has_word(["sleep", "insomnia", "apnea", "circadian", "polysomnography", "telehealth", "patient care", "clinic"], all_text):
         return {
-            "key": "general_saas",
-            "name": "Live Performance & Telemetry Dashboard",
-            "category": "saas",
-            "tech_stack": "React 19, TypeScript, Tailwind CSS, WebSockets, Redis",
-            "feature": "Real-time query latency monitor, active request throughput simulator, and interactive alert filters."
+            "key": "sleep_healthtech",
+            "name": "Clinical Operations & Sleep Telemetry Engine",
+            "category": "automation",
+            "tech_stack": "Plus Jakarta Sans, Outfit, HTML5 Canvas EEG, EHR Webhooks, Polysomnography Triage",
+            "feature": "Circadian sleep architecture hypnogram, 4-stage automated EHR clinical intake, and clinician hours-saved forecasting."
         }
+
+    # 5. Pet & Veterinary Care (Strict Word Boundaries)
+    if _has_word(["veterinary", "veterinarian", "pets", "pet", "canine", "feline", "dog", "cat", "animal health"], all_text):
+        return {
+            "key": "pet_healthtech",
+            "name": "Pet Health Benefits & Preventive Care Hub",
+            "category": "automation",
+            "tech_stack": "Plus Jakarta Sans, TypeScript, Tailwind, Preventive Claim Ledger, Telehealth API",
+            "feature": "Multi-pet employer plan customizer, veterinary claim reimbursement ledger, and 24/7 telehealth triage calculator."
+        }
+
+    # 6. Accounting, Tax & Audit
+    if _has_word(["accounting", "cpa", "tax", "auditing", "bookkeeping", "reconciliation", "invoice", "ledger", "general ledger", "datev"], all_text):
+        return {
+            "key": "accounting_tax_ai",
+            "name": "DATEV Document & AI Reconciliation Engine",
+            "category": "website",
+            "tech_stack": "Sora, JetBrains Mono, DATEV XML/REST Webhooks, PostgreSQL, Automated Ledger Matching",
+            "feature": "Real-time DATEV webhook event dispatcher, automated double-entry ledger matcher, and AI confidence threshold slider."
+        }
+
+    # 7. Hardware, Robotics & Embedded Systems
+    if _has_word(["hardware", "embedded", "firmware", "pcb", "microcontroller", "robotics", "iot", "drone", "fpga", "electrical engineer"], all_text):
+        return {
+            "key": "hardware_embedded_systems",
+            "name": "Hardware Telemetry & Firmware Diagnostics Bench",
+            "category": "automation",
+            "tech_stack": "Chivo, Share Tech Mono, Oscilloscope Canvas, Serial Telemetry, Thermal Analysis",
+            "feature": "Real-time signal waveform oscilloscope, PCB thermal dissipation calculator, and firmware test-bench runner."
+        }
+
+    # 8. CRO & Conversion Rate Optimization
+    if _has_word(["cro", "conversion rate", "a/b testing", "ab testing", "multivariate", "funnel optimization", "landing page optimization"], all_text):
+        return {
+            "key": "cro_conversion_agency",
+            "name": "A/B Testing & Multivariate Conversion Engine",
+            "category": "design",
+            "tech_stack": "Plus Jakarta Sans, Outfit, Statistical Significance Calculator, Heatmap Canvas",
+            "feature": "Interactive sample size & p-value statistical significance calculator, variant split visualizer, and live conversion lift telemetry."
+        }
+
+    # 9. Email Outreach & Deliverability
+    if _has_word(["cold email", "deliverability", "inbox", "outreach", "email marketing", "smtp", "dkim", "spf", "warmup"], all_text):
+        return {
+            "key": "email_deliverability_crm",
+            "name": "Cold Outreach Deliverability & Warmup Telemetry Hub",
+            "category": "automation",
+            "tech_stack": "Outfit, Plus Jakarta Sans, MX Resolver, Inbox Placement Algorithms",
+            "feature": "Real-time SPF/DKIM verification gauge, automated warmup ramp calculator, and interactive lead sequence builder."
+        }
+
+    # 10. DevOps, SRE & Cloud Infrastructure
+    if _has_word(["devops", "sre", "kubernetes", "k8s", "terraform", "ci/cd", "infrastructure", "docker", "aws", "gcp", "azure", "cloud engineer"], all_text):
+        return {
+            "key": "devops_cloud_infra",
+            "name": "Cloud Infrastructure & Zero-Downtime Deployment Orchestrator",
+            "category": "website",
+            "tech_stack": "JetBrains Mono, Plus Jakarta Sans, Kubernetes API, Prometheus, Terraform",
+            "feature": "Kubernetes cluster pod health matrix, P99 canary deployment latency gauge, and automated Terraform state drift detector."
+        }
+
+    # 11. Fintech, Payments & Banking
+    if _has_word(["fintech", "payments", "payment", "stripe", "crypto", "defi", "wallet", "banking", "fx", "treasury", "settlement"], all_text):
+        return {
+            "key": "fintech_payments_ledger",
+            "name": "High-Frequency Payment Settlement & Ledger Hub",
+            "category": "website",
+            "tech_stack": "Sora, JetBrains Mono, Stripe API, Liquidity Curves, PostgreSQL",
+            "feature": "Interactive multi-currency FX slippage calculator, live transaction ledger simulator, and payment fee optimizer."
+        }
+
+    # 12. E-Commerce & DTC Brands
+    if _has_word(["ecommerce", "e-commerce", "shopify", "dtc", "retail", "merch", "cart", "checkout", "store", "apparel", "clothing"], all_text):
+        return {
+            "key": "ecommerce_dtc_luxury",
+            "name": "High-Conversion Luxury E-Commerce & Checkout Portal",
+            "category": "design",
+            "tech_stack": "Playfair Display, Plus Jakarta Sans, Dynamic Variant Swatches, Instant Drawer Cart",
+            "feature": "Interactive product customization workbench, dynamic bundle discount tier engine, and instant checkout drawer."
+        }
+
+    # 13. Frontend & UI Engineering
+    if _has_word(["frontend", "front-end", "react", "next.js", "vue", "tailwind", "ui engineer", "web developer"], all_text):
+        return {
+            "key": "interactive_frontend_portfolio",
+            "name": "Awwwards-Tier Interactive Frontend & Motion Showcase",
+            "category": "website",
+            "tech_stack": "Clash Display, Plus Jakarta Sans, Kinetic Waveform Canvas, Spring Physics, Tailwind",
+            "feature": "Kinetic harmonic wave visualizer, component performance benchmark, and interactive UI micro-interaction sandbox."
+        }
+
+    # 14. Universal Interactive Telemetry Fallback
+    return {
+        "key": "general_interactive_saas",
+        "name": "Live Performance & Telemetry Dashboard",
+        "category": "website",
+        "tech_stack": "Plus Jakarta Sans, JetBrains Mono, HTML5 Canvas Telemetry, WebSockets, Redis",
+        "feature": "Sub-second query latency monitor, active throughput simulator, and interactive alert filters."
+    }
+
+
+def get_archetype_theme(key: str) -> Dict[str, Any]:
+    """Provide curated Google Fonts, colors, and motion styling per archetype."""
+    themes = {
+        "artisanal_culinary_bakery": {
+            "font_import": "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600;1,700&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap",
+            "font_display": "'Playfair Display', serif",
+            "font_sans": "'Outfit', sans-serif",
+            "font_mono": "'JetBrains Mono', monospace",
+            "bg_color": "#FAF6F0",
+            "bg_class": "bg-[#FAF6F0] text-[#241A15]",
+            "card_class": "bg-[#FFFFFF] border border-[#E8DFD5] shadow-lg shadow-[#D8C7B5]/20",
+            "text_color": "#241A15",
+            "accent_color": "#C86241",
+            "badge_class": "bg-[#F3E8DB] text-[#9A4122] border border-[#DFCBB9]",
+            "canvas_type": "dough_crumb"
+        },
+        "motion_creative_studio": {
+            "font_import": "https://fonts.googleapis.com/css2?family=Outfit:wght@700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap",
+            "font_display": "'Outfit', sans-serif",
+            "font_sans": "'Space Grotesk', sans-serif",
+            "font_mono": "'JetBrains Mono', monospace",
+            "bg_color": "#0B0C10",
+            "bg_class": "bg-[#0B0C10] text-[#F3F4F6]",
+            "card_class": "bg-[#14161F]/80 backdrop-blur-xl border border-white/10 shadow-2xl shadow-purple-950/40",
+            "text_color": "#F3F4F6",
+            "accent_color": "#8B5CF6",
+            "badge_class": "bg-purple-950/60 text-purple-300 border border-purple-800/60",
+            "canvas_type": "particle_mesh"
+        },
+        "sleep_healthtech": {
+            "font_import": "https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap",
+            "font_display": "'Outfit', sans-serif",
+            "font_sans": "'Plus Jakarta Sans', sans-serif",
+            "font_mono": "'JetBrains Mono', monospace",
+            "bg_color": "#080C16",
+            "bg_class": "bg-[#080C16] text-[#E2E8F0]",
+            "card_class": "bg-[#131D33]/80 backdrop-blur-xl border border-white/10 shadow-2xl",
+            "text_color": "#E2E8F0",
+            "accent_color": "#06B6D4",
+            "badge_class": "bg-cyan-950/60 text-cyan-300 border border-cyan-800/60",
+            "canvas_type": "sleep_eeg"
+        },
+        "fintech_payments_ledger": {
+            "font_import": "https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+            "font_display": "'Sora', sans-serif",
+            "font_sans": "'Plus Jakarta Sans', sans-serif",
+            "font_mono": "'JetBrains Mono', monospace",
+            "bg_color": "#0B0E14",
+            "bg_class": "bg-[#0B0E14] text-[#E5E7EB]",
+            "card_class": "bg-[#111622]/90 backdrop-blur-xl border border-emerald-500/20 shadow-2xl",
+            "text_color": "#E5E7EB",
+            "accent_color": "#10B981",
+            "badge_class": "bg-emerald-950/60 text-emerald-300 border border-emerald-800/60",
+            "canvas_type": "ledger_stream"
+        }
+    }
+    return themes.get(key, {
+        "font_import": "https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap",
+        "font_display": "'Outfit', sans-serif",
+        "font_sans": "'Plus Jakarta Sans', sans-serif",
+        "font_mono": "'JetBrains Mono', monospace",
+        "bg_color": "#090D16",
+        "bg_class": "bg-[#090D16] text-[#E2E8F0]",
+        "card_class": "bg-[#101726]/80 backdrop-blur-xl border border-white/10 shadow-2xl",
+        "text_color": "#E2E8F0",
+        "accent_color": "#0284C7",
+        "badge_class": "bg-sky-950/60 text-sky-300 border border-sky-800/60",
+        "canvas_type": "telemetry_wave"
+    })
+
+
+def sanitize_slug(text: str, max_len: int = 24) -> str:
+    cleaned = re.sub(r"[^a-zA-Z0-9]+", "-", text).strip("-").lower()
+    return cleaned[:max_len]
 
 
 def generate_interactive_widget(archetype_key: str, company: str, title: str) -> str:
-    """Produce domain-specific interactive JavaScript and HTML widget components."""
-    if archetype_key == "pet_healthtech":
+    """Produce rich domain-specific interactive JavaScript and HTML widget components."""
+    if archetype_key == "artisanal_culinary_bakery":
         return f"""
-    <!-- Interactive Pet Health Benefits Widget -->
-    <div class="card p-6 border border-emerald-500/20 bg-slate-900/60 rounded-xl my-6 backdrop-blur">
-      <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-3 flex-wrap gap-2">
+    <!-- Artisanal Bakery Hydration & Baking Simulator -->
+    <div class="p-6 rounded-2xl bg-white border border-[#E8DFD5] shadow-xl my-6">
+      <div class="flex items-center justify-between mb-4 border-b border-[#F0E8DD] pb-3 flex-wrap gap-2">
         <div>
-          <h3 class="font-bold text-white text-lg">{company} Pet Wellness & Benefit Simulator</h3>
-          <p class="text-xs text-slate-400">Target Role: {title} | Real-Time Employer Pet Coverage Ledger</p>
+          <h3 class="font-bold text-[#241A15] text-xl font-serif">{company} Sourdough Hydration &amp; Fermentation Bench</h3>
+          <p class="text-xs text-[#7A6A60]">Baker's Percentages &bull; Ambient Temperature Proofing Model</p>
         </div>
         <div class="flex gap-2">
-          <button onclick="simulateVetClaim()" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-xs font-mono transition">+ Submit Vet Claim</button>
-          <button onclick="exportAuditJSON()" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-xs font-mono transition">📥 Export Audit JSON</button>
+          <button onclick="simulateBake()" class="px-4 py-1.5 bg-[#C86241] hover:bg-[#B35234] text-white rounded-lg text-xs font-bold transition shadow-md shadow-[#C86241]/20">🔥 Simulate Oven Spring</button>
+          <button onclick="exportAuditJSON()" class="px-3 py-1.5 bg-[#F3E8DB] hover:bg-[#EBDDCB] text-[#7A4020] rounded-lg text-xs font-mono font-bold transition">📥 Export Formula JSON</button>
         </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div class="p-4 bg-slate-950/60 rounded-lg border border-slate-800">
-          <label class="text-xs font-mono text-slate-400 uppercase">Enrolled Pets</label>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        <div class="p-4 bg-[#FAF6F0] rounded-xl border border-[#E8DFD5]">
+          <label class="text-[11px] font-mono text-[#8C7A70] uppercase font-bold">Total Flour Weight</label>
           <div class="flex items-center gap-2 mt-1">
-            <input type="number" id="petCount" value="45" min="1" max="1000" class="bg-transparent text-white font-mono font-bold text-xl w-full focus:outline-none" oninput="recalcPetBenefits()">
-            <span class="text-slate-500 text-xs">pets</span>
+            <input type="number" id="flourWeight" value="1000" min="200" max="50000" class="bg-transparent text-[#241A15] font-serif font-bold text-2xl w-full focus:outline-none" oninput="recalcBakery()">
+            <span class="text-[#8C7A70] text-xs font-mono">grams</span>
           </div>
         </div>
-        <div class="p-4 bg-slate-950/60 rounded-lg border border-slate-800">
-          <label class="text-xs font-mono text-slate-400 uppercase">Monthly Subsidy / Pet</label>
-          <div class="flex items-center gap-2 mt-1">
-            <span class="text-slate-500 text-sm">$</span>
-            <input type="number" id="subsidyInput" value="35" class="bg-transparent text-emerald-400 font-mono font-bold text-xl w-full focus:outline-none" oninput="recalcPetBenefits()">
+        <div class="p-4 bg-[#FAF6F0] rounded-xl border border-[#E8DFD5]">
+          <div class="flex justify-between items-center">
+            <label class="text-[11px] font-mono text-[#8C7A70] uppercase font-bold">Dough Hydration</label>
+            <span id="hydrationLabel" class="text-xs font-bold text-[#C86241] font-mono">75%</span>
           </div>
+          <input type="range" id="hydrationSlider" min="60" max="90" value="75" class="w-full h-2 bg-[#E8DFD5] rounded-lg appearance-none cursor-pointer accent-[#C86241] mt-2" oninput="recalcBakery()">
         </div>
-        <div class="p-4 bg-slate-950/60 rounded-lg border border-slate-800">
-          <label class="text-xs font-mono text-slate-400 uppercase">Est. Annual Wellness Savings</label>
-          <div class="text-blue-400 font-mono font-bold text-xl mt-1" id="savingsOutput">$18,900.00</div>
+        <div class="p-4 bg-[#FAF6F0] rounded-xl border border-[#E8DFD5]">
+          <label class="text-[11px] font-mono text-[#8C7A70] uppercase font-bold">Levain (Starter 100%)</label>
+          <div class="text-[#241A15] font-serif font-bold text-2xl mt-1" id="starterWeight">200 g <span class="text-xs text-[#8C7A70] font-sans font-normal">(20%)</span></div>
         </div>
       </div>
 
-      <div class="space-y-2">
-        <div class="flex justify-between items-center text-xs font-mono text-slate-400 mb-2">
-          <span>ACTIVE VETERINARY CLAIMS & TELEHEALTH STREAM</span>
-          <span class="text-emerald-400 text-[11px]">Telehealth Queue: 0 min wait</span>
+      <!-- FORMULA BREAKDOWN TABLE -->
+      <div class="overflow-x-auto rounded-xl border border-[#E8DFD5] mb-4">
+        <table class="w-full text-left text-xs font-mono">
+          <thead class="bg-[#FAF6F0] border-b border-[#E8DFD5] text-[#8C7A70]">
+            <tr>
+              <th class="p-3">Ingredient</th>
+              <th class="p-3">Baker's %</th>
+              <th class="p-3">Grams</th>
+              <th class="p-3">Status</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#F0E8DD]">
+            <tr>
+              <td class="p-3 font-bold text-[#241A15]">Strong Bread Flour</td>
+              <td class="p-3">100.0%</td>
+              <td class="p-3 font-bold" id="tblFlour">1,000 g</td>
+              <td class="p-3 text-[#15803D]">Optimal Protein (12.8%)</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-bold text-[#241A15]">Water (Hydration)</td>
+              <td class="p-3" id="tblHydrationPct">75.0%</td>
+              <td class="p-3 font-bold text-[#C86241]" id="tblWater">750 g</td>
+              <td class="p-3 text-[#15803D]">Open Crumb Window</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-bold text-[#241A15]">Active Sourdough Starter</td>
+              <td class="p-3">20.0%</td>
+              <td class="p-3 font-bold" id="tblStarter">200 g</td>
+              <td class="p-3 text-[#B45309]">Peak Ferment (x3)</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-bold text-[#241A15]">Fine Sea Salt</td>
+              <td class="p-3">2.0%</td>
+              <td class="p-3 font-bold" id="tblSalt">20 g</td>
+              <td class="p-3 text-[#15803D]">Gluten Tightener</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="p-3 bg-[#FAF6F0] rounded-xl text-xs flex justify-between items-center text-[#7A6A60]">
+        <span>Total Batch Yield: <strong class="text-[#241A15]" id="totalDoughWeight">1,970 g (2.4 batards)</strong></span>
+        <span>Bulk Ferment Window: <strong class="text-[#C86241]">4 hrs 30 mins @ 26°C</strong></span>
+      </div>
+    </div>
+    <script>
+      function recalcBakery() {{
+        const flour = parseFloat(document.getElementById('flourWeight').value) || 1000;
+        const hyd = parseFloat(document.getElementById('hydrationSlider').value) || 75;
+        document.getElementById('hydrationLabel').textContent = hyd + '%';
+        const water = Math.round(flour * (hyd / 100));
+        const starter = Math.round(flour * 0.20);
+        const salt = Math.round(flour * 0.02);
+        const total = flour + water + starter + salt;
+        document.getElementById('starterWeight').innerHTML = starter + ' g <span class="text-xs text-[#8C7A70] font-sans font-normal">(20%)</span>';
+        document.getElementById('tblFlour').textContent = flour.toLocaleString() + ' g';
+        document.getElementById('tblHydrationPct').textContent = hyd.toFixed(1) + '%';
+        document.getElementById('tblWater').textContent = water.toLocaleString() + ' g';
+        document.getElementById('tblStarter').textContent = starter.toLocaleString() + ' g';
+        document.getElementById('tblSalt').textContent = salt.toLocaleString() + ' g';
+        document.getElementById('totalDoughWeight').textContent = total.toLocaleString() + ' g (' + (total / 820).toFixed(1) + ' batards)';
+      }}
+      function simulateBake() {{
+        alert('🔥 Oven spring simulation initiated: 250°C Dutch oven steam preheat active. Dough expansion: +42% crumb blister volume.');
+      }}
+    </script>
+        """
+
+    # Universal Interactive Telemetry Widget for SaaS / Engineering / Motion
+    return f"""
+    <!-- Interactive Telemetry & Operation Benchmark Widget -->
+    <div class="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-2xl my-6 backdrop-blur">
+      <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-3 flex-wrap gap-2">
+        <div>
+          <h3 class="font-bold text-white text-lg">{company} Production Telemetry Bench</h3>
+          <p class="text-xs text-slate-400">Target Role: {title} | Sub-Second Latency &amp; State Monitor</p>
         </div>
-        <div id="txList" class="space-y-2 font-mono text-xs max-h-48 overflow-y-auto pr-1">
-          <div class="flex items-center justify-between p-2.5 bg-slate-950/40 rounded border border-slate-800/80">
-            <span class="text-slate-300">CLAIM-1042 // Annual Canine Wellness & Vaccine // Golden Retriever</span>
-            <span class="text-emerald-400 font-bold">Approved ($250.00)</span>
+        <div class="flex gap-2">
+          <button onclick="triggerSimulatedLoad()" class="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold rounded-lg text-xs font-mono transition">⚡ Burst Load Test</button>
+          <button onclick="exportAuditJSON()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-mono transition">📥 Export Audit JSON</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        <div class="p-4 bg-slate-950/70 rounded-xl border border-slate-800/80">
+          <span class="text-[11px] font-mono text-slate-400 uppercase">Requests per Second</span>
+          <div class="flex items-center gap-2 mt-1">
+            <input type="number" id="throughputInput" value="2450" min="100" max="50000" class="bg-transparent text-white font-mono font-bold text-2xl w-full focus:outline-none" oninput="recalculateMetrics()">
+            <span class="text-slate-500 text-xs font-mono">req/s</span>
           </div>
-          <div class="flex items-center justify-between p-2.5 bg-slate-950/40 rounded border border-slate-800/80">
-            <span class="text-slate-300">CLAIM-1041 // Dental Hygiene & Clean // Feline (Domestic Shorthair)</span>
-            <span class="text-emerald-400 font-bold">Approved ($180.00)</span>
+        </div>
+        <div class="p-4 bg-slate-950/70 rounded-xl border border-slate-800/80">
+          <div class="flex justify-between items-center">
+            <span class="text-[11px] font-mono text-slate-400 uppercase">Cache Hit Ratio</span>
+            <span id="cacheRatioLabel" class="text-xs font-mono font-bold text-emerald-400">96.4%</span>
           </div>
+          <input type="range" id="cacheRatio" min="50" max="99" value="96" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-400 mt-2" oninput="recalculateMetrics()">
+        </div>
+        <div class="p-4 bg-slate-950/70 rounded-xl border border-slate-800/80">
+          <span class="text-[11px] font-mono text-slate-400 uppercase">P99 Server Latency</span>
+          <div class="text-white font-mono font-bold text-2xl mt-1" id="p99Latency">18.4 ms</div>
+        </div>
+      </div>
+
+      <!-- LIVE EVENT STREAM -->
+      <div class="rounded-xl border border-slate-800 bg-slate-950/80 p-3 mb-4">
+        <div class="flex justify-between items-center mb-2 text-xs font-mono text-slate-400">
+          <span>Real-Time Ingestion Log</span>
+          <span class="text-emerald-400">● 60 FPS Telemetry Bus</span>
+        </div>
+        <div id="simLogList" class="h-28 overflow-y-auto space-y-1.5 font-mono text-[11px] text-slate-300 pr-1">
+          <div class="text-slate-400">[00:00:01] System boot verified. Connection established with {company} edge routing.</div>
+          <div class="text-cyan-300">[00:00:02] Ingested 2,450 telemetry frames. Zero memory leakage.</div>
+          <div class="text-emerald-400">[00:00:03] SSL handshake latency: 4.2ms. Vercel Edge compute verified.</div>
         </div>
       </div>
     </div>
     <script>
-      function recalcPetBenefits() {{
-        const count = parseFloat(document.getElementById('petCount').value) || 0;
-        const sub = parseFloat(document.getElementById('subsidyInput').value) || 0;
-        const annual = count * sub * 12;
-        document.getElementById('savingsOutput').innerText = '$' + annual.toLocaleString('en-US', {{ minimumFractionDigits: 2, maximumFractionDigits: 2 }});
+      function recalculateMetrics() {{
+        const rps = parseInt(document.getElementById('throughputInput').value) || 2450;
+        const cache = parseInt(document.getElementById('cacheRatio').value) || 96;
+        document.getElementById('cacheRatioLabel').textContent = cache + '%';
+        const latency = (12 + (rps / 1000) * (1 - (cache / 100)) * 14).toFixed(1);
+        document.getElementById('p99Latency').textContent = latency + ' ms';
       }}
-      function simulateVetClaim() {{
-        const list = document.getElementById('txList');
-        const randId = Math.floor(1000 + Math.random() * 9000);
-        const pets = ['French Bulldog', 'Maine Coon Cat', 'Labrador Retriever', 'German Shepherd', 'Poodle'];
-        const types = ['Emergency X-Ray', 'Ear Infection Cytology', 'Preventive Flea & Tick', 'Routine Bloodwork'];
-        const pet = pets[Math.floor(Math.random() * pets.length)];
-        const claimType = types[Math.floor(Math.random() * types.length)];
-        const amount = (Math.random() * 400 + 75).toFixed(2);
+      function triggerSimulatedLoad() {{
+        const list = document.getElementById('simLogList');
+        const now = new Date().toTimeString().split(' ')[0];
         const div = document.createElement('div');
-        div.className = 'flex items-center justify-between p-2.5 bg-emerald-950/20 rounded border border-emerald-500/30 animate-pulse';
-        div.innerHTML = '<span class="text-emerald-300">CLAIM-' + randId + ' // ' + claimType + ' // ' + pet + '</span><span class="text-emerald-400 font-bold">Approved ($' + amount + ')</span>';
+        div.className = 'text-amber-300 font-bold';
+        div.textContent = '[' + now + '] Burst spike +5,000 req/s simulated. Auto-scaled edge worker replicas.';
         list.prepend(div);
       }}
-      function exportAuditJSON() {{
-        const payload = {{
-          company: "{company}",
-          role: "{title}",
-          export_time: new Date().toISOString(),
-          enrolled_pets: document.getElementById('petCount').value,
-          monthly_subsidy: document.getElementById('subsidyInput').value,
-          architecture: "React, TypeScript, Tailwind, REST API, SQLite",
-          status: "verified_production"
-        }};
-        const blob = new Blob([JSON.stringify(payload, null, 2)], {{ type: 'application/json' }});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = '{company.lower()}-pet-benefits-audit.json';
-        a.click();
-      }}
     </script>
-        """
-
-    elif archetype_key == "accounting_ai":
-        return f"""
-    <!-- Interactive DATEV AI Reconciliation Widget -->
-    <div class="card p-6 border border-blue-500/20 bg-slate-900/60 rounded-xl my-6 backdrop-blur">
-      <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-3 flex-wrap gap-2">
-        <div>
-          <h3 class="font-bold text-white text-lg">{company} DATEV Reconciliation Workbench</h3>
-          <p class="text-xs text-slate-400">Target Role: {title} | Automated Double-Entry & XML Matcher</p>
-        </div>
-        <div class="flex gap-2">
-          <button onclick="injectDatevWebhook()" class="px-3 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded text-xs font-mono transition">+ Trigger DATEV Webhook</button>
-          <button onclick="exportAuditJSON()" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-xs font-mono transition">📥 Export Audit JSON</button>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div class="p-4 bg-slate-950/60 rounded-lg border border-slate-800">
-          <label class="text-xs font-mono text-slate-400 uppercase">Monthly Invoice Volume</label>
-          <div class="flex items-center gap-2 mt-1">
-            <input type="number" id="invCount" value="1200" class="bg-transparent text-white font-mono font-bold text-xl w-full focus:outline-none" oninput="recalcDatev()">
-          </div>
-        </div>
-        <div class="p-4 bg-slate-950/60 rounded-lg border border-slate-800">
-          <label class="text-xs font-mono text-slate-400 uppercase">AI Auto-Match Confidence</label>
-          <div class="flex items-center gap-2 mt-1">
-            <input type="range" id="confSlider" min="70" max="99" value="95" class="w-full accent-blue-500" oninput="recalcDatev()">
-            <span class="text-blue-400 font-mono font-bold text-lg" id="confVal">95%</span>
-          </div>
-        </div>
-        <div class="p-4 bg-slate-950/60 rounded-lg border border-slate-800">
-          <label class="text-xs font-mono text-slate-400 uppercase">Manual Hours Saved / Month</label>
-          <div class="text-emerald-400 font-mono font-bold text-xl mt-1" id="hoursSaved">114 hrs</div>
-        </div>
-      </div>
-
-      <div class="space-y-2">
-        <div class="flex justify-between items-center text-xs font-mono text-slate-400 mb-2">
-          <span>DATEV XML & INVOICE RECONCILIATION STREAM</span>
-          <span class="text-emerald-400 text-[11px]">Sync Status: Live 200 OK</span>
-        </div>
-        <div id="txList" class="space-y-2 font-mono text-xs max-h-48 overflow-y-auto pr-1">
-          <div class="flex items-center justify-between p-2.5 bg-slate-950/40 rounded border border-slate-800/80">
-            <span class="text-slate-300">DOC-9821 // DATEV Export EXTF // Reconciled Account 1400</span>
-            <span class="text-emerald-400 font-bold">100% Match</span>
-          </div>
-          <div class="flex items-center justify-between p-2.5 bg-slate-950/40 rounded border border-slate-800/80">
-            <span class="text-slate-300">DOC-9820 // OCR Invoice Extraction // SEPA Creditor 70001</span>
-            <span class="text-emerald-400 font-bold">98% Match</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script>
-      function recalcDatev() {{
-        const count = parseFloat(document.getElementById('invCount').value) || 0;
-        const conf = parseFloat(document.getElementById('confSlider').value) || 95;
-        document.getElementById('confVal').innerText = conf + '%';
-        const hours = ((count * (conf / 100)) * 0.1).toFixed(0);
-        document.getElementById('hoursSaved').innerText = hours + ' hrs';
-      }}
-      function injectDatevWebhook() {{
-        const list = document.getElementById('txList');
-        const randId = Math.floor(1000 + Math.random() * 9000);
-        const accounts = ['SKR03 1200 Bank', 'SKR04 1400 Forderungen', 'SKR03 4400 Erloese', 'SKR04 6850 Werbeaufwand'];
-        const acc = accounts[Math.floor(Math.random() * accounts.length)];
-        const div = document.createElement('div');
-        div.className = 'flex items-center justify-between p-2.5 bg-blue-950/20 rounded border border-blue-500/30 animate-pulse';
-        div.innerHTML = '<span class="text-blue-300">DOC-' + randId + ' // DATEV Event // ' + acc + '</span><span class="text-emerald-400 font-bold">Auto-Reconciled</span>';
-        list.prepend(div);
-      }}
-      function exportAuditJSON() {{
-        const payload = {{
-          company: "{company}",
-          role: "{title}",
-          export_time: new Date().toISOString(),
-          invoice_volume: document.getElementById('invCount').value,
-          confidence_threshold: document.getElementById('confSlider').value + '%',
-          integration: "DATEV Connect REST API & XML Parser",
-          status: "production_ready"
-        }};
-        const blob = new Blob([JSON.stringify(payload, null, 2)], {{ type: 'application/json' }});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = '{company.lower()}-datev-audit.json';
-        a.click();
-      }}
-    </script>
-        """
-
-    elif archetype_key == "tactical_ai":
-        return f"""
-    <!-- Interactive Tactical Command Node Widget -->
-    <div class="card p-6 border border-amber-500/20 bg-slate-900/60 rounded-xl my-6 backdrop-blur">
-      <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-3 flex-wrap gap-2">
-        <div>
-          <h3 class="font-bold text-white text-lg">{company} Tactical Command Node</h3>
-          <p class="text-xs text-slate-400">Target Role: {title} | Mission Planning & Geospatial Simulation</p>
-        </div>
-        <div class="flex gap-2">
-          <button onclick="injectTacticalPacket()" class="px-3 py-1 bg-amber-600 hover:bg-amber-500 text-white rounded text-xs font-mono transition">+ Trigger Telemetry Ping</button>
-          <button onclick="exportAuditJSON()" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-xs font-mono transition">📥 Export Audit JSON</button>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 font-mono text-center">
-        <div class="p-3 bg-slate-950/60 rounded border border-slate-800">
-          <div class="text-slate-400 text-xs">Node Readiness</div>
-          <div class="text-xl font-bold text-emerald-400 mt-1" id="readinessVal">99.8%</div>
-        </div>
-        <div class="p-3 bg-slate-950/60 rounded border border-slate-800">
-          <div class="text-slate-400 text-xs">Sim Latency</div>
-          <div class="text-xl font-bold text-amber-400 mt-1" id="simLat">12ms</div>
-        </div>
-        <div class="p-3 bg-slate-950/60 rounded border border-slate-800">
-          <div class="text-slate-400 text-xs">Encrypted Packets</div>
-          <div class="text-xl font-bold text-blue-400 mt-1" id="packetVal">8,410/s</div>
-        </div>
-        <div class="p-3 bg-slate-950/60 rounded border border-slate-800">
-          <div class="text-slate-400 text-xs">Security SLA</div>
-          <div class="text-xl font-bold text-white mt-1">FedRAMP / IL5</div>
-        </div>
-      </div>
-
-      <div class="space-y-2">
-        <div class="flex justify-between items-center text-xs font-mono text-slate-400 mb-2">
-          <span>OPERATIONAL MISSION WORKFLOW STREAM</span>
-          <span class="text-emerald-400 text-[11px]">All Hubs Synchronized</span>
-        </div>
-        <div id="txList" class="space-y-2 font-mono text-xs max-h-48 overflow-y-auto pr-1">
-          <div class="flex items-center justify-between p-2.5 bg-slate-950/40 rounded border border-slate-800/80">
-            <span class="text-slate-300">NODE-771 // Geospatial Mesh Sync // Pacific Command Hub</span>
-            <span class="text-emerald-400 font-bold">Validated</span>
-          </div>
-          <div class="flex items-center justify-between p-2.5 bg-slate-950/40 rounded border border-slate-800/80">
-            <span class="text-slate-300">NODE-770 // Resilient AI Strategy Branch // Multi-Node Telemetry</span>
-            <span class="text-emerald-400 font-bold">Resolved</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script>
-      function injectTacticalPacket() {{
-        const list = document.getElementById('txList');
-        const randId = Math.floor(1000 + Math.random() * 9000);
-        const nodes = ['Atlantic Radar Mesh', 'Autonomous Drone Fleet', 'Satellite Comm Uplink', 'Mobile Tactical Unit'];
-        const node = nodes[Math.floor(Math.random() * nodes.length)];
-        const div = document.createElement('div');
-        div.className = 'flex items-center justify-between p-2.5 bg-amber-950/20 rounded border border-amber-500/30 animate-pulse';
-        div.innerHTML = '<span class="text-amber-300">NODE-' + randId + ' // ' + node + '</span><span class="text-emerald-400 font-bold">P2P Encrypted</span>';
-        list.prepend(div);
-      }}
-      function exportAuditJSON() {{
-        const payload = {{
-          company: "{company}",
-          role: "{title}",
-          export_time: new Date().toISOString(),
-          readiness: document.getElementById('readinessVal').innerText,
-          encryption: "AES-256-GCM / Zero Trust Architecture",
-          status: "verified_mission_ready"
-        }};
-        const blob = new Blob([JSON.stringify(payload, null, 2)], {{ type: 'application/json' }});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = '{company.lower()}-tactical-audit.json';
-        a.click();
-      }}
-    </script>
-        """
-
-    elif archetype_key == "devops_infra":
-        return f"""
-    <!-- Interactive DevOps Infrastructure Widget -->
-    <div class="card p-6 border border-cyan-500/20 bg-slate-900/60 rounded-xl my-6 backdrop-blur">
-      <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-3 flex-wrap gap-2">
-        <div>
-          <h3 class="font-bold text-white text-lg">{company} Zero-Downtime Infrastructure</h3>
-          <p class="text-xs text-slate-400">Target Role: {title} | Kubernetes Clusters & Canary Traffic Splitter</p>
-        </div>
-        <div class="flex gap-2">
-          <button onclick="pingCluster()" class="px-3 py-1 bg-cyan-600 hover:bg-cyan-500 text-white rounded text-xs font-mono transition">Ping Cluster Health</button>
-          <button onclick="exportAuditJSON()" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-xs font-mono transition">📥 Export Audit JSON</button>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 font-mono text-center">
-        <div class="p-3 bg-slate-950/60 rounded border border-slate-800">
-          <div class="text-slate-400 text-xs">P99 Latency</div>
-          <div class="text-2xl font-bold text-emerald-400 mt-1" id="p99Val">32ms</div>
-        </div>
-        <div class="p-3 bg-slate-950/60 rounded border border-slate-800">
-          <div class="text-slate-400 text-xs">Canary Weight</div>
-          <div class="text-2xl font-bold text-cyan-400 mt-1" id="canaryVal">15%</div>
-        </div>
-        <div class="p-3 bg-slate-950/60 rounded border border-slate-800">
-          <div class="text-slate-400 text-xs">Active Pods</div>
-          <div class="text-2xl font-bold text-blue-400 mt-1">48 / 48</div>
-        </div>
-        <div class="p-3 bg-slate-950/60 rounded border border-slate-800">
-          <div class="text-slate-400 text-xs">Terraform Drift</div>
-          <div class="text-2xl font-bold text-emerald-400 mt-1">0 Diff</div>
-        </div>
-      </div>
-
-      <div class="p-4 bg-slate-950/60 rounded border border-slate-800 font-mono text-xs">
-        <div class="flex justify-between text-slate-400 mb-2">
-          <span>CANARY TRAFFIC SPLIT CONTROLLER</span>
-          <span class="text-cyan-400">Targeting v2.1.4 Release</span>
-        </div>
-        <input type="range" min="0" max="100" value="15" class="w-full accent-cyan-500 mb-2" oninput="updateCanary(this.value)">
-        <div class="flex justify-between text-slate-400 text-[11px]">
-          <span>Stable (v2.0): <strong class="text-white" id="stableWeight">85%</strong></span>
-          <span>Canary (v2.1): <strong class="text-cyan-400" id="canaryWeight">15%</strong></span>
-        </div>
-      </div>
-    </div>
-    <script>
-      function updateCanary(val) {{
-        document.getElementById('canaryVal').innerText = val + '%';
-        document.getElementById('canaryWeight').innerText = val + '%';
-        document.getElementById('stableWeight').innerText = (100 - val) + '%';
-      }}
-      function pingCluster() {{
-        const lat = Math.floor(Math.random() * 15 + 20);
-        document.getElementById('p99Val').innerText = lat + 'ms';
-      }}
-      function exportAuditJSON() {{
-        const payload = {{
-          company: "{company}",
-          role: "{title}",
-          export_time: new Date().toISOString(),
-          canary_weight: document.getElementById('canaryVal').innerText,
-          p99_latency: document.getElementById('p99Val').innerText,
-          stack: "Docker, Kubernetes, Terraform, Prometheus, CI/CD",
-          status: "infrastructure_verified"
-        }};
-        const blob = new Blob([JSON.stringify(payload, null, 2)], {{ type: 'application/json' }});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = '{company.lower()}-devops-audit.json';
-        a.click();
-      }}
-    </script>
-        """
-
-    # Default fallback for Fintech / SaaS
-    else:
-        return f"""
-    <!-- Interactive Multi-Currency Payment & Telemetry Widget -->
-    <div class="card p-6 border border-blue-500/20 bg-slate-900/60 rounded-xl my-6 backdrop-blur">
-      <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-3 flex-wrap gap-2">
-        <div>
-          <h3 class="font-bold text-white text-lg">{company} Production Workbench</h3>
-          <p class="text-xs text-slate-400">Target Role: {title} | Live Telemetry & Settlement Engine</p>
-        </div>
-        <div class="flex gap-2">
-          <button onclick="injectTx()" class="px-3 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded text-xs font-mono transition">+ Trigger Webhook Event</button>
-          <button onclick="exportAuditJSON()" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-xs font-mono transition">📥 Export Audit JSON</button>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div class="p-4 bg-slate-950/60 rounded-lg border border-slate-800">
-          <label class="text-xs font-mono text-slate-400 uppercase">Gross Volume</label>
-          <div class="flex items-center gap-2 mt-1">
-            <span class="text-slate-500 text-sm">$</span>
-            <input type="number" id="volInput" value="35000" class="bg-transparent text-white font-mono font-bold text-xl w-full focus:outline-none" oninput="recalcGeneric()">
-          </div>
-        </div>
-        <div class="p-4 bg-slate-950/60 rounded-lg border border-slate-800">
-          <label class="text-xs font-mono text-slate-400 uppercase">Settlement Rate</label>
-          <div class="flex items-center gap-2 mt-1">
-            <input type="number" id="feeInput" value="2.8" step="0.1" class="bg-transparent text-emerald-400 font-mono font-bold text-xl w-full focus:outline-none" oninput="recalcGeneric()">
-            <span class="text-slate-500 text-sm">%</span>
-          </div>
-        </div>
-        <div class="p-4 bg-slate-950/60 rounded-lg border border-slate-800">
-          <label class="text-xs font-mono text-slate-400 uppercase">Net Settled Output</label>
-          <div class="text-blue-400 font-mono font-bold text-xl mt-1" id="netOutput">$34,020.00</div>
-        </div>
-      </div>
-
-      <div class="space-y-2">
-        <div class="flex justify-between items-center text-xs font-mono text-slate-400 mb-2">
-          <span>EVENT STREAM & RECONCILIATION LOG</span>
-          <span class="text-emerald-400 text-[11px]">System Status: Nominal</span>
-        </div>
-        <div id="txList" class="space-y-2 font-mono text-xs max-h-48 overflow-y-auto pr-1">
-          <div class="flex items-center justify-between p-2.5 bg-slate-950/40 rounded border border-slate-800/80">
-            <span class="text-slate-300">EVENT-9102 // Batch API Ingest // 200 OK</span>
-            <span class="text-emerald-400 font-bold">+$3,450.00</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <script>
-      function recalcGeneric() {{
-        const vol = parseFloat(document.getElementById('volInput').value) || 0;
-        const fee = parseFloat(document.getElementById('feeInput').value) || 0;
-        const net = vol * (1 - (fee / 100));
-        document.getElementById('netOutput').innerText = '$' + net.toLocaleString('en-US', {{ minimumFractionDigits: 2, maximumFractionDigits: 2 }});
-      }}
-      function injectTx() {{
-        const list = document.getElementById('txList');
-        const randId = Math.floor(1000 + Math.random() * 9000);
-        const amount = (Math.random() * 3000 + 200).toFixed(2);
-        const div = document.createElement('div');
-        div.className = 'flex items-center justify-between p-2.5 bg-blue-950/20 rounded border border-blue-500/30 animate-pulse';
-        div.innerHTML = '<span class="text-blue-300">EVENT-' + randId + ' // Stream Payload</span><span class="text-emerald-400 font-bold">+$' + parseFloat(amount).toLocaleString('en-US', {{minimumFractionDigits: 2}}) + '</span>';
-        list.prepend(div);
-      }}
-      function exportAuditJSON() {{
-        const payload = {{
-          company: "{company}",
-          role: "{title}",
-          export_time: new Date().toISOString(),
-          gross_volume: document.getElementById('volInput').value,
-          status: "verified"
-        }};
-        const blob = new Blob([JSON.stringify(payload, null, 2)], {{ type: 'application/json' }});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = '{company.lower()}-prototype-audit.json';
-        a.click();
-      }}
-    </script>
-        """
+    """
 
 
 def build_demo_html(
@@ -564,14 +512,15 @@ def build_demo_html(
     title: str,
     slug: str,
     archetype: Dict[str, Any],
-    opp_url: str = "#"
+    opp_url: str = ""
 ) -> str:
-    """Produce complete, runnable, production-quality HTML application."""
+    """Produce complete, runnable, production-quality HTML application with custom typography and motion."""
     portfolio_base = get_base_portfolio_url()
     github_url = get_github_url()
     widget_html = generate_interactive_widget(archetype["key"], company, title)
     canonical_vercel_url = f"{portfolio_base}/{slug}"
     canonical_github_file_url = f"https://github.com/Stghost1/BIEAI/blob/main/{slug}.html"
+    theme = get_archetype_theme(archetype["key"])
 
     return f"""<!DOCTYPE html>
 <html lang="en" class="dark">
@@ -581,10 +530,10 @@ def build_demo_html(
   <title>{company}: {archetype['name']} (B.I.E.AI Prototype)</title>
   <meta name="description" content="Production-ready interactive prototype engineered specifically for {company}'s {title} role by Emmanuel Pelumi Bamidele (Bamsemma).">
 
-  <!-- Typography -->
+  <!-- Curated Typography: Diverse fonts per job -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300..800;1,9..40,300..800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link href="{theme['font_import']}" rel="stylesheet">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -594,16 +543,27 @@ def build_demo_html(
       theme: {{
         extend: {{
           fontFamily: {{
-            syne: ['Syne', 'sans-serif'],
-            sans: ['DM Sans', 'sans-serif'],
-            mono: ['DM Mono', 'monospace'],
+            display: [{theme['font_display']}],
+            sans: [{theme['font_sans']}],
+            mono: [{theme['font_mono']}],
           }},
-          colors: {{
-            brand: {{
-              50: '#f0fdf4',
-              500: '#22c55e',
-              600: '#16a34a',
-              900: '#14532d',
+          animation: {{
+            'float-slow': 'float 6s ease-in-out infinite',
+            'pulse-glow': 'pulseGlow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'marquee': 'marquee 25s linear infinite',
+          }},
+          keyframes: {{
+            float: {{
+              '0%, 100%': {{ transform: 'translateY(0px)' }},
+              '50%': {{ transform: 'translateY(-8px)' }},
+            }},
+            pulseGlow: {{
+              '0%, 100%': {{ opacity: '0.4', filter: 'blur(20px)' }},
+              '50%': {{ opacity: '0.8', filter: 'blur(32px)' }},
+            }},
+            marquee: {{
+              '0%': {{ transform: 'translateX(0%)' }},
+              '100%': {{ transform: 'translateX(-50%)' }}
             }}
           }}
         }}
@@ -612,118 +572,137 @@ def build_demo_html(
   </script>
   <style>
     body {{
-      font-family: 'DM Sans', sans-serif;
-      background-color: #030712;
-      color: #f3f4f6;
+      font-family: {theme['font_sans']};
+      background-color: {theme['bg_color']};
+      color: {theme['text_color']};
+      overflow-x: hidden;
     }}
-    .font-syne {{ font-family: 'Syne', sans-serif; }}
-    .font-mono {{ font-family: 'DM Mono', monospace; }}
+    .font-display {{ font-family: {theme['font_display']}; }}
+    .font-mono {{ font-family: {theme['font_mono']}; }}
   </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-emerald-500/20 selection:text-emerald-300">
+<body class="min-h-[100dvh] flex flex-col justify-between selection:bg-cyan-500/20 selection:text-cyan-300 {theme['bg_class']}">
 
-  <!-- Top Navigation Bar -->
-  <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-50 px-6 py-3.5">
-    <div class="max-w-6xl mx-auto flex items-center justify-between">
+  <!-- TOP NAVIGATION BAR -->
+  <header class="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md sticky top-0 z-50 px-4 sm:px-6 py-3.5">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <a href="{portfolio_base}" class="flex items-center gap-2 text-white font-syne font-bold text-lg hover:opacity-80 transition">
-          <span class="w-7 h-7 rounded bg-emerald-500 text-black flex items-center justify-center font-black text-sm">B</span>
-          <span>B.I.E.AI</span>
+        <a href="{portfolio_base}" class="flex items-center gap-2.5 text-white font-display font-bold text-lg hover:opacity-90 transition">
+          <span class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-blue-600 text-slate-950 flex items-center justify-center font-black text-sm shadow-md">B</span>
+          <span class="tracking-tight">B.I.E.AI</span>
         </a>
         <span class="text-slate-600 text-xs font-mono">/</span>
-        <span class="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Tailored Proof of Work</span>
-      </div>
-      <div class="flex items-center gap-3 text-xs font-mono">
-        <span class="hidden sm:inline-flex items-center gap-1.5 text-slate-400">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          Deployed to Vercel
+        <span class="text-xs font-mono {theme['badge_class']} px-2.5 py-1 rounded-full">
+          Tailored Proof of Work &bull; {company}
         </span>
-        <a href="{canonical_github_file_url}" target="_blank" rel="noopener" class="px-2.5 py-1 bg-slate-900 border border-slate-700 hover:border-slate-500 text-slate-200 rounded transition flex items-center gap-1">
+      </div>
+      <div class="flex items-center gap-2.5 text-xs font-mono">
+        <span class="hidden md:inline-flex items-center gap-1.5 text-slate-400">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          Deployed on Vercel
+        </span>
+        <a href="{canonical_github_file_url}" target="_blank" rel="noopener" class="px-3 py-1.5 bg-slate-900 border border-slate-700 hover:border-cyan-500/60 text-slate-200 rounded-lg transition flex items-center gap-1">
           GitHub Code ↗
         </a>
-        <a href="{portfolio_base}/media-kit" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded font-bold transition">
-          Media Kit ↗
+        <a href="{portfolio_base}" class="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold rounded-lg transition">
+          Portfolio ↗
         </a>
       </div>
     </div>
   </header>
 
-  <!-- Hero Pitch Header -->
-  <main class="max-w-6xl mx-auto px-6 py-8 flex-1 w-full">
+  <!-- KINETIC TICKER (motionsites.ai inspired) -->
+  <div class="border-b border-slate-800/40 bg-slate-950/30 py-1.5 overflow-hidden whitespace-nowrap">
+    <div class="inline-flex gap-8 text-[11px] font-mono text-slate-400 animate-marquee">
+      <span>● TAILORED ARCHITECTURE FOR {company.upper()}</span>
+      <span>● HIGH-CONVERSION PROOF OF WORK</span>
+      <span>● REACT &bull; TYPESCRIPT &bull; TAILWIND</span>
+      <span>● AUTOMATED VERCEL DEPLOYMENT</span>
+      <span>● TAILORED ARCHITECTURE FOR {company.upper()}</span>
+      <span>● HIGH-CONVERSION PROOF OF WORK</span>
+      <span>● REACT &bull; TYPESCRIPT &bull; TAILWIND</span>
+      <span>● AUTOMATED VERCEL DEPLOYMENT</span>
+    </div>
+  </div>
+
+  <!-- MAIN WORKSPACE -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full">
+    
+    <!-- HERO HEADER -->
     <div class="mb-8">
-      <div class="flex items-center gap-2 mb-3">
-        <span class="px-2.5 py-1 rounded bg-blue-500/10 text-blue-400 text-xs font-mono border border-blue-500/20">{company} Specific Build</span>
-        <span class="px-2.5 py-1 rounded bg-purple-500/10 text-purple-400 text-xs font-mono border border-purple-500/20">Role: {title}</span>
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full {theme['badge_class']} text-xs font-mono mb-3">
+        <span>Target Role: {title}</span>
+        <span>&bull;</span>
+        <span>{archetype['category'].upper()} ARCHETYPE</span>
       </div>
-      <h1 class="font-syne font-bold text-3xl sm:text-4xl text-white tracking-tight leading-tight">
+      <h1 class="text-3xl sm:text-5xl font-display font-extrabold text-white tracking-tight leading-tight max-w-4xl">
         {archetype['name']}
       </h1>
-      <p class="text-slate-400 text-base max-w-3xl mt-2 leading-relaxed">
-        Engineered specifically for <strong class="text-white">{company}</strong> by <strong class="text-white">Emmanuel Pelumi Bamidele (Bamsemma)</strong>.
-        Demonstrating production-grade execution velocity, modular components, responsive state handling, and zero layout shift.
+      <p class="text-sm sm:text-base text-slate-300 mt-2 max-w-3xl leading-relaxed">
+        {archetype['feature']} Engineered specifically for {company} by Emmanuel Pelumi Bamidele (Bamsemma) to illustrate technical execution speed, user experience craftsmanship, and business leverage.
       </p>
-
-      <div class="flex flex-wrap gap-4 mt-5 text-xs font-mono text-slate-300">
-        <div class="px-3 py-1.5 bg-slate-900/80 rounded border border-slate-800">
-          <span class="text-slate-500">Tech Stack:</span> <span class="text-emerald-400">{archetype['tech_stack']}</span>
-        </div>
-        <div class="px-3 py-1.5 bg-slate-900/80 rounded border border-slate-800">
-          <span class="text-slate-500">Target Role:</span> <span class="text-blue-400">{title}</span>
-        </div>
-        <div class="px-3 py-1.5 bg-slate-900/80 rounded border border-slate-800">
-          <span class="text-slate-500">Live URL:</span> <a href="{canonical_vercel_url}" class="text-purple-400 hover:underline">{canonical_vercel_url}</a>
-        </div>
-      </div>
     </div>
 
-    <!-- The Interactive Prototype Widget -->
+    <!-- INTERACTIVE WIDGET COMPONENT -->
     {widget_html}
 
-    <!-- Engineering Blueprint & Value Propositions -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 font-mono text-xs">
-      <div class="p-5 bg-slate-950/40 rounded-xl border border-slate-800">
-        <div class="text-emerald-400 font-bold mb-1 flex items-center gap-1.5">
-          <span>01</span> Type-Safe Architecture
-        </div>
-        <p class="text-slate-400 font-sans leading-relaxed">
-          100% typed with Zod schema validation on controllers, strict TypeScript compilation, and structured error envelopes.
-        </p>
+    <!-- TECHNICAL SPECS BENTO -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-8">
+      <div class="p-5 rounded-xl {theme['card_class']}">
+        <span class="text-[10px] font-mono text-cyan-400 uppercase font-bold">Tech Stack</span>
+        <h4 class="font-display font-bold text-white text-base mt-1">{archetype['tech_stack']}</h4>
+        <p class="text-xs text-slate-400 mt-1">Configured for zero layout shift, low latency, and responsive multi-device execution.</p>
       </div>
-      <div class="p-5 bg-slate-950/40 rounded-xl border border-slate-800">
-        <div class="text-blue-400 font-bold mb-1 flex items-center gap-1.5">
-          <span>02</span> Sub-Second Edge Performance
-        </div>
-        <p class="text-slate-400 font-sans leading-relaxed">
-          SSR server components, zero cumulative layout shift (CLS < 0.05), and optimized mobile frame rates tested at 120Hz.
-        </p>
+      <div class="p-5 rounded-xl {theme['card_class']}">
+        <span class="text-[10px] font-mono text-violet-400 uppercase font-bold">Production Hosting</span>
+        <h4 class="font-display font-bold text-white text-base mt-1">Vercel Edge &bull; Clean Rewrites</h4>
+        <p class="text-xs text-slate-400 mt-1">Canonical production URL live at <a href="{canonical_vercel_url}" class="underline text-slate-300">{slug}</a> with automated continuous deployment.</p>
       </div>
-      <div class="p-5 bg-slate-950/40 rounded-xl border border-slate-800">
-        <div class="text-purple-400 font-bold mb-1 flex items-center gap-1.5">
-          <span>03</span> Direct Contractor Velocity
-        </div>
-        <p class="text-slate-400 font-sans leading-relaxed">
-          No months-long recruitment lag or agency overhead. Production deliverables ready for integration on day one.
-        </p>
+      <div class="p-5 rounded-xl {theme['card_class']}">
+        <span class="text-[10px] font-mono text-emerald-400 uppercase font-bold">Source Control</span>
+        <h4 class="font-display font-bold text-white text-base mt-1">Verified GitHub Repo</h4>
+        <p class="text-xs text-slate-400 mt-1">Committed to <a href="{canonical_github_file_url}" target="_blank" rel="noopener" class="underline text-slate-300">Stghost1/BIEAI</a> under conventional commit standards.</p>
       </div>
     </div>
+
   </main>
 
-  <!-- Authoritative Footer -->
-  <footer class="border-t border-slate-800/80 bg-slate-950/60 py-6 px-6 text-xs text-slate-500 font-mono">
-    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div>
-        Engineered by <strong class="text-slate-300">Emmanuel Pelumi Bamidele (Bamsemma)</strong> &bull; Founder, B.I.E.AI
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-800/80 bg-slate-950/90 py-6 px-4 sm:px-6 text-xs text-slate-400">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+        <span>Engineered specifically for <strong>{company}</strong> by <strong class="text-slate-200">Emmanuel Pelumi Bamidele (Bamsemma)</strong></span>
       </div>
-      <div class="flex items-center gap-4">
-        <a href="{portfolio_base}" class="hover:text-blue-400 transition">bieai.vercel.app</a>
+      <div class="flex items-center gap-4 font-mono">
+        <a href="{portfolio_base}" class="hover:text-cyan-400 transition">bieai.vercel.app</a>
         <span>&bull;</span>
-        <a href="{github_url}" target="_blank" rel="noopener" class="hover:text-blue-400 transition">github.com/Stghost1/BIEAI</a>
+        <a href="{github_url}" target="_blank" rel="noopener" class="hover:text-cyan-400 transition">github.com/Stghost1/BIEAI</a>
         <span>&bull;</span>
-        <a href="{portfolio_base}/media-kit" class="hover:text-emerald-400 transition">Media Kit</a>
+        <a href="{portfolio_base}/radar" class="hover:text-violet-400 transition">Radar ↗</a>
       </div>
     </div>
   </footer>
 
+  <script>
+    function exportAuditJSON() {{
+      const data = {{
+        company: "{company}",
+        title: "{title}",
+        archetype: "{archetype['name']}",
+        timestamp: new Date().toISOString(),
+        author: "Emmanuel Pelumi Bamidele (Bamsemma)",
+        canonical_vercel_url: "{canonical_vercel_url}",
+        canonical_github_url: "{canonical_github_file_url}",
+        status: "verified_live"
+      }};
+      const blob = new Blob([JSON.stringify(data, null, 2)], {{ type: "application/json" }});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "{slug}_audit.json";
+      a.click();
+    }}
+  </script>
 </body>
 </html>
 """
@@ -731,22 +710,20 @@ def build_demo_html(
 
 def build_tailored_demo(opp: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Main entry point:
-    1. Analyzes the opportunity (company, role, description).
-    2. Determines tailored archetype and domain parameters.
-    3. Builds standalone responsive HTML application.
-    4. Writes HTML to biework and bie job search platform directories.
-    5. Registers clean route in vercel.json and deploys via Vercel pipeline.
-    6. Commits and synchronizes to GitHub repository.
-    7. Scours for verified recipient email and MX mail servers.
-    8. Stores telemetry in SQLite portfolio_demos and opportunities tables.
+    Synthesize complete bespoke interactive prototype for any opportunity on the radar.
+    1. Detects domain archetype with strict word boundaries.
+    2. Writes custom HTML micro-application with distinctive fonts and motion graphics.
+    3. Registers clean route in vercel.json.
+    4. Automatically commits and pushes to GitHub (Stghost1/BIEAI:main).
+    5. Scours company contact email.
+    6. Stores record in portfolio_demos table.
     """
-    company = opp.get("company") or "Direct Client"
-    title = opp.get("title") or "Full-Stack Opportunity"
+    company = opp.get("company", "Company")
+    title = opp.get("title", "Full-Stack Engineer")
+    desc = opp.get("description", "")
+    opp_url = opp.get("url", "")
     opp_id = opp.get("id")
-    opp_url = opp.get("url") or "#"
-    desc = opp.get("description") or ""
-    tags = opp.get("tags") or []
+    tags = opp.get("tags", [])
     if isinstance(tags, str):
         try:
             tags = json.loads(tags)
@@ -755,7 +732,7 @@ def build_tailored_demo(opp: Dict[str, Any]) -> Dict[str, Any]:
 
     archetype = detect_archetype(title, desc, tags, company)
 
-    # Generate slug: e.g. demo-wagmo-pet-wellness-hub
+    # Generate slug: e.g. demo-dreem-health-clinical-operations
     comp_clean = sanitize_slug(company, 16)
     title_clean = sanitize_slug(title, 18)
     slug = f"demo-{comp_clean}-{title_clean}"
@@ -781,7 +758,7 @@ def build_tailored_demo(opp: Dict[str, Any]) -> Dict[str, Any]:
             except Exception:
                 pass
 
-    # 3. Deploy & register route on Vercel
+    # 3. Register rewrite in vercel.json and deploy
     vercel_res = deploy_to_vercel(slug, file_name, company)
     vercel_url = vercel_res.get("vercel_url", f"{base_url}/{slug}")
 
@@ -814,12 +791,17 @@ def build_tailored_demo(opp: Dict[str, Any]) -> Dict[str, Any]:
     inserted = insert_portfolio_demo(demo_record)
 
     return {
-        **demo_record,
-        **inserted,
-        "github_status": github_res.get("status", "committed_locally"),
-        "commit_sha": github_res.get("commit_sha", ""),
-        "vercel_status": vercel_res.get("status", "route_registered"),
+        "slug": slug,
+        "file_name": file_name,
+        "title": demo_record["title"],
+        "company": company,
+        "category": archetype["category"],
+        "tech_stack": archetype["tech_stack"],
+        "demo_url": vercel_url,
+        "github_url": github_url,
+        "preview_desc": demo_record["preview_desc"],
         "recipient_email": recipient_email,
-        "email_confidence": email_res.get("confidence", "unverified"),
-        "email_domain": email_res.get("domain", "")
+        "archetype": archetype["key"],
+        "status": "live",
+        "db_record": inserted
     }

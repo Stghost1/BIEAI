@@ -32,7 +32,8 @@ from core.email_scourer import scour_company_email
 def run_autopilot_pipeline(
     opp_id: int,
     auto_send: Optional[bool] = None,
-    recipient_override: Optional[str] = None
+    recipient_override: Optional[str] = None,
+    force_rebuild: bool = True
 ) -> Dict[str, Any]:
     """
     Execute autonomous workflow for a single opportunity.
@@ -45,14 +46,20 @@ def run_autopilot_pipeline(
     title = opp.get("title", "Full-Stack Opportunity")
     logs: List[str] = [f"Initiating B.I.E.AI Auto-Pilot for {company} ({title})."]
 
-    # 1. Check or build tailored interactive demo
+    # 1. Synthesize dedicated interactive demo
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM portfolio_demos WHERE opportunity_id = ?", (opp_id,))
     row = cursor.fetchone()
     conn.close()
 
-    if row:
+    needs_build = force_rebuild or (not row)
+    if row and not force_rebuild:
+        demo = dict(row)
+        if "biework.vercel.app" in demo.get("demo_url", "") or "Pet Health" in demo.get("title", "") and "dreem" in company.lower():
+            needs_build = True
+
+    if not needs_build and row:
         demo = dict(row)
         logs.append(f"Found existing tailored prototype in vault: {demo['title']} -> {demo['demo_url']}")
     else:

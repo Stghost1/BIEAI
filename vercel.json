@@ -69,6 +69,18 @@
     {
       "source": "/demo-huzzle-account-executive",
       "destination": "/demo-huzzle-account-executive.html"
+    },
+    {
+      "source": "/demo-highlevel-lead-product-desig",
+      "destination": "/demo-highlevel-lead-product-desig.html"
+    },
+    {
+      "source": "/demo-autoscout24-engineering-manage",
+      "destination": "/demo-autoscout24-engineering-manage.html"
+    },
+    {
+      "source": "/demo-bjak-frontend-engineer",
+      "destination": "/demo-bjak-frontend-engineer.html"
     }
   ]
 }

@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dreem Health &bull; Pet Health Benefits & Preventive Care Hub &mdash; B.I.E.AI Prototype</title>
-  <meta name="description" content="Production-ready interactive prototype engineered specifically for Dreem Health's Digital Workplace & Automation Specialist role by Emmanuel Pelumi Bamidele (Bamsemma).">
+  <title>Dreem Health: Digital Workplace & Clinical Automation Hub (B.I.E.AI Prototype)</title>
+  <meta name="description" content="Production-ready interactive clinical automation prototype engineered specifically for Dreem Health's Digital Workplace & Automation Specialist role by Emmanuel Pelumi Bamidele (Bamsemma).">
 
-  <!-- Typography -->
+  <!-- Curated Distinctive Typography: Plus Jakarta Sans + Outfit + JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300..800;1,9..40,300..800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -19,16 +19,39 @@
       theme: {
         extend: {
           fontFamily: {
-            syne: ['Syne', 'sans-serif'],
-            sans: ['DM Sans', 'sans-serif'],
-            mono: ['DM Mono', 'monospace'],
+            display: ['Outfit', 'sans-serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
           },
           colors: {
-            brand: {
-              50: '#f0fdf4',
-              500: '#22c55e',
-              600: '#16a34a',
-              900: '#14532d',
+            dreem: {
+              bg: '#080C16',
+              surface: '#0F172A',
+              card: '#131D33',
+              border: '#1E293B',
+              teal: '#06B6D4',
+              violet: '#8B5CF6',
+              mint: '#10B981',
+              amber: '#F59E0B'
+            }
+          },
+          animation: {
+            'float-slow': 'float 6s ease-in-out infinite',
+            'pulse-glow': 'pulseGlow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'marquee': 'marquee 28s linear infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-8px)' },
+            },
+            pulseGlow: {
+              '0%, 100%': { opacity: '0.4', filter: 'blur(24px)' },
+              '50%': { opacity: '0.8', filter: 'blur(36px)' },
+            },
+            marquee: {
+              '0%': { transform: 'translateX(0%)' },
+              '100%': { transform: 'translateX(-50%)' }
             }
           }
         }
@@ -37,207 +60,516 @@
   </script>
   <style>
     body {
-      font-family: 'DM Sans', sans-serif;
-      background-color: #030712;
-      color: #f3f4f6;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #080C16;
+      color: #E2E8F0;
+      overflow-x: hidden;
     }
-    .font-syne { font-family: 'Syne', sans-serif; }
-    .font-mono { font-family: 'DM Mono', monospace; }
+    .font-display { font-family: 'Outfit', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    
+    /* Aurora Mesh Background */
+    .aurora-bg {
+      background: radial-gradient(circle at 15% 20%, rgba(6, 182, 212, 0.15) 0%, transparent 40%),
+                  radial-gradient(circle at 85% 15%, rgba(139, 92, 246, 0.18) 0%, transparent 45%),
+                  radial-gradient(circle at 50% 80%, rgba(16, 185, 129, 0.12) 0%, transparent 50%),
+                  #080C16;
+    }
+    
+    .glass-card {
+      background: rgba(19, 29, 51, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+    }
+    
+    .glass-card:hover {
+      border-color: rgba(6, 182, 212, 0.3);
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #080C16; }
+    ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #334155; }
   </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-emerald-500/20 selection:text-emerald-300">
+<body class="min-h-[100dvh] flex flex-col justify-between selection:bg-cyan-500/20 selection:text-cyan-300 aurora-bg">
 
-  <!-- Top Navigation Bar -->
-  <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-50 px-6 py-3.5">
-    <div class="max-w-6xl mx-auto flex items-center justify-between">
+  <!-- TOP BRAND NAV -->
+  <header class="border-b border-slate-800/80 bg-[#080C16]/80 backdrop-blur-md sticky top-0 z-50 px-4 sm:px-6 py-3.5">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <a href="https://biework.vercel.app" class="flex items-center gap-2 text-white font-syne font-bold text-lg hover:opacity-80 transition">
-          <span class="w-7 h-7 rounded bg-emerald-500 text-black flex items-center justify-center font-black text-sm">B</span>
-          <span>B.I.E.AI</span>
+        <a href="https://bieai.vercel.app" class="flex items-center gap-2.5 text-white font-display font-bold text-lg hover:opacity-90 transition">
+          <span class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-violet-500 text-slate-950 flex items-center justify-center font-black text-sm shadow-lg shadow-cyan-500/20">B</span>
+          <span class="tracking-tight">B.I.E.AI</span>
         </a>
         <span class="text-slate-600 text-xs font-mono">/</span>
-        <span class="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Tailored Proof of Work</span>
-      </div>
-      <div class="flex items-center gap-3 text-xs font-mono">
-        <span class="hidden sm:inline-flex items-center gap-1.5 text-slate-400">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          Deployed to Vercel
+        <span class="text-xs font-mono text-cyan-400 bg-cyan-950/60 px-2.5 py-1 rounded-full border border-cyan-800/50 flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+          Dreem Health Clinical Sandbox
         </span>
-        <a href="https://github.com/bamsemma/biework/blob/main/demo-dreem-health-digital-workplace.html" target="_blank" rel="noopener" class="px-2.5 py-1 bg-slate-900 border border-slate-700 hover:border-slate-500 text-slate-200 rounded transition flex items-center gap-1">
+      </div>
+      <div class="flex items-center gap-2.5 sm:gap-3 text-xs font-mono">
+        <span class="hidden md:inline-flex items-center gap-1.5 text-slate-400">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          Vercel Production Live
+        </span>
+        <a href="https://github.com/Stghost1/BIEAI/blob/main/demo-dreem-health-digital-workplace.html" target="_blank" rel="noopener" class="px-3 py-1.5 bg-slate-900/90 border border-slate-700/80 hover:border-cyan-500/60 text-slate-200 rounded-lg transition flex items-center gap-1">
           GitHub Code ↗
         </a>
-        <a href="https://biework.vercel.app/media-kit" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded font-bold transition">
-          Media Kit ↗
+        <a href="https://bieai.vercel.app" class="px-3 py-1.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold rounded-lg transition shadow-md shadow-cyan-500/10">
+          Agency Home ↗
         </a>
       </div>
     </div>
   </header>
 
-  <!-- Hero Pitch Header -->
-  <main class="max-w-6xl mx-auto px-6 py-8 flex-1 w-full">
-    <div class="mb-8">
-      <div class="flex items-center gap-2 mb-3">
-        <span class="px-2.5 py-1 rounded bg-blue-500/10 text-blue-400 text-xs font-mono border border-blue-500/20">Dreem Health Specific Build</span>
-        <span class="px-2.5 py-1 rounded bg-purple-500/10 text-purple-400 text-xs font-mono border border-purple-500/20">Role: Digital Workplace & Automation Specialist</span>
-      </div>
-      <h1 class="font-syne font-bold text-3xl sm:text-4xl text-white tracking-tight leading-tight">
-        Pet Health Benefits & Preventive Care Hub
-      </h1>
-      <p class="text-slate-400 text-base max-w-3xl mt-2 leading-relaxed">
-        Engineered specifically for <strong class="text-white">Dreem Health</strong> by <strong class="text-white">Emmanuel Pelumi Bamidele (Bamsemma)</strong>.
-        Demonstrating production-grade execution velocity, modular components, responsive state handling, and zero layout shift.
-      </p>
-
-      <div class="flex flex-wrap gap-4 mt-5 text-xs font-mono text-slate-300">
-        <div class="px-3 py-1.5 bg-slate-900/80 rounded border border-slate-800">
-          <span class="text-slate-500">Tech Stack:</span> <span class="text-emerald-400">React, TypeScript, Tailwind, Preventive Claim Ledger, Telehealth API</span>
-        </div>
-        <div class="px-3 py-1.5 bg-slate-900/80 rounded border border-slate-800">
-          <span class="text-slate-500">Target Role:</span> <span class="text-blue-400">Digital Workplace & Automation Specialist</span>
-        </div>
-        <div class="px-3 py-1.5 bg-slate-900/80 rounded border border-slate-800">
-          <span class="text-slate-500">Live URL:</span> <a href="https://biework.vercel.app/demo-dreem-health-digital-workplace" class="text-purple-400 hover:underline">https://biework.vercel.app/demo-dreem-health-digital-workplace</a>
-        </div>
-      </div>
+  <!-- KINETIC TICKER RIBBON (Motionsites.ai benchmark) -->
+  <div class="border-b border-slate-800/50 bg-slate-950/40 py-1.5 overflow-hidden whitespace-nowrap">
+    <div class="inline-flex gap-8 text-[11px] font-mono text-slate-400 animate-marquee">
+      <span>● DREEM HEALTH DIGITAL WORKPLACE</span>
+      <span>● CIRCADIAN RESTORATIVE SLEEP TELEMETRY</span>
+      <span>● AUTOMATED EHR INTAKE &amp; TRIAGE</span>
+      <span>● ZERO-LATENCY CLINICAL NOTIFICATION DISPATCH</span>
+      <span>● AHI RISK SCORING VIA WEBSOCKETS</span>
+      <span>● DREEM HEALTH DIGITAL WORKPLACE</span>
+      <span>● CIRCADIAN RESTORATIVE SLEEP TELEMETRY</span>
+      <span>● AUTOMATED EHR INTAKE &amp; TRIAGE</span>
+      <span>● ZERO-LATENCY CLINICAL NOTIFICATION DISPATCH</span>
+      <span>● AHI RISK SCORING VIA WEBSOCKETS</span>
     </div>
+  </div>
 
-    <!-- The Interactive Prototype Widget -->
+  <!-- MAIN APP CONTAINER -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full">
     
-    <!-- Interactive Pet Health Benefits Widget -->
-    <div class="card p-6 border border-emerald-500/20 bg-slate-900/60 rounded-xl my-6 backdrop-blur">
-      <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-3 flex-wrap gap-2">
+    <!-- HERO SECTION -->
+    <div class="mb-8">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/30 text-violet-300 text-xs font-mono mb-3">
+        <span>Target Role: Digital Workplace &amp; Automation Specialist</span>
+        <span class="text-slate-500">&bull;</span>
+        <span class="text-cyan-400">Clinical Workflow &amp; Patient Telemetry Suite</span>
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-display font-extrabold text-white tracking-tight leading-tight max-w-4xl">
+        Automated Clinical Operations &amp; <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-violet-400 to-emerald-400">Sleep Telemetry Engine</span>
+      </h1>
+      <p class="text-sm sm:text-base text-slate-300 mt-2 max-w-3xl leading-relaxed">
+        Engineered specifically for Dreem Health to eliminate manual clinician triage bottlenecks. Features live circadian EEG hypnogram rendering, interactive 4-stage digital workflow triggers, automated AHI scoring, and dynamic ROI clinic capacity forecasting.
+      </p>
+    </div>
+
+    <!-- PRIMARY INTERACTIVE GRID: WORKFLOW BUILDER + SLEEP TELEMETRY CANVAS -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+      
+      <!-- LEFT: CIRCADIAN SLEEP TELEMETRY CANVAS (7 cols) -->
+      <div class="lg:col-span-7 glass-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between">
+        <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></span>
+              <h2 class="font-display font-bold text-white text-lg">Circadian Sleep Architecture Telemetry</h2>
+            </div>
+            <p class="text-xs text-slate-400 font-mono mt-0.5">Real-time polysomnography simulation &bull; Dreem EEG Band Telemetry</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span id="hypnoStage" class="text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">REM SLEEP (Cycle 3)</span>
+          </div>
+        </div>
+
+        <!-- HTML5 CANVAS FOR SLEEP WAVES -->
+        <div class="relative w-full h-52 sm:h-64 bg-slate-950/80 rounded-xl border border-slate-800/80 overflow-hidden flex items-center justify-center">
+          <canvas id="sleepCanvas" class="w-full h-full"></canvas>
+          <div class="absolute bottom-2.5 left-3 text-[10px] font-mono text-slate-400 flex items-center gap-3">
+            <span>Delta: <strong class="text-violet-400" id="deltaVal">1.8 Hz</strong></span>
+            <span>Theta: <strong class="text-cyan-400" id="thetaVal">5.4 Hz</strong></span>
+            <span>Alpha: <strong class="text-emerald-400" id="alphaVal">9.8 Hz</strong></span>
+            <span>AHI Index: <strong class="text-amber-400" id="ahiVal">3.2/hr</strong></span>
+          </div>
+          <div class="absolute top-2.5 right-3 flex gap-1.5">
+            <button onclick="setSleepPhase('deep')" class="text-[10px] font-mono px-2 py-0.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded border border-slate-700">Deep (N3)</button>
+            <button onclick="setSleepPhase('rem')" class="text-[10px] font-mono px-2 py-0.5 bg-cyan-950 hover:bg-cyan-900 text-cyan-300 rounded border border-cyan-700">REM</button>
+            <button onclick="setSleepPhase('light')" class="text-[10px] font-mono px-2 py-0.5 bg-slate-900 hover:bg-slate-800 text-slate-300 rounded border border-slate-700">Light (N2)</button>
+          </div>
+        </div>
+
+        <!-- CANVAS CONTROLS -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4 pt-4 border-t border-slate-800/80 text-xs">
+          <div>
+            <span class="text-slate-400 text-[11px] block">Patient Intake State</span>
+            <strong class="text-white font-mono text-sm" id="patientStatusText">Connected &bull; Active</strong>
+          </div>
+          <div>
+            <span class="text-slate-400 text-[11px] block">Heart Rate Variability</span>
+            <strong class="text-cyan-400 font-mono text-sm" id="hrvText">68 ms</strong>
+          </div>
+          <div>
+            <span class="text-slate-400 text-[11px] block">Oxygen Desaturation</span>
+            <strong class="text-emerald-400 font-mono text-sm" id="spO2Text">97.8% (Normal)</strong>
+          </div>
+          <div>
+            <span class="text-slate-400 text-[11px] block">Noise Cancellation</span>
+            <strong class="text-violet-400 font-mono text-sm">Active (99.4%)</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: DIGITAL WORKPLACE AUTOMATION PIPELINE (5 cols) -->
+      <div class="lg:col-span-5 glass-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between">
         <div>
-          <h3 class="font-bold text-white text-lg">Dreem Health Pet Wellness & Benefit Simulator</h3>
-          <p class="text-xs text-slate-400">Target Role: Digital Workplace & Automation Specialist | Real-Time Employer Pet Coverage Ledger</p>
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="font-display font-bold text-white text-lg">Digital Workplace Flow</h2>
+            <span class="text-[10px] font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded-full">Automated Engine</span>
+          </div>
+          <p class="text-xs text-slate-400 mb-4 leading-relaxed">
+            Multi-stage autonomous pipeline connecting patient onboarding, EHR sync, AI risk triage, and physician dispatch. Click any stage to test triggers.
+          </p>
+
+          <!-- INTERACTIVE STAGE BLOCKS -->
+          <div class="space-y-2.5" id="pipelineStages">
+            
+            <div class="p-3 rounded-xl bg-slate-950/60 border border-cyan-500/40 flex items-center justify-between cursor-pointer hover:border-cyan-400 transition" onclick="testWorkflowStage(1)">
+              <div class="flex items-center gap-3">
+                <div class="w-7 h-7 rounded-lg bg-cyan-500/20 text-cyan-300 flex items-center justify-center font-mono font-bold text-xs">01</div>
+                <div>
+                  <h4 class="text-xs font-bold text-white">Patient Intake &amp; EHR Webhook</h4>
+                  <p class="text-[10px] text-slate-400">Receives sleep consultation form</p>
+                </div>
+              </div>
+              <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">Synced</span>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800 flex items-center justify-between cursor-pointer hover:border-violet-400 transition" onclick="testWorkflowStage(2)">
+              <div class="flex items-center gap-3">
+                <div class="w-7 h-7 rounded-lg bg-violet-500/20 text-violet-300 flex items-center justify-center font-mono font-bold text-xs">02</div>
+                <div>
+                  <h4 class="text-xs font-bold text-white">AI Sleep Apnea Risk Classifier</h4>
+                  <p class="text-[10px] text-slate-400">AHI severity calculation &bull; Priority triage</p>
+                </div>
+              </div>
+              <span class="text-[10px] font-mono text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/30">99.2% Acc</span>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800 flex items-center justify-between cursor-pointer hover:border-emerald-400 transition" onclick="testWorkflowStage(3)">
+              <div class="flex items-center gap-3">
+                <div class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-300 flex items-center justify-center font-mono font-bold text-xs">03</div>
+                <div>
+                  <h4 class="text-xs font-bold text-white">Device Logistics &amp; Sensor Routing</h4>
+                  <p class="text-[10px] text-slate-400">Automated home sleep test dispatch</p>
+                </div>
+              </div>
+              <span class="text-[10px] font-mono text-violet-400 bg-violet-500/10 px-2 py-0.5 rounded border border-violet-500/30">Auto-Ship</span>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800 flex items-center justify-between cursor-pointer hover:border-amber-400 transition" onclick="testWorkflowStage(4)">
+              <div class="flex items-center gap-3">
+                <div class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-300 flex items-center justify-center font-mono font-bold text-xs">04</div>
+                <div>
+                  <h4 class="text-xs font-bold text-white">Physician Dashboard &amp; App Nudge</h4>
+                  <p class="text-[10px] text-slate-400">Prescription approval &amp; patient coaching</p>
+                </div>
+              </div>
+              <span class="text-[10px] font-mono text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">Push Ready</span>
+            </div>
+
+          </div>
         </div>
-        <div class="flex gap-2">
-          <button onclick="simulateVetClaim()" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-xs font-mono transition">+ Submit Vet Claim</button>
-          <button onclick="exportAuditJSON()" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-xs font-mono transition">📥 Export Audit JSON</button>
+
+        <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between">
+          <button onclick="triggerAutomatedIntake()" class="w-full py-2 bg-gradient-to-r from-cyan-500 to-violet-600 hover:from-cyan-400 hover:to-violet-500 text-slate-950 font-display font-bold text-xs rounded-xl transition shadow-lg shadow-cyan-500/20 flex items-center justify-center gap-2">
+            <span>⚡ Simulate End-to-End Clinical Flow</span>
+          </button>
         </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div class="p-4 bg-slate-950/60 rounded-lg border border-slate-800">
-          <label class="text-xs font-mono text-slate-400 uppercase">Enrolled Pets</label>
-          <div class="flex items-center gap-2 mt-1">
-            <input type="number" id="petCount" value="45" min="1" max="1000" class="bg-transparent text-white font-mono font-bold text-xl w-full focus:outline-none" oninput="recalcPetBenefits()">
-            <span class="text-slate-500 text-xs">pets</span>
-          </div>
-        </div>
-        <div class="p-4 bg-slate-950/60 rounded-lg border border-slate-800">
-          <label class="text-xs font-mono text-slate-400 uppercase">Monthly Subsidy / Pet</label>
-          <div class="flex items-center gap-2 mt-1">
-            <span class="text-slate-500 text-sm">$</span>
-            <input type="number" id="subsidyInput" value="35" class="bg-transparent text-emerald-400 font-mono font-bold text-xl w-full focus:outline-none" oninput="recalcPetBenefits()">
-          </div>
-        </div>
-        <div class="p-4 bg-slate-950/60 rounded-lg border border-slate-800">
-          <label class="text-xs font-mono text-slate-400 uppercase">Est. Annual Wellness Savings</label>
-          <div class="text-blue-400 font-mono font-bold text-xl mt-1" id="savingsOutput">$18,900.00</div>
-        </div>
-      </div>
-
-      <div class="space-y-2">
-        <div class="flex justify-between items-center text-xs font-mono text-slate-400 mb-2">
-          <span>ACTIVE VETERINARY CLAIMS & TELEHEALTH STREAM</span>
-          <span class="text-emerald-400 text-[11px]">Telehealth Queue: 0 min wait</span>
-        </div>
-        <div id="txList" class="space-y-2 font-mono text-xs max-h-48 overflow-y-auto pr-1">
-          <div class="flex items-center justify-between p-2.5 bg-slate-950/40 rounded border border-slate-800/80">
-            <span class="text-slate-300">CLAIM-1042 // Annual Canine Wellness & Vaccine // Golden Retriever</span>
-            <span class="text-emerald-400 font-bold">Approved ($250.00)</span>
-          </div>
-          <div class="flex items-center justify-between p-2.5 bg-slate-950/40 rounded border border-slate-800/80">
-            <span class="text-slate-300">CLAIM-1041 // Dental Hygiene & Clean // Feline (Domestic Shorthair)</span>
-            <span class="text-emerald-400 font-bold">Approved ($180.00)</span>
-          </div>
-        </div>
-      </div>
     </div>
-    <script>
-      function recalcPetBenefits() {
-        const count = parseFloat(document.getElementById('petCount').value) || 0;
-        const sub = parseFloat(document.getElementById('subsidyInput').value) || 0;
-        const annual = count * sub * 12;
-        document.getElementById('savingsOutput').innerText = '$' + annual.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      }
-      function simulateVetClaim() {
-        const list = document.getElementById('txList');
-        const randId = Math.floor(1000 + Math.random() * 9000);
-        const pets = ['French Bulldog', 'Maine Coon Cat', 'Labrador Retriever', 'German Shepherd', 'Poodle'];
-        const types = ['Emergency X-Ray', 'Ear Infection Cytology', 'Preventive Flea & Tick', 'Routine Bloodwork'];
-        const pet = pets[Math.floor(Math.random() * pets.length)];
-        const claimType = types[Math.floor(Math.random() * types.length)];
-        const amount = (Math.random() * 400 + 75).toFixed(2);
-        const div = document.createElement('div');
-        div.className = 'flex items-center justify-between p-2.5 bg-emerald-950/20 rounded border border-emerald-500/30 animate-pulse';
-        div.innerHTML = '<span class="text-emerald-300">CLAIM-' + randId + ' // ' + claimType + ' // ' + pet + '</span><span class="text-emerald-400 font-bold">Approved ($' + amount + ')</span>';
-        list.prepend(div);
-      }
-      function exportAuditJSON() {
-        const payload = {
-          company: "Dreem Health",
-          role: "Digital Workplace & Automation Specialist",
-          export_time: new Date().toISOString(),
-          enrolled_pets: document.getElementById('petCount').value,
-          monthly_subsidy: document.getElementById('subsidyInput').value,
-          architecture: "React, TypeScript, Tailwind, REST API, SQLite",
-          status: "verified_production"
-        };
-        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'dreem health-pet-benefits-audit.json';
-        a.click();
-      }
-    </script>
-        
 
-    <!-- Engineering Blueprint & Value Propositions -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 font-mono text-xs">
-      <div class="p-5 bg-slate-950/40 rounded-xl border border-slate-800">
-        <div class="text-emerald-400 font-bold mb-1 flex items-center gap-1.5">
-          <span>01</span> Type-Safe Architecture
+    <!-- SECONDARY ROW: CLINIC ROI CALCULATOR + LIVE LOG AUDIT STREAM -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      
+      <!-- CLINIC CAPACITY & SAVINGS CALCULATOR (6 cols) -->
+      <div class="lg:col-span-6 glass-card rounded-2xl p-5 sm:p-6">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 class="font-display font-bold text-white text-lg">Clinic Capacity &amp; Automation Yield</h3>
+            <p class="text-xs text-slate-400 font-mono">Dynamic operational leverage calculator</p>
+          </div>
+          <span class="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-emerald-500/20">Dreem Metric Model</span>
         </div>
-        <p class="text-slate-400 font-sans leading-relaxed">
-          100% typed with Zod schema validation on controllers, strict TypeScript compilation, and structured error envelopes.
-        </p>
-      </div>
-      <div class="p-5 bg-slate-950/40 rounded-xl border border-slate-800">
-        <div class="text-blue-400 font-bold mb-1 flex items-center gap-1.5">
-          <span>02</span> Sub-Second Edge Performance
+
+        <div class="space-y-4">
+          <div>
+            <div class="flex justify-between text-xs mb-1.5 font-mono">
+              <span class="text-slate-300">Monthly Sleep Apnea Inflow</span>
+              <strong class="text-cyan-400" id="inflowLabel">1,250 patients</strong>
+            </div>
+            <input type="range" id="patientInflow" min="200" max="10000" step="50" value="1250" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400" oninput="recalculateYield()">
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs mb-1.5 font-mono">
+              <span class="text-slate-300">AI Automation Triage Threshold</span>
+              <strong class="text-violet-400" id="thresholdLabel">85% automated</strong>
+            </div>
+            <input type="range" id="triageThreshold" min="50" max="98" step="1" value="85" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-violet-400" oninput="recalculateYield()">
+          </div>
+
+          <div class="grid grid-cols-3 gap-3 pt-3 border-t border-slate-800/80">
+            <div class="p-3 bg-slate-950/60 rounded-xl border border-slate-800">
+              <span class="text-[10px] font-mono text-slate-400 block">Clinician Hours Saved</span>
+              <strong class="text-lg font-display font-bold text-white" id="hoursSaved">340 hrs/mo</strong>
+            </div>
+            <div class="p-3 bg-slate-950/60 rounded-xl border border-slate-800">
+              <span class="text-[10px] font-mono text-slate-400 block">Time to Diagnosis</span>
+              <strong class="text-lg font-display font-bold text-cyan-400" id="diagnosisTime">24 hrs (-80%)</strong>
+            </div>
+            <div class="p-3 bg-slate-950/60 rounded-xl border border-slate-800">
+              <span class="text-[10px] font-mono text-slate-400 block">Est. Annual Value</span>
+              <strong class="text-lg font-display font-bold text-emerald-400" id="annualSavings">$244,800</strong>
+            </div>
+          </div>
         </div>
-        <p class="text-slate-400 font-sans leading-relaxed">
-          SSR server components, zero cumulative layout shift (CLS < 0.05), and optimized mobile frame rates tested at 120Hz.
-        </p>
       </div>
-      <div class="p-5 bg-slate-950/40 rounded-xl border border-slate-800">
-        <div class="text-purple-400 font-bold mb-1 flex items-center gap-1.5">
-          <span>03</span> Direct Contractor Velocity
+
+      <!-- LIVE EVENT STREAM & AUDIT EXPORT (6 cols) -->
+      <div class="lg:col-span-6 glass-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h3 class="font-display font-bold text-white text-lg">Live Clinical Event Stream</h3>
+              <p class="text-xs text-slate-400 font-mono">Sub-second event bus &bull; WebSocket listener</p>
+            </div>
+            <div class="flex gap-2">
+              <button onclick="clearEventLog()" class="px-2.5 py-1 text-[11px] font-mono bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white rounded-lg border border-slate-800 transition">Clear</button>
+              <button onclick="exportClinicalJSON()" class="px-3 py-1 text-[11px] font-mono bg-cyan-600/90 hover:bg-cyan-500 text-slate-950 font-bold rounded-lg transition shadow-md shadow-cyan-500/10">📥 Export JSON</button>
+            </div>
+          </div>
+
+          <!-- EVENT LOG LIST -->
+          <div id="eventLogContainer" class="h-44 overflow-y-auto space-y-2 pr-1 font-mono text-[11px]">
+            <div class="p-2 rounded-lg bg-slate-950/80 border border-slate-800/80 text-slate-300 flex items-start gap-2">
+              <span class="text-cyan-400 font-bold">[10:14:02]</span>
+              <span>Intake webhook triggered for Patient #DH-8841 (Mild Insomnia / AHI 4.1).</span>
+            </div>
+            <div class="p-2 rounded-lg bg-slate-950/80 border border-slate-800/80 text-slate-300 flex items-start gap-2">
+              <span class="text-violet-400 font-bold">[10:14:03]</span>
+              <span>AI Classifier scored compliance risk: LOW (94.2%). Fast-tracked to device dispatch.</span>
+            </div>
+            <div class="p-2 rounded-lg bg-slate-950/80 border border-slate-800/80 text-slate-300 flex items-start gap-2">
+              <span class="text-emerald-400 font-bold">[10:14:04]</span>
+              <span>FedEx API generated overnight label for Dreem Headband #SN-4091.</span>
+            </div>
+          </div>
         </div>
-        <p class="text-slate-400 font-sans leading-relaxed">
-          No months-long recruitment lag or agency overhead. Production deliverables ready for integration on day one.
-        </p>
+
+        <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400 font-mono">
+          <span>Engine Status: <strong class="text-emerald-400">Optimal (0 ms queue)</strong></span>
+          <span>Buffer: <strong>60 events</strong></span>
+        </div>
       </div>
+
     </div>
+
   </main>
 
-  <!-- Authoritative Footer -->
-  <footer class="border-t border-slate-800/80 bg-slate-950/60 py-6 px-6 text-xs text-slate-500 font-mono">
-    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div>
-        Engineered by <strong class="text-slate-300">Emmanuel Pelumi Bamidele (Bamsemma)</strong> &bull; Founder, B.I.E.AI
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-800/80 bg-[#080C16]/95 py-6 px-4 sm:px-6 text-xs text-slate-400">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+        <span>Engineered specifically for <strong>Dreem Health</strong> by <strong class="text-slate-200">Emmanuel Pelumi Bamidele (Bamsemma)</strong></span>
       </div>
-      <div class="flex items-center gap-4">
-        <a href="https://biework.vercel.app" class="hover:text-blue-400 transition">biework.vercel.app</a>
+      <div class="flex items-center gap-4 font-mono">
+        <a href="https://bieai.vercel.app" class="hover:text-cyan-400 transition">bieai.vercel.app</a>
         <span>&bull;</span>
-        <a href="https://github.com/bamsemma" target="_blank" rel="noopener" class="hover:text-blue-400 transition">github.com/bamsemma</a>
+        <a href="https://github.com/Stghost1/BIEAI" target="_blank" rel="noopener" class="hover:text-cyan-400 transition">github.com/Stghost1/BIEAI</a>
         <span>&bull;</span>
-        <a href="https://biework.vercel.app/media-kit" class="hover:text-emerald-400 transition">Media Kit</a>
+        <a href="https://bieai.vercel.app/radar" class="hover:text-violet-400 transition">Scoutdesk Radar ↗</a>
       </div>
     </div>
   </footer>
 
+  <!-- INTERACTIVE CANVAS & LOGIC SCRIPT -->
+  <script>
+    // 1. Live Circadian Sleep EEG Canvas Engine
+    const canvas = document.getElementById('sleepCanvas');
+    const ctx = canvas.getContext('2d');
+    let phase = 'rem';
+    let phaseOffset = 0;
+
+    function resizeCanvas() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function renderSleepWave() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const w = canvas.width;
+      const h = canvas.height;
+      const mid = h / 2;
+
+      // Draw faint grid lines
+      ctx.strokeStyle = 'rgba(30, 41, 59, 0.4)';
+      ctx.lineWidth = 1;
+      for (let y = 20; y < h; y += 30) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+      }
+
+      // Draw dynamic wave based on sleep phase
+      ctx.beginPath();
+      let freq1 = 0.02;
+      let freq2 = 0.05;
+      let amp1 = 28;
+      let amp2 = 14;
+      let strokeColor = '#06B6D4'; // cyan for REM
+
+      if (phase === 'deep') {
+        freq1 = 0.008;
+        freq2 = 0.015;
+        amp1 = 48;
+        amp2 = 24;
+        strokeColor = '#8B5CF6'; // violet for Deep
+      } else if (phase === 'light') {
+        freq1 = 0.035;
+        freq2 = 0.08;
+        amp1 = 18;
+        amp2 = 8;
+        strokeColor = '#10B981'; // emerald for Light
+      }
+
+      ctx.strokeStyle = strokeColor;
+      ctx.lineWidth = 2.5;
+
+      for (let x = 0; x < w; x++) {
+        const y = mid + 
+          Math.sin(x * freq1 + phaseOffset) * amp1 + 
+          Math.sin(x * freq2 - phaseOffset * 1.5) * amp2 +
+          (Math.random() - 0.5) * 4;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      phaseOffset += 0.04;
+      requestAnimationFrame(renderSleepWave);
+    }
+    renderSleepWave();
+
+    function setSleepPhase(newPhase) {
+      phase = newPhase;
+      const badge = document.getElementById('hypnoStage');
+      if (newPhase === 'deep') {
+        badge.textContent = 'DEEP SLEEP (N3 Delta)';
+        badge.className = 'text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-violet-500/20 text-violet-300 border border-violet-500/40';
+        document.getElementById('deltaVal').textContent = '3.8 Hz';
+        document.getElementById('thetaVal').textContent = '2.1 Hz';
+        document.getElementById('hrvText').textContent = '52 ms';
+      } else if (newPhase === 'rem') {
+        badge.textContent = 'REM SLEEP (Cycle 3)';
+        badge.className = 'text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-cyan-500/20 text-cyan-300 border border-cyan-500/40';
+        document.getElementById('deltaVal').textContent = '1.8 Hz';
+        document.getElementById('thetaVal').textContent = '5.4 Hz';
+        document.getElementById('hrvText').textContent = '68 ms';
+      } else {
+        badge.textContent = 'LIGHT SLEEP (N2 Theta)';
+        badge.className = 'text-xs font-mono font-bold px-2.5 py-1 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
+        document.getElementById('deltaVal').textContent = '0.9 Hz';
+        document.getElementById('thetaVal').textContent = '6.8 Hz';
+        document.getElementById('hrvText').textContent = '74 ms';
+      }
+      appendEventLog(`Phase switched to ${newPhase.toUpperCase()}: telemetry frequency updated.`);
+    }
+
+    // 2. Clinical Workflow Triggers
+    function testWorkflowStage(stageNum) {
+      const descriptions = {
+        1: 'EHR Intake Form validated. Webhook emitted payload (200 OK).',
+        2: 'AI Risk Classifier assigned Priority Grade: AMBULATORY AHI 3.8.',
+        3: 'FedEx Healthcare Tracking token generated: #DH-EXP-8821.',
+        4: 'Physician approval auto-queued to iOS Provider portal.'
+      };
+      appendEventLog(`[Stage ${stageNum}] ${descriptions[stageNum]}`);
+    }
+
+    function triggerAutomatedIntake() {
+      const pId = 'DH-' + Math.floor(1000 + Math.random() * 9000);
+      appendEventLog(`[Intake] New referral received for Patient #${pId}`);
+      setTimeout(() => appendEventLog(`[Triage] AI Scored #${pId}: Obstructive Sleep Apnea (Moderate, AHI 14.8)`), 400);
+      setTimeout(() => appendEventLog(`[Logistics] CPAP Titration Kit auto-dispatched to patient address`), 800);
+      setTimeout(() => appendEventLog(`[Sync] EHR updated in Epic & Cerner systems (Latency: 142ms)`), 1200);
+    }
+
+    // 3. Operational Yield Calculation
+    function recalculateYield() {
+      const inflow = parseInt(document.getElementById('patientInflow').value);
+      const threshold = parseInt(document.getElementById('triageThreshold').value);
+
+      document.getElementById('inflowLabel').textContent = `${inflow.toLocaleString()} patients`;
+      document.getElementById('thresholdLabel').textContent = `${threshold}% automated`;
+
+      // 1 patient triage normally takes 0.35 hours
+      const automatedPatients = inflow * (threshold / 100);
+      const hours = Math.round(automatedPatients * 0.32);
+      const annualValue = Math.round(hours * 60 * 12); // $60/hr clinician rate
+
+      document.getElementById('hoursSaved').textContent = `${hours.toLocaleString()} hrs/mo`;
+      document.getElementById('annualSavings').textContent = `$${annualValue.toLocaleString()}`;
+    }
+
+    // 4. Live Event Log Stream
+    function appendEventLog(msg) {
+      const container = document.getElementById('eventLogContainer');
+      const now = new Date();
+      const timeStr = now.toTimeString().split(' ')[0];
+      const div = document.createElement('div');
+      div.className = 'p-2 rounded-lg bg-slate-950/80 border border-slate-800/80 text-slate-300 flex items-start gap-2 animate-fadeIn';
+      div.innerHTML = `<span class="text-cyan-400 font-bold">[${timeStr}]</span><span>${escapeHtml(msg)}</span>`;
+      container.prepend(div);
+    }
+
+    function clearEventLog() {
+      document.getElementById('eventLogContainer').innerHTML = '<div class="text-slate-500 text-center py-4">Event stream cleared. Listening for webhooks...</div>';
+    }
+
+    function exportClinicalJSON() {
+      const payload = {
+        client: 'Dreem Health',
+        role: 'Digital Workplace & Automation Specialist',
+        author: 'Emmanuel Pelumi Bamidele (Bamsemma)',
+        timestamp: new Date().toISOString(),
+        telemetry: {
+          current_phase: phase,
+          delta_hz: document.getElementById('deltaVal').textContent,
+          theta_hz: document.getElementById('thetaVal').textContent,
+          hrv: document.getElementById('hrvText').textContent,
+          spo2: document.getElementById('spO2Text').textContent
+        },
+        yield: {
+          monthly_inflow: document.getElementById('inflowLabel').textContent,
+          automation_rate: document.getElementById('thresholdLabel').textContent,
+          hours_saved_monthly: document.getElementById('hoursSaved').textContent,
+          annual_savings_usd: document.getElementById('annualSavings').textContent
+        },
+        status: 'production_ready'
+      };
+
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'dreem_health_clinical_telemetry_audit.json';
+      a.click();
+      appendEventLog('Exported clinical automation audit JSON.');
+    }
+
+    function escapeHtml(str) {
+      return (str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+  </script>
 </body>
 </html>
