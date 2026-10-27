@@ -126,6 +126,8 @@ function renderOpportunityList(items) {
             <button class="row-action outline" onclick="openOpportunityModal(${item.id})">View details</button>
             <button class="row-action" style="font-weight:700;" onclick="draftOutreach(${item.id})">⚡ Draft outreach</button>
             <button class="row-action" style="background:#0f172a; color:#38bdf8; border:1px solid #0284c7; font-weight:700;" onclick="triggerAutopilot(${item.id})" title="Synthesize dedicated demo product, deploy route to Vercel, and auto-dispatch proposal">🚀 Auto-Pilot</button>
+            <button class="row-action outline" style="background:#f0fdf4; color:#15803d; border-color:#86efac; font-weight:600;" onclick="triggerScourEmail(${item.id})" title="Scour company website, public contact points, and MX records for direct emails">🎯 Scour Email</button>
+            <button class="row-action outline" style="background:#faf5ff; color:#7e22ce; border-color:#d8b4fe; font-weight:600;" onclick="triggerBuildDemo(${item.id})" title="Build real interactive prototype tailored to this job, commit to GitHub, and deploy to Vercel">🔨 Build Demo</button>
             <a href="${dorkUrl}" target="_blank" rel="noopener" class="row-action outline" style="text-decoration:none; font-size:10px; color:#0369a1; border-color:#bae6fd; background:#f0f9ff;" title="Search CTO/Founder on LinkedIn (The Anti Job)">🎯 Find CTO ↗</a>
           </div>
         </div>
@@ -194,6 +196,13 @@ function autopilotFromModal() {
   if (selectedOpportunityId) {
     closeModal();
     triggerAutopilot(selectedOpportunityId);
+  }
+}
+
+function buildDemoFromModal() {
+  if (selectedOpportunityId) {
+    closeModal();
+    triggerBuildDemo(selectedOpportunityId);
   }
 }
 
@@ -299,6 +308,83 @@ async function switchDraftAngle(angle) {
     }
   } catch (err) {
     showToast('Failed to switch pitch angle.');
+  }
+}
+
+async function triggerScourEmail(oppId) {
+  showToast('Scouring company web domain & MX records for decision-makers...');
+  try {
+    const res = await fetch('/api/scour/email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ opp_id: oppId })
+    });
+    const data = await res.json();
+    if (data.ok && data.email) {
+      showToast(`🎯 Found: ${data.email} (${data.confidence || 'Verified MX'})`);
+      const item = activeOpportunities.find(o => o.id === oppId);
+      if (item) {
+        item.recipient_email = data.email;
+      }
+    } else {
+      showToast('No direct email discovered. Use Find CTO ↗ for manual LinkedIn connection.');
+    }
+  } catch (err) {
+    showToast('Email scour request failed: ' + err.message);
+  }
+}
+
+async function triggerBuildDemo(oppId) {
+  const item = activeOpportunities.find(o => o.id === oppId);
+  const comp = item ? item.company : 'Client';
+  showToast(`Building bespoke micro-app for ${comp}, committing to GitHub & deploying to Vercel...`);
+  try {
+    const res = await fetch('/api/demo/build', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ opp_id: oppId })
+    });
+    const data = await res.json();
+    if (data.ok && data.demo) {
+      showToast(`🚀 Live prototype ready: ${data.demo.file_name} (Deployed & GitHub-synced)`);
+      if (data.demo.recipient_email && item) {
+        item.recipient_email = data.demo.recipient_email;
+      }
+      await loadVault();
+      openSandboxModal(data.demo.title, data.demo.demo_url);
+    } else {
+      showToast('Error building prototype: ' + (data.error || 'Unknown error'));
+    }
+  } catch (err) {
+    showToast('Failed to build demo: ' + err.message);
+  }
+}
+
+async function scourEmailForCurrentDraft() {
+  if (!activeDraft) return;
+  const oppId = activeDraft.opportunity_id;
+  const badge = document.getElementById('scourStatusBadge');
+  if (badge) badge.textContent = 'Probing domain & MX mail exchangers...';
+  try {
+    const res = await fetch('/api/scour/email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        opp_id: oppId,
+        company: activeDraft.opp_company,
+        url: activeDraft.opp_url
+      })
+    });
+    const data = await res.json();
+    if (data.ok && data.email) {
+      document.getElementById('draftRecipientEmail').value = data.email;
+      if (badge) badge.textContent = `✓ Discovered: ${data.email} (${data.confidence || 'Verified MX'})`;
+      showToast(`Scoured: ${data.email}`);
+    } else {
+      if (badge) badge.textContent = 'No public inbox found. Try Find CTO on LinkedIn.';
+    }
+  } catch (err) {
+    if (badge) badge.textContent = 'Scour request error.';
   }
 }
 
@@ -677,10 +763,26 @@ async function loadVault() {
     if (countEl) countEl.textContent = allVaultDemos.length;
     const navVault = document.getElementById('navVaultCount');
     if (navVault) navVault.textContent = allVaultDemos.length;
+    const statVault = document.getElementById('statVaultDemos');
+    if (statVault) statVault.textContent = allVaultDemos.length;
+    return allVaultDemos;
   } catch (err) {
     grid.innerHTML = '<div style="padding:24px 0; color:#ef4444; font-size:12px;">Error loading vault prototypes.</div>';
+    return [];
   }
 }
+
+// Universal aliases ensuring loadVaultDemos and loadVaultDemo are always defined globally
+async function loadVaultDemos() {
+  return await loadVault();
+}
+async function loadVaultDemo() {
+  return await loadVault();
+}
+
+window.loadVault = loadVault;
+window.loadVaultDemos = loadVaultDemos;
+window.loadVaultDemo = loadVaultDemo;
 
 function setVaultCategory(cat) {
   currentVaultCategory = cat;
@@ -1185,17 +1287,33 @@ function closeAntiJobPlaybookModal() {
 }
 
 // 7c. Interactive Device Sandbox Modal (CreatorKit HQ Benchmark)
-function openSandboxModal(title, url) {
+function openSandboxModal(titleOrUrl, urlOrTitle) {
   const modal = document.getElementById('sandboxModalBackdrop');
   if (!modal) return;
-  document.getElementById('sandboxTitle').textContent = title;
+
+  let title = 'Interactive Prototype Sandbox';
+  let url = '';
+
+  const isFirstArgUrl = typeof titleOrUrl === 'string' && (titleOrUrl.startsWith('http') || titleOrUrl.startsWith('/') || titleOrUrl.includes('.html'));
+  if (isFirstArgUrl) {
+    url = titleOrUrl;
+    title = urlOrTitle || 'Interactive Prototype Sandbox';
+  } else {
+    title = titleOrUrl || 'Interactive Prototype Sandbox';
+    url = urlOrTitle || '';
+  }
+
+  const titleEl = document.getElementById('sandboxTitle');
+  if (titleEl) titleEl.textContent = title;
   const iframe = document.getElementById('sandboxIframe');
-  iframe.src = url;
+  if (iframe) iframe.src = url;
   const ext = document.getElementById('sandboxExtLink');
   if (ext) ext.href = url;
   setSandboxDevice('desktop');
   modal.classList.add('open');
 }
+
+window.openSandboxModal = openSandboxModal;
 
 function closeSandboxModal() {
   const modal = document.getElementById('sandboxModalBackdrop');

@@ -61,6 +61,10 @@
     {
       "source": "/demo-wagmo-senior-software-en",
       "destination": "/demo-wagmo-senior-software-en.html"
+    },
+    {
+      "source": "/demo-dreem-health-digital-workplace",
+      "destination": "/demo-dreem-health-digital-workplace.html"
     }
   ]
 }

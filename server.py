@@ -34,6 +34,7 @@ from core.db import (
     get_all_settings,
     get_portfolio_demos,
     get_autopilot_runs,
+    update_opportunity_email,
 )
 from core.demo_builder import build_tailored_demo
 from core.mailer import send_proposal_email, test_smtp_connection
@@ -42,6 +43,7 @@ from core.scanner import run_full_scan
 from core.autopilot import run_autopilot_pipeline, batch_autopilot
 from core.ats_analyzer import analyze_ats_fit
 from core.antijob import get_antijob_playbook
+from core.email_scourer import scour_company_email
 
 ROOT = Path(__file__).resolve().parent
 PORT = int(os.environ.get("PORT", 4173))
@@ -293,6 +295,38 @@ class UnifiedAppHandler(BaseHTTPRequestHandler):
                 return
             ok = update_opportunity_status(int(opp_id), status)
             self.json_response({"ok": ok, "opp_id": int(opp_id), "status": status})
+            return
+
+        if parsed.path == "/api/scour/email":
+            opp_id = payload.get("opp_id")
+            company = payload.get("company", "")
+            opp_url = payload.get("url", "")
+            title = payload.get("title", "")
+            desc = payload.get("description", "")
+            if opp_id:
+                target = get_opportunity_by_id(int(opp_id))
+                if target:
+                    company = company or target.get("company", "")
+                    opp_url = opp_url or target.get("url", "")
+                    title = title or target.get("title", "")
+                    desc = desc or target.get("description", "")
+            res = scour_company_email(company, opp_url=opp_url, title=title, desc=desc)
+            if res.get("ok") and res.get("email") and opp_id:
+                update_opportunity_email(int(opp_id), res["email"], res.get("domain", ""))
+            self.json_response(res)
+            return
+
+        if parsed.path == "/api/demo/build":
+            opp_id = payload.get("opp_id")
+            if not opp_id:
+                self.json_response({"error": "opp_id is required"}, 400)
+                return
+            target = get_opportunity_by_id(int(opp_id))
+            if not target:
+                self.json_response({"error": "Opportunity not found"}, 404)
+                return
+            res = build_tailored_demo(target)
+            self.json_response({"ok": True, "demo": res})
             return
 
         if parsed.path == "/api/autopilot/run":

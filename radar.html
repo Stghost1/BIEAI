@@ -348,6 +348,7 @@
         </div>
         <div style="display:flex; gap:6px;">
           <button class="secondary-button" id="modalDraftBtn" onclick="draftFromModal()">Draft Outreach</button>
+          <button class="secondary-button" id="modalBuildBtn" style="background:#faf5ff; color:#7e22ce; border-color:#d8b4fe; font-weight:600;" onclick="buildDemoFromModal()">🔨 Build Demo</button>
           <button class="primary-button" id="modalAutopilotBtn" style="background:#0f172a; color:#38bdf8; border:1px solid #0284c7;" onclick="autopilotFromModal()">🚀 Auto-Pilot</button>
         </div>
       </div>
@@ -399,7 +400,11 @@
 
       <div style="margin-bottom:8px;">
         <label style="display:block; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-bottom:4px;">Recipient Email (To:)</label>
-        <input type="email" id="draftRecipientEmail" placeholder="Enter recipient email address (e.g. hiring@company.com)..." style="width:100%; padding:6px 10px; font-size:12px; border:1px solid var(--line); border-radius:6px; background:#f7faf8;" />
+        <div style="display:flex; gap:6px;">
+          <input type="email" id="draftRecipientEmail" placeholder="Enter recipient email address (e.g. hiring@company.com)..." style="flex:1; padding:6px 10px; font-size:12px; border:1px solid var(--line); border-radius:6px; background:#f7faf8;" />
+          <button type="button" class="row-action outline" onclick="scourEmailForCurrentDraft()" title="Scour company website, public inboxes, and MX records for direct technical email" style="white-space:nowrap; background:#f0fdf4; border-color:#86efac; color:#15803d; font-weight:700; cursor:pointer;">🎯 Scour Email</button>
+        </div>
+        <div id="scourStatusBadge" style="font-size:10px; font-family:'DM Mono',monospace; color:#15803d; margin-top:3px;"></div>
       </div>
 
       <div style="margin-bottom:8px;">
