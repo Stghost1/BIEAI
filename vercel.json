@@ -85,6 +85,10 @@
     {
       "source": "/demo-huzzle-sales-development-",
       "destination": "/demo-huzzle-sales-development-.html"
+    },
+    {
+      "source": "/demo-bluetuskr-graphic-designer-v",
+      "destination": "/demo-bluetuskr-graphic-designer-v.html"
     }
   ]
 }
