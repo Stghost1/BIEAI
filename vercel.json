@@ -93,6 +93,10 @@
     {
       "source": "/demo-lemon-io-senior-devops-engi",
       "destination": "/demo-lemon-io-senior-devops-engi.html"
+    },
+    {
+      "source": "/demo-aprio-accounting-and-imp",
+      "destination": "/demo-aprio-accounting-and-imp.html"
     }
   ]
 }
