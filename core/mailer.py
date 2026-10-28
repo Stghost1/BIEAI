@@ -42,7 +42,7 @@ def get_smtp_config() -> Dict[str, Any]:
         port = 587
     user = get_setting("smtp_user", os.environ.get("SMTP_USER", "techwithbie@gmail.com")).strip()
     password = get_setting("smtp_pass", os.environ.get("SMTP_PASS", "")).strip()
-    from_name = get_setting("smtp_from_name", os.environ.get("SMTP_FROM_NAME", "Emmanuel Pelumi Bamidele (Bamsemma)")).strip()
+    from_name = get_setting("smtp_from_name", os.environ.get("SMTP_FROM_NAME", "Emmanuel Bamidele (Bamsemma)")).strip()
 
     return {
         "host": host,

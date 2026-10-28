@@ -1,6 +1,6 @@
 # B.I.E.AI Work & Opportunity Operating System
 
-**Owner**: Emmanuel Pelumi Bamidele (Bamsemma, B.I.E.AI)  
+**Owner**: Emmanuel Bamidele (Bamsemma, B.I.E.AI)  
 **Location**: `C:\Users\emman\Desktop\web projects\biework`  
 **Server**: `http://127.0.0.1:4173`  
 

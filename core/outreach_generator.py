@@ -281,7 +281,7 @@ def generate_outreach(
         f"You can review our verified engineering background and live client metrics on our media kit: {media_kit_url}\n\n"
         f"If you have 15 minutes this week, I would welcome the opportunity to walk through the prototype live.\n\n"
         f"Best regards,\n"
-        f"Emmanuel Pelumi Bamidele (Bamsemma)\n"
+        f"Emmanuel Bamidele (Bamsemma)\n"
         f"Founder, B.I.E.AI | Full-Stack Systems Architect\n"
         f"Portfolio: {portfolio_url}\n"
         f"Media Kit: {media_kit_url}\n"
@@ -356,7 +356,7 @@ def generate_followup(
             f"I designed it to demonstrate clean component architecture, responsive mobile layouts, and quick turnaround. "
             f"Happy to answer any technical questions or adapt features to match your exact roadmap priorities.\n\n"
             f"Best regards,\n"
-            f"Emmanuel Pelumi Bamidele (Bamsemma)\n"
+            f"Emmanuel Bamidele (Bamsemma)\n"
             f"WhatsApp: {whatsapp} | Email: {contact_email}"
         )
     else:  # touch 3
@@ -368,7 +368,7 @@ def generate_followup(
             f"This demonstrates how we handle real-time data serialization, client caching, and print-ready PDF export. "
             f"If your team has moved forward with another candidate, no problem at all. Otherwise, I remain available for a 15-minute technical review.\n\n"
             f"Best regards,\n"
-            f"Emmanuel Pelumi Bamidele (Bamsemma)\n"
+            f"Emmanuel Bamidele (Bamsemma)\n"
             f"WhatsApp: {whatsapp} | Email: {contact_email}"
         )
 

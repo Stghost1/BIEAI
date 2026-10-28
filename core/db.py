@@ -154,7 +154,7 @@ def init_db() -> None:
         "smtp_port": "587",
         "smtp_user": "techwithbie@gmail.com",
         "smtp_pass": "",
-        "smtp_from_name": "Emmanuel Pelumi Bamidele (Bamsemma)",
+        "smtp_from_name": "Emmanuel Bamidele (Bamsemma)",
         "auto_send_enabled": "false",
     }
     for k, v in defaults.items():

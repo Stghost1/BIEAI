@@ -1059,7 +1059,7 @@ def build_demo_html(
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{company}: {archetype['name']} (B.I.E.AI Bespoke Prototype)</title>
-  <meta name="description" content="Production-ready interactive prototype engineered specifically for {company}'s {title} role by Emmanuel Pelumi Bamidele (Bamsemma).">
+  <meta name="description" content="Production-ready interactive prototype engineered specifically for {company}'s {title} role by Emmanuel Bamidele (Bamsemma).">
 
   <!-- Curated Typography: Diverse fonts per job -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1199,7 +1199,7 @@ def build_demo_html(
         </h1>
 
         <p class="text-base sm:text-lg text-slate-300 mt-4 leading-relaxed font-sans max-w-3xl">
-          {archetype['feature']} Built specifically for <strong>{company}</strong> by <strong>Emmanuel Pelumi Bamidele (Bamsemma)</strong> to replace generic outreach with a fully-functional, Awwwards-tier interactive application.
+          {archetype['feature']} Built specifically for <strong>{company}</strong> by <strong>Emmanuel Bamidele (Bamsemma)</strong> to replace generic outreach with a fully-functional, Awwwards-tier interactive application.
         </p>
 
         <!-- Live Action Buttons -->
@@ -1281,7 +1281,7 @@ def build_demo_html(
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center gap-2">
         <span class="w-2.5 h-2.5 rounded-full bg-pink-500"></span>
-        <span>Engineered specifically for <strong>{company}</strong> by <strong class="text-white">Emmanuel Pelumi Bamidele (Bamsemma)</strong></span>
+        <span>Engineered specifically for <strong>{company}</strong> by <strong class="text-white">Emmanuel Bamidele (Bamsemma)</strong></span>
       </div>
       <div class="flex items-center gap-4 font-mono">
         <a href="{portfolio_base}" class="hover:text-pink-400 transition">bieai.vercel.app</a>
@@ -1325,7 +1325,7 @@ def build_demo_html(
         title: "{title}",
         archetype: "{archetype['name']}",
         timestamp: new Date().toISOString(),
-        author: "Emmanuel Pelumi Bamidele (Bamsemma)",
+        author: "Emmanuel Bamidele (Bamsemma)",
         canonical_vercel_url: "{canonical_vercel_url}",
         canonical_github_url: "{canonical_github_file_url}",
         status: "verified_live"

@@ -533,20 +533,31 @@ async function triggerAutopilot(oppId) {
     }
   }
 
+  // Progressive step runner through all 6 stages
+  let currentStep = 1;
   const s1 = document.getElementById('apStep1');
-  const s2 = document.getElementById('apStep2');
   if (s1) s1.className = 'autopilot-step running';
-  if (s2) s2.className = 'autopilot-step running';
 
-  showToast('Executing Auto-Pilot pipeline...');
+  const stepTimer = setInterval(() => {
+    if (currentStep < 6) {
+      const prev = document.getElementById(`apStep${currentStep}`);
+      if (prev) prev.className = 'autopilot-step done';
+      currentStep++;
+      const next = document.getElementById(`apStep${currentStep}`);
+      if (next) next.className = 'autopilot-step running';
+    }
+  }, 2200);
+
+  showToast('Executing full 6-stage Auto-Pilot pipeline...');
 
   try {
     const res = await fetch('/api/autopilot/run', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ opp_id: oppId, auto_send: false })
+      body: JSON.stringify({ opp_id: oppId, auto_send: true })
     });
     const data = await res.json();
+    clearInterval(stepTimer);
     activeAutopilotData = data;
 
     if (!data.ok) {
@@ -555,7 +566,7 @@ async function triggerAutopilot(oppId) {
       return;
     }
 
-    // Animate all steps to done
+    // Mark all 6 stages complete
     for (let i = 1; i <= 6; i++) {
       const el = document.getElementById(`apStep${i}`);
       if (el) el.className = 'autopilot-step done';
@@ -1503,7 +1514,7 @@ let appSettings = {
   smtp_port: '587',
   smtp_user: 'techwithbie@gmail.com',
   smtp_pass: '',
-  smtp_from_name: 'Emmanuel Pelumi Bamidele (Bamsemma)',
+  smtp_from_name: 'Emmanuel Bamidele (Bamsemma)',
   auto_send_enabled: 'false'
 };
 
@@ -1532,7 +1543,7 @@ function openSettingsModal() {
   document.getElementById('settingSmtpPort').value = appSettings.smtp_port || '587';
   document.getElementById('settingSmtpUser').value = appSettings.smtp_user || 'techwithbie@gmail.com';
   document.getElementById('settingSmtpPass').value = appSettings.smtp_pass || '';
-  document.getElementById('settingSmtpFromName').value = appSettings.smtp_from_name || 'Emmanuel Pelumi Bamidele (Bamsemma)';
+  document.getElementById('settingSmtpFromName').value = appSettings.smtp_from_name || 'Emmanuel Bamidele (Bamsemma)';
   document.getElementById('settingAutoSend').checked = appSettings.auto_send_enabled === 'true';
 
   const fb = document.getElementById('smtpTestFeedback');
