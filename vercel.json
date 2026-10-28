@@ -97,6 +97,10 @@
     {
       "source": "/demo-aprio-accounting-and-imp",
       "destination": "/demo-aprio-accounting-and-imp.html"
+    },
+    {
+      "source": "/demo-dreem-health-digital-workplace-",
+      "destination": "/demo-dreem-health-digital-workplace-.html"
     }
   ]
 }
