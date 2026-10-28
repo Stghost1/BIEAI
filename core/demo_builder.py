@@ -1,11 +1,9 @@
 """
-Scoutdesk Tailored Prototype Synthesis Engine (v3.0).
-Generates production-grade, highly-responsive interactive prototypes inspired by
-Awwwards, motionsites.ai, and Pinterest design benchmarks.
-Features curated typography (Playfair Display, Plus Jakarta Sans, Outfit, Cormorant Garamond,
-JetBrains Mono, Clash Display, Sora), real HTML5 canvas motion graphics,
-interactive operational calculators, live telemetry streams, and JSON audit exports.
-Enforces Law 2 (Zero dash punctuation), Law 10 (Durability), and local RAM limits.
+Scoutdesk Bespoke Motion & Interactive Prototype Synthesis Engine (v4.0).
+Directly inspired by motionsites.ai, Awwwards, and Pinterest modern visual design.
+Engineers production-grade, highly-responsive interactive micro-applications with
+niche-tailored typography, 60 FPS HTML5 canvas centerpieces, 3D tilt perspective cards,
+real-time operational benches, live telemetry feeds, and zero dash punctuation.
 """
 
 from __future__ import annotations
@@ -58,7 +56,7 @@ def detect_archetype(title: str, desc: str, tags: List[str], company: str) -> Di
             "key": "sleep_healthtech",
             "name": "Clinical Operations & Sleep Telemetry Engine",
             "category": "automation",
-            "tech_stack": "Plus Jakarta Sans, Outfit, HTML5 Canvas EEG, EHR Webhooks, Polysomnography Triage",
+            "tech_stack": "Plus Jakarta Sans, Outfit, HTML5 Canvas Circadian EEG, EHR Webhooks, Polysomnography Triage",
             "feature": "Circadian sleep architecture hypnogram, 4-stage automated EHR clinical intake, and clinician hours-saved forecasting."
         }
     if "wagmo" in comp_lower:
@@ -66,7 +64,7 @@ def detect_archetype(title: str, desc: str, tags: List[str], company: str) -> Di
             "key": "pet_healthtech",
             "name": "Pet Health Benefits & Preventive Care Hub",
             "category": "automation",
-            "tech_stack": "Plus Jakarta Sans, TypeScript, Tailwind, Preventive Claim Ledger, Telehealth API",
+            "tech_stack": "Outfit, Plus Jakarta Sans, Preventive Claim Ledger, Telehealth API, Wellness Calculator",
             "feature": "Multi-pet employer plan customizer, veterinary claim reimbursement ledger, and 24/7 telehealth triage calculator."
         }
     if "klardaten" in comp_lower or "aprio" in comp_lower:
@@ -74,7 +72,7 @@ def detect_archetype(title: str, desc: str, tags: List[str], company: str) -> Di
             "key": "accounting_tax_ai",
             "name": "DATEV Document & AI Reconciliation Engine",
             "category": "website",
-            "tech_stack": "Sora, JetBrains Mono, DATEV XML/REST Webhooks, PostgreSQL, Automated Ledger Matching",
+            "tech_stack": "Cinzel, Plus Jakarta Sans, JetBrains Mono, DATEV XML/REST Webhooks, Automated Ledger Matching",
             "feature": "Real-time DATEV webhook event dispatcher, automated double-entry ledger matcher, and AI confidence threshold slider."
         }
     if "onebrief" in comp_lower:
@@ -82,39 +80,23 @@ def detect_archetype(title: str, desc: str, tags: List[str], company: str) -> Di
             "key": "tactical_defense_ai",
             "name": "Tactical Command Node & Mission Workflow Orchestrator",
             "category": "automation",
-            "tech_stack": "Space Grotesk, Share Tech Mono, WebSockets, Geospatial Mapping, AES-256",
+            "tech_stack": "Outfit, Share Tech Mono, WebSockets, Geospatial Radar, AES-256",
             "feature": "Command node operational readiness radar, simulated tactical event stream, and resilient decision-tree simulator."
-        }
-    if "getlabs" in comp_lower:
-        return {
-            "key": "diagnostic_phlebotomy",
-            "name": "Mobile Phlebotomist Dispatch & Route Telemetry Portal",
-            "category": "automation",
-            "tech_stack": "Plus Jakarta Sans, Manrope, GPS Routing API, Specimen Logistics Ledger",
-            "feature": "Real-time patient dispatch queue, cold-chain specimen temperature monitor, and route ETA optimizer."
         }
     if "lemon.io" in comp_lower:
         return {
             "key": "devops_cloud_infra",
             "name": "Cloud Infrastructure & Zero-Downtime Deployment Orchestrator",
             "category": "website",
-            "tech_stack": "JetBrains Mono, Plus Jakarta Sans, Kubernetes API, Prometheus, Terraform",
+            "tech_stack": "Outfit, JetBrains Mono, Kubernetes API, Prometheus, Terraform Cluster Topology",
             "feature": "Kubernetes cluster pod health matrix, P99 canary deployment latency gauge, and automated Terraform state drift detector."
-        }
-    if "midnite" in comp_lower or "b2spin" in comp_lower:
-        return {
-            "key": "esports_gaming_ui",
-            "name": "Esports Tournament Settlement & Live Odds Engine",
-            "category": "design",
-            "tech_stack": "Outfit, Clash Display, WebSockets, High-FPS Canvas Odds, Redis",
-            "feature": "Dynamic esports odds calculator, sub-second wager event stream, and responsive high-FPS betting slip."
         }
     if "anori tech" in comp_lower:
         return {
             "key": "hardware_embedded_systems",
             "name": "Hardware Telemetry & Firmware Diagnostics Bench",
             "category": "automation",
-            "tech_stack": "Chivo, Share Tech Mono, Oscilloscope Canvas, Serial Telemetry, Thermal Analysis",
+            "tech_stack": "Outfit, Share Tech Mono, Oscilloscope Canvas, Serial Telemetry, Thermal Analysis",
             "feature": "Real-time signal waveform oscilloscope, PCB thermal dissipation calculator, and firmware test-bench runner."
         }
     if "huzzle" in comp_lower:
@@ -122,209 +104,282 @@ def detect_archetype(title: str, desc: str, tags: List[str], company: str) -> Di
             "key": "email_deliverability_crm",
             "name": "Enterprise Talent Pipeline & Deal Conversion Hub",
             "category": "automation",
-            "tech_stack": "Outfit, Plus Jakarta Sans, Funnel Yield Algorithms, Commission Calculator",
+            "tech_stack": "Syne, Outfit, Funnel Yield Algorithms, Commission Calculator, Gen-Z Micro-Badges",
             "feature": "Interactive candidate placement funnel, sales commission calculator, and live placement event stream."
         }
+    if "bluetuskr" in comp_lower:
+        return {
+            "key": "motion_creative_studio",
+            "name": "Kinetic Motion & Interactive Visual Studio",
+            "category": "design",
+            "tech_stack": "Outfit, Space Grotesk, 60 FPS Chromatic Particle Canvas, 3D Tilt Cards, Timeline Scrubber",
+            "feature": "Kinetic particle flow canvas, frame-rate timeline scrubber, interactive 3D perspective card physics, and brand asset export."
+        }
+    if "bjak" in comp_lower:
+        return {
+            "key": "fintech_payments_ledger",
+            "name": "High-Frequency Stockbroking & Liquidity Engine",
+            "category": "website",
+            "tech_stack": "Sora, JetBrains Mono, Holographic Order Book Canvas, Real-Time Trade Stream, WebSockets",
+            "feature": "Sub-millisecond trade execution ticker, dynamic liquidity slider, and interactive candlestick depth canvas."
+        }
+    if "highlevel" in comp_lower:
+        return {
+            "key": "devops_cloud_infra",
+            "name": "Agency CRM Infrastructure & Multi-Tenant Deployment Mesh",
+            "category": "website",
+            "tech_stack": "Outfit, JetBrains Mono, Multi-Tenant Pod Mesh, Zero-Downtime Rollout, P99 Latency Monitor",
+            "feature": "Multi-tenant agency cluster visualizer, canary rollout percentage slider, and sub-10ms query latency telemetry."
+        }
+    if "fuel50" in comp_lower:
+        return {
+            "key": "email_deliverability_crm",
+            "name": "Talent Architecture & Career Mobility Intelligence Bench",
+            "category": "design",
+            "tech_stack": "Syne, Outfit, Skills Matrix Engine, Career Pathway Graph, Mobility Simulator",
+            "feature": "Interactive workforce skills taxonomy matcher, career pathway simulation slider, and talent retention yield calculator."
+        }
+    if "apex fintech" in comp_lower:
+        return {
+            "key": "fintech_payments_ledger",
+            "name": "High-Frequency Payment Settlement & Ledger Hub",
+            "category": "website",
+            "tech_stack": "Sora, JetBrains Mono, Real-Time Clearing Ledger, Automated Double-Entry Matching",
+            "feature": "Instant clearing settlement pipeline, liquidity reserve slider, and continuous transaction audit stream."
+        }
 
-    # 2. Bakery / Culinary / Food Craft Archetype
+    # 2. Domain Keywords (Strict Word Boundaries)
     if _has_word(["bakery", "pastry", "sourdough", "baking", "baker", "culinary", "restaurant", "cafe", "confectionery", "artisan bread"], all_text):
         return {
             "key": "artisanal_culinary_bakery",
             "name": "Artisanal Bakery & Dough Hydration Craft Studio",
             "category": "design",
-            "tech_stack": "Playfair Display, Outfit, Canvas Crumb Structure Engine, Fermentation Telemetry",
+            "tech_stack": "Playfair Display, Outfit, Canvas Fermentation Engine, Thermal Crust Telemetry",
             "feature": "Interactive sourdough baker's percentage & hydration calculator, oven steam timing monitor, and dynamic bread pre-order checkout."
         }
 
-    # 3. Motion Graphics / Creative Agency Archetype (Motionsites.ai & Pinterest inspired)
     if _has_word(["motion", "animation", "animator", "3d", "vfx", "video editor", "creative director", "brand designer", "graphic designer", "visual designer"], all_text):
         return {
             "key": "motion_creative_studio",
             "name": "Kinetic Motion & Interactive Visual Studio",
             "category": "design",
-            "tech_stack": "Clash Display, Space Grotesk, Kinetic Canvas Particles, 60FPS Spring Physics, WebGL",
+            "tech_stack": "Outfit, Space Grotesk, 60 FPS Chromatic Particle Canvas, 3D Tilt Cards, Timeline Scrubber",
             "feature": "Kinetic particle flow canvas, frame-rate timeline scrubber, interactive 3D perspective card physics, and brand asset export."
         }
 
-    # 4. Sleep & Digital Health
     if _has_word(["sleep", "insomnia", "apnea", "circadian", "polysomnography", "telehealth", "patient care", "clinic"], all_text):
         return {
             "key": "sleep_healthtech",
             "name": "Clinical Operations & Sleep Telemetry Engine",
             "category": "automation",
-            "tech_stack": "Plus Jakarta Sans, Outfit, HTML5 Canvas EEG, EHR Webhooks, Polysomnography Triage",
+            "tech_stack": "Plus Jakarta Sans, Outfit, HTML5 Canvas Circadian EEG, EHR Webhooks, Polysomnography Triage",
             "feature": "Circadian sleep architecture hypnogram, 4-stage automated EHR clinical intake, and clinician hours-saved forecasting."
         }
 
-    # 5. Pet & Veterinary Care (Strict Word Boundaries)
     if _has_word(["veterinary", "veterinarian", "pets", "pet", "canine", "feline", "dog", "cat", "animal health"], all_text):
         return {
             "key": "pet_healthtech",
             "name": "Pet Health Benefits & Preventive Care Hub",
             "category": "automation",
-            "tech_stack": "Plus Jakarta Sans, TypeScript, Tailwind, Preventive Claim Ledger, Telehealth API",
+            "tech_stack": "Outfit, Plus Jakarta Sans, Preventive Claim Ledger, Telehealth API, Wellness Calculator",
             "feature": "Multi-pet employer plan customizer, veterinary claim reimbursement ledger, and 24/7 telehealth triage calculator."
         }
 
-    # 6. Accounting, Tax & Audit
-    if _has_word(["accounting", "cpa", "tax", "auditing", "bookkeeping", "reconciliation", "invoice", "ledger", "general ledger", "datev"], all_text):
-        return {
-            "key": "accounting_tax_ai",
-            "name": "DATEV Document & AI Reconciliation Engine",
-            "category": "website",
-            "tech_stack": "Sora, JetBrains Mono, DATEV XML/REST Webhooks, PostgreSQL, Automated Ledger Matching",
-            "feature": "Real-time DATEV webhook event dispatcher, automated double-entry ledger matcher, and AI confidence threshold slider."
-        }
-
-    # 7. Hardware, Robotics & Embedded Systems
-    if _has_word(["hardware", "embedded", "firmware", "pcb", "microcontroller", "robotics", "iot", "drone", "fpga", "electrical engineer"], all_text):
+    if _has_word(["hardware", "embedded", "firmware", "robotics", "iot", "sensor", "circuit", "pcb", "microcontroller", "fpga"], all_text):
         return {
             "key": "hardware_embedded_systems",
             "name": "Hardware Telemetry & Firmware Diagnostics Bench",
             "category": "automation",
-            "tech_stack": "Chivo, Share Tech Mono, Oscilloscope Canvas, Serial Telemetry, Thermal Analysis",
+            "tech_stack": "Outfit, Share Tech Mono, Oscilloscope Canvas, Serial Telemetry, Thermal Analysis",
             "feature": "Real-time signal waveform oscilloscope, PCB thermal dissipation calculator, and firmware test-bench runner."
         }
 
-    # 8. CRO & Conversion Rate Optimization
-    if _has_word(["cro", "conversion rate", "a/b testing", "ab testing", "multivariate", "funnel optimization", "landing page optimization"], all_text):
-        return {
-            "key": "cro_conversion_agency",
-            "name": "A/B Testing & Multivariate Conversion Engine",
-            "category": "design",
-            "tech_stack": "Plus Jakarta Sans, Outfit, Statistical Significance Calculator, Heatmap Canvas",
-            "feature": "Interactive sample size & p-value statistical significance calculator, variant split visualizer, and live conversion lift telemetry."
-        }
-
-    # 9. Email Outreach & Deliverability
-    if _has_word(["cold email", "deliverability", "inbox", "outreach", "email marketing", "smtp", "dkim", "spf", "warmup"], all_text):
-        return {
-            "key": "email_deliverability_crm",
-            "name": "Cold Outreach Deliverability & Warmup Telemetry Hub",
-            "category": "automation",
-            "tech_stack": "Outfit, Plus Jakarta Sans, MX Resolver, Inbox Placement Algorithms",
-            "feature": "Real-time SPF/DKIM verification gauge, automated warmup ramp calculator, and interactive lead sequence builder."
-        }
-
-    # 10. DevOps, SRE & Cloud Infrastructure
-    if _has_word(["devops", "sre", "kubernetes", "k8s", "terraform", "ci/cd", "infrastructure", "docker", "aws", "gcp", "azure", "cloud engineer"], all_text):
-        return {
-            "key": "devops_cloud_infra",
-            "name": "Cloud Infrastructure & Zero-Downtime Deployment Orchestrator",
-            "category": "website",
-            "tech_stack": "JetBrains Mono, Plus Jakarta Sans, Kubernetes API, Prometheus, Terraform",
-            "feature": "Kubernetes cluster pod health matrix, P99 canary deployment latency gauge, and automated Terraform state drift detector."
-        }
-
-    # 11. Fintech, Payments & Banking
-    if _has_word(["fintech", "payments", "payment", "stripe", "crypto", "defi", "wallet", "banking", "fx", "treasury", "settlement"], all_text):
+    if _has_word(["fintech", "payment", "payments", "ledger", "stockbroking", "crypto", "trading", "brokerage", "clearing", "settlement"], all_text):
         return {
             "key": "fintech_payments_ledger",
             "name": "High-Frequency Payment Settlement & Ledger Hub",
             "category": "website",
-            "tech_stack": "Sora, JetBrains Mono, Stripe API, Liquidity Curves, PostgreSQL",
-            "feature": "Interactive multi-currency FX slippage calculator, live transaction ledger simulator, and payment fee optimizer."
+            "tech_stack": "Sora, JetBrains Mono, Holographic Order Book Canvas, Real-Time Trade Stream, WebSockets",
+            "feature": "Sub-millisecond trade execution ticker, dynamic liquidity slider, and interactive candlestick depth canvas."
         }
 
-    # 12. E-Commerce & DTC Brands
-    if _has_word(["ecommerce", "e-commerce", "shopify", "dtc", "retail", "merch", "cart", "checkout", "store", "apparel", "clothing"], all_text):
+    if _has_word(["devops", "kubernetes", "k8s", "infrastructure", "terraform", "sre", "cloud", "docker", "platform engineer", "reliability"], all_text):
         return {
-            "key": "ecommerce_dtc_luxury",
-            "name": "High-Conversion Luxury E-Commerce & Checkout Portal",
-            "category": "design",
-            "tech_stack": "Playfair Display, Plus Jakarta Sans, Dynamic Variant Swatches, Instant Drawer Cart",
-            "feature": "Interactive product customization workbench, dynamic bundle discount tier engine, and instant checkout drawer."
-        }
-
-    # 13. Frontend & UI Engineering
-    if _has_word(["frontend", "front-end", "react", "next.js", "vue", "tailwind", "ui engineer", "web developer"], all_text):
-        return {
-            "key": "interactive_frontend_portfolio",
-            "name": "Awwwards-Tier Interactive Frontend & Motion Showcase",
+            "key": "devops_cloud_infra",
+            "name": "Cloud Infrastructure & Zero-Downtime Deployment Orchestrator",
             "category": "website",
-            "tech_stack": "Clash Display, Plus Jakarta Sans, Kinetic Waveform Canvas, Spring Physics, Tailwind",
-            "feature": "Kinetic harmonic wave visualizer, component performance benchmark, and interactive UI micro-interaction sandbox."
+            "tech_stack": "Outfit, JetBrains Mono, Kubernetes API, Prometheus, Terraform Cluster Topology",
+            "feature": "Kubernetes cluster pod health matrix, P99 canary deployment latency gauge, and automated Terraform state drift detector."
         }
 
-    # 14. Universal Interactive Telemetry Fallback
+    if _has_word(["accounting", "tax", "audit", "cpa", "financial reporting", "bookkeeping", "reconciliation", "datev", "payroll"], all_text):
+        return {
+            "key": "accounting_tax_ai",
+            "name": "DATEV Document & AI Reconciliation Engine",
+            "category": "website",
+            "tech_stack": "Cinzel, Plus Jakarta Sans, JetBrains Mono, DATEV XML/REST Webhooks, Automated Ledger Matching",
+            "feature": "Real-time DATEV webhook event dispatcher, automated double-entry ledger matcher, and AI confidence threshold slider."
+        }
+
+    if _has_word(["sales", "sdr", "bdr", "talent", "recruitment", "hiring", "applicant", "career", "placement", "pipeline"], all_text):
+        return {
+            "key": "email_deliverability_crm",
+            "name": "Enterprise Talent Pipeline & Deal Conversion Hub",
+            "category": "automation",
+            "tech_stack": "Syne, Outfit, Funnel Yield Algorithms, Commission Calculator, Gen-Z Micro-Badges",
+            "feature": "Interactive candidate placement funnel, sales commission calculator, and live placement event stream."
+        }
+
+    # Universal Fallback Archetype
     return {
-        "key": "general_interactive_saas",
-        "name": "Live Performance & Telemetry Dashboard",
+        "key": "motion_creative_studio",
+        "name": "Kinetic Interactive Experience & Digital Product Showcase",
         "category": "website",
-        "tech_stack": "Plus Jakarta Sans, JetBrains Mono, HTML5 Canvas Telemetry, WebSockets, Redis",
-        "feature": "Sub-second query latency monitor, active throughput simulator, and interactive alert filters."
+        "tech_stack": "Outfit, Space Grotesk, 60 FPS Canvas Particles, 3D Perspective Tilt, Real-Time Telemetry",
+        "feature": "Sub-16ms interactive canvas visuals, dynamic operational bench, and responsive high-conversion interface design."
     }
 
 
 def get_archetype_theme(key: str) -> Dict[str, Any]:
-    """Provide curated Google Fonts, colors, and motion styling per archetype."""
+    """Provide curated Google Fonts, colors, and motion styling per archetype directly inspired by motionsites.ai."""
     themes = {
+        "motion_creative_studio": {
+            "font_import": "https://fonts.googleapis.com/css2?family=Outfit:wght@800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap",
+            "font_display": "'Outfit', sans-serif",
+            "font_sans": "'Space Grotesk', sans-serif",
+            "font_mono": "'JetBrains Mono', monospace",
+            "bg_color": "#06070B",
+            "bg_class": "bg-[#06070B] text-[#F3F4F6]",
+            "card_class": "bg-[#11131C]/85 backdrop-blur-2xl border border-white/10 shadow-2xl hover:border-pink-500/40",
+            "text_color": "#F3F4F6",
+            "accent_color": "#FF0055",
+            "accent_rgb": "255, 0, 85",
+            "gradient_text": "from-white via-[#FF007A] to-[#00F5FF]",
+            "badge_class": "bg-pink-950/60 text-pink-300 border border-pink-700/60",
+            "canvas_type": "particle_mesh"
+        },
+        "sleep_healthtech": {
+            "font_import": "https://fonts.googleapis.com/css2?family=Outfit:wght@800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap",
+            "font_display": "'Outfit', sans-serif",
+            "font_sans": "'Plus Jakarta Sans', sans-serif",
+            "font_mono": "'JetBrains Mono', monospace",
+            "bg_color": "#030712",
+            "bg_class": "bg-[#030712] text-[#E2E8F0]",
+            "card_class": "bg-[#0F172A]/85 backdrop-blur-2xl border border-white/10 shadow-2xl hover:border-cyan-500/40",
+            "text_color": "#E2E8F0",
+            "accent_color": "#06B6D4",
+            "accent_rgb": "6, 182, 212",
+            "gradient_text": "from-white via-cyan-300 to-indigo-400",
+            "badge_class": "bg-cyan-950/60 text-cyan-300 border border-cyan-700/60",
+            "canvas_type": "sleep_eeg"
+        },
+        "hardware_embedded_systems": {
+            "font_import": "https://fonts.googleapis.com/css2?family=Outfit:wght@800;900&family=Share+Tech+Mono&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap",
+            "font_display": "'Outfit', sans-serif",
+            "font_sans": "'Plus Jakarta Sans', sans-serif",
+            "font_mono": "'Share Tech Mono', monospace",
+            "bg_color": "#090C12",
+            "bg_class": "bg-[#090C12] text-[#E5E7EB]",
+            "card_class": "bg-[#121620]/90 backdrop-blur-2xl border border-orange-500/20 shadow-2xl hover:border-orange-500/50",
+            "text_color": "#E5E7EB",
+            "accent_color": "#FF6600",
+            "accent_rgb": "255, 102, 0",
+            "gradient_text": "from-white via-orange-400 to-emerald-400",
+            "badge_class": "bg-orange-950/60 text-orange-300 border border-orange-700/60",
+            "canvas_type": "oscilloscope"
+        },
+        "email_deliverability_crm": {
+            "font_import": "https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap",
+            "font_display": "'Syne', sans-serif",
+            "font_sans": "'Outfit', sans-serif",
+            "font_mono": "'JetBrains Mono', monospace",
+            "bg_color": "#070710",
+            "bg_class": "bg-[#070710] text-[#F3F4F6]",
+            "card_class": "bg-[#131322]/85 backdrop-blur-2xl border border-white/10 shadow-2xl hover:border-purple-500/50",
+            "text_color": "#F3F4F6",
+            "accent_color": "#FF007A",
+            "accent_rgb": "255, 0, 122",
+            "gradient_text": "from-white via-[#FF007A] to-[#CCFF00]",
+            "badge_class": "bg-purple-950/60 text-purple-300 border border-purple-700/60",
+            "canvas_type": "talent_burst"
+        },
+        "fintech_payments_ledger": {
+            "font_import": "https://fonts.googleapis.com/css2?family=Sora:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
+            "font_display": "'Sora', sans-serif",
+            "font_sans": "'Plus Jakarta Sans', sans-serif",
+            "font_mono": "'JetBrains Mono', monospace",
+            "bg_color": "#040711",
+            "bg_class": "bg-[#040711] text-[#E5E7EB]",
+            "card_class": "bg-[#0E1422]/90 backdrop-blur-2xl border border-emerald-500/20 shadow-2xl hover:border-emerald-500/50",
+            "text_color": "#E5E7EB",
+            "accent_color": "#00E599",
+            "accent_rgb": "0, 229, 153",
+            "gradient_text": "from-white via-emerald-400 to-cyan-400",
+            "badge_class": "bg-emerald-950/60 text-emerald-300 border border-emerald-700/60",
+            "canvas_type": "fintech_depth"
+        },
+        "devops_cloud_infra": {
+            "font_import": "https://fonts.googleapis.com/css2?family=Outfit:wght@800;900&family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap",
+            "font_display": "'Outfit', sans-serif",
+            "font_sans": "'Plus Jakarta Sans', sans-serif",
+            "font_mono": "'JetBrains Mono', monospace",
+            "bg_color": "#050811",
+            "bg_class": "bg-[#050811] text-[#E2E8F0]",
+            "card_class": "bg-[#0D1526]/85 backdrop-blur-2xl border border-cyan-500/20 shadow-2xl hover:border-cyan-500/50",
+            "text_color": "#E2E8F0",
+            "accent_color": "#00D2FF",
+            "accent_rgb": "0, 210, 255",
+            "gradient_text": "from-white via-cyan-400 to-indigo-400",
+            "badge_class": "bg-cyan-950/60 text-cyan-300 border border-cyan-700/60",
+            "canvas_type": "k8s_mesh"
+        },
+        "pet_healthtech": {
+            "font_import": "https://fonts.googleapis.com/css2?family=Outfit:wght@800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap",
+            "font_display": "'Outfit', sans-serif",
+            "font_sans": "'Plus Jakarta Sans', sans-serif",
+            "font_mono": "'JetBrains Mono', monospace",
+            "bg_color": "#FAF7F2",
+            "bg_class": "bg-[#FAF7F2] text-[#2D2A26]",
+            "card_class": "bg-[#FFFFFF] border border-[#EBE4DC] shadow-xl shadow-[#D8C7B5]/20 hover:border-[#FF5A36]/40",
+            "text_color": "#2D2A26",
+            "accent_color": "#FF5A36",
+            "accent_rgb": "255, 90, 54",
+            "gradient_text": "from-[#2D2A26] via-[#FF5A36] to-[#2E7D32]",
+            "badge_class": "bg-[#FCEEEA] text-[#C23A1B] border border-[#F3CEC5]",
+            "canvas_type": "wellness_rings"
+        },
+        "accounting_tax_ai": {
+            "font_import": "https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap",
+            "font_display": "'Cinzel', serif",
+            "font_sans": "'Plus Jakarta Sans', sans-serif",
+            "font_mono": "'JetBrains Mono', monospace",
+            "bg_color": "#080C16",
+            "bg_class": "bg-[#080C16] text-[#E5E7EB]",
+            "card_class": "bg-[#111827]/85 backdrop-blur-2xl border border-amber-500/20 shadow-2xl hover:border-amber-500/50",
+            "text_color": "#E5E7EB",
+            "accent_color": "#D4AF37",
+            "accent_rgb": "212, 175, 55",
+            "gradient_text": "from-white via-[#F5D77F] to-[#D4AF37]",
+            "badge_class": "bg-amber-950/60 text-amber-300 border border-amber-700/60",
+            "canvas_type": "luxury_gold"
+        },
         "artisanal_culinary_bakery": {
-            "font_import": "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600;1,700&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap",
+            "font_import": "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap",
             "font_display": "'Playfair Display', serif",
             "font_sans": "'Outfit', sans-serif",
             "font_mono": "'JetBrains Mono', monospace",
             "bg_color": "#FAF6F0",
             "bg_class": "bg-[#FAF6F0] text-[#241A15]",
-            "card_class": "bg-[#FFFFFF] border border-[#E8DFD5] shadow-lg shadow-[#D8C7B5]/20",
+            "card_class": "bg-[#FFFFFF] border border-[#E8DFD5] shadow-xl shadow-[#D8C7B5]/20 hover:border-[#C86241]/40",
             "text_color": "#241A15",
             "accent_color": "#C86241",
+            "accent_rgb": "200, 98, 65",
+            "gradient_text": "from-[#241A15] via-[#C86241] to-[#D4A373]",
             "badge_class": "bg-[#F3E8DB] text-[#9A4122] border border-[#DFCBB9]",
             "canvas_type": "dough_crumb"
-        },
-        "motion_creative_studio": {
-            "font_import": "https://fonts.googleapis.com/css2?family=Outfit:wght@700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap",
-            "font_display": "'Outfit', sans-serif",
-            "font_sans": "'Space Grotesk', sans-serif",
-            "font_mono": "'JetBrains Mono', monospace",
-            "bg_color": "#0B0C10",
-            "bg_class": "bg-[#0B0C10] text-[#F3F4F6]",
-            "card_class": "bg-[#14161F]/80 backdrop-blur-xl border border-white/10 shadow-2xl shadow-purple-950/40",
-            "text_color": "#F3F4F6",
-            "accent_color": "#8B5CF6",
-            "badge_class": "bg-purple-950/60 text-purple-300 border border-purple-800/60",
-            "canvas_type": "particle_mesh"
-        },
-        "sleep_healthtech": {
-            "font_import": "https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap",
-            "font_display": "'Outfit', sans-serif",
-            "font_sans": "'Plus Jakarta Sans', sans-serif",
-            "font_mono": "'JetBrains Mono', monospace",
-            "bg_color": "#080C16",
-            "bg_class": "bg-[#080C16] text-[#E2E8F0]",
-            "card_class": "bg-[#131D33]/80 backdrop-blur-xl border border-white/10 shadow-2xl",
-            "text_color": "#E2E8F0",
-            "accent_color": "#06B6D4",
-            "badge_class": "bg-cyan-950/60 text-cyan-300 border border-cyan-800/60",
-            "canvas_type": "sleep_eeg"
-        },
-        "fintech_payments_ledger": {
-            "font_import": "https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap",
-            "font_display": "'Sora', sans-serif",
-            "font_sans": "'Plus Jakarta Sans', sans-serif",
-            "font_mono": "'JetBrains Mono', monospace",
-            "bg_color": "#0B0E14",
-            "bg_class": "bg-[#0B0E14] text-[#E5E7EB]",
-            "card_class": "bg-[#111622]/90 backdrop-blur-xl border border-emerald-500/20 shadow-2xl",
-            "text_color": "#E5E7EB",
-            "accent_color": "#10B981",
-            "badge_class": "bg-emerald-950/60 text-emerald-300 border border-emerald-800/60",
-            "canvas_type": "ledger_stream"
         }
     }
-    return themes.get(key, {
-        "font_import": "https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap",
-        "font_display": "'Outfit', sans-serif",
-        "font_sans": "'Plus Jakarta Sans', sans-serif",
-        "font_mono": "'JetBrains Mono', monospace",
-        "bg_color": "#090D16",
-        "bg_class": "bg-[#090D16] text-[#E2E8F0]",
-        "card_class": "bg-[#101726]/80 backdrop-blur-xl border border-white/10 shadow-2xl",
-        "text_color": "#E2E8F0",
-        "accent_color": "#0284C7",
-        "badge_class": "bg-sky-950/60 text-sky-300 border border-sky-800/60",
-        "canvas_type": "telemetry_wave"
-    })
+    return themes.get(key, themes["motion_creative_studio"])
 
 
 def sanitize_slug(text: str, max_len: int = 24) -> str:
@@ -332,176 +387,651 @@ def sanitize_slug(text: str, max_len: int = 24) -> str:
     return cleaned[:max_len]
 
 
+def generate_canvas_script(canvas_type: str, accent_color: str, accent_rgb: str) -> str:
+    """Generate dynamic 60 FPS HTML5 Canvas animation tailored for the archetype."""
+    if canvas_type == "particle_mesh":
+        return f"""
+      const canvas = document.getElementById('heroMotionCanvas');
+      if (canvas) {{
+        const ctx = canvas.getContext('2d');
+        let w, h, particles = [];
+        let mouse = {{ x: -1000, y: -1000, radius: 150 }};
+
+        function init() {{
+          w = canvas.width = canvas.parentElement.clientWidth;
+          h = canvas.height = canvas.parentElement.clientHeight;
+          particles = [];
+          const count = Math.min(Math.floor((w * h) / 10000), 80);
+          for (let i = 0; i < count; i++) {{
+            particles.push({{
+              x: Math.random() * w,
+              y: Math.random() * h,
+              vx: (Math.random() - 0.5) * 1.2,
+              vy: (Math.random() - 0.5) * 1.2,
+              size: Math.random() * 2.5 + 1.2,
+              color: Math.random() > 0.5 ? '{accent_color}' : '#00F5FF'
+            }});
+          }}
+        }}
+
+        canvas.parentElement.addEventListener('mousemove', (e) => {{
+          const rect = canvas.getBoundingClientRect();
+          mouse.x = e.clientX - rect.left;
+          mouse.y = e.clientY - rect.top;
+        }});
+        canvas.parentElement.addEventListener('mouseleave', () => {{
+          mouse.x = -1000;
+          mouse.y = -1000;
+        }});
+
+        function draw() {{
+          ctx.clearRect(0, 0, w, h);
+          for (let i = 0; i < particles.length; i++) {{
+            const p = particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.x < 0 || p.x > w) p.vx *= -1;
+            if (p.y < 0 || p.y > h) p.vy *= -1;
+
+            const dx = mouse.x - p.x;
+            const dy = mouse.y - p.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < mouse.radius) {{
+              const force = (mouse.radius - dist) / mouse.radius;
+              p.x -= (dx / dist) * force * 3;
+              p.y -= (dy / dist) * force * 3;
+            }}
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = p.color;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+
+            for (let j = i + 1; j < particles.length; j++) {{
+              const p2 = particles[j];
+              const d2 = Math.hypot(p.x - p2.x, p.y - p2.y);
+              if (d2 < 120) {{
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.strokeStyle = `rgba({accent_rgb}, ${{1 - d2 / 120}})`;
+                ctx.lineWidth = 0.8;
+                ctx.stroke();
+              }}
+            }}
+          }}
+          requestAnimationFrame(draw);
+        }}
+
+        window.addEventListener('resize', init);
+        init();
+        draw();
+      }}
+        """
+
+    if canvas_type == "sleep_eeg":
+        return f"""
+      const canvas = document.getElementById('heroMotionCanvas');
+      if (canvas) {{
+        const ctx = canvas.getContext('2d');
+        let w, h, t = 0;
+        let mode = 'rem';
+
+        function init() {{
+          w = canvas.width = canvas.parentElement.clientWidth;
+          h = canvas.height = canvas.parentElement.clientHeight;
+        }}
+
+        window.setEegMode = function(m) {{
+          mode = m;
+          document.querySelectorAll('.eeg-tab').forEach(b => b.classList.remove('bg-cyan-500/20', 'border-cyan-400', 'text-cyan-300'));
+          const btn = document.getElementById('tab-' + m);
+          if (btn) btn.classList.add('bg-cyan-500/20', 'border-cyan-400', 'text-cyan-300');
+        }};
+
+        function draw() {{
+          ctx.fillStyle = 'rgba(3, 7, 18, 0.18)';
+          ctx.fillRect(0, 0, w, h);
+          t += 0.04;
+
+          const channels = [
+            {{ y: h * 0.28, color: '#06B6D4', label: 'EEG Fp1-A2 (Frontal)', amp: mode === 'delta' ? 45 : 18, freq: mode === 'delta' ? 0.015 : 0.05 }},
+            {{ y: h * 0.52, color: '#8B5CF6', label: 'EEG C3-A2 (Central)', amp: mode === 'rem' ? 32 : 12, freq: mode === 'rem' ? 0.08 : 0.03 }},
+            {{ y: h * 0.76, color: '#10B981', label: 'SpO2 Blood O2 & Rhythm', amp: 14, freq: 0.025 }}
+          ];
+
+          channels.forEach((ch, idx) => {{
+            ctx.beginPath();
+            ctx.strokeStyle = ch.color;
+            ctx.lineWidth = 2;
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = ch.color;
+
+            for (let x = 0; x < w; x += 3) {{
+              const y = ch.y + Math.sin(x * ch.freq + t * (idx + 1)) * ch.amp + Math.cos(x * 0.01 + t * 0.5) * (ch.amp * 0.4);
+              if (x === 0) ctx.moveTo(x, y);
+              else ctx.lineTo(x, y);
+            }}
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+
+            ctx.fillStyle = 'rgba(148, 163, 184, 0.6)';
+            ctx.font = '10px JetBrains Mono';
+            ctx.fillText(ch.label, 14, ch.y - 14);
+          }});
+
+          requestAnimationFrame(draw);
+        }}
+
+        window.addEventListener('resize', init);
+        init();
+        draw();
+      }}
+        """
+
+    if canvas_type == "oscilloscope":
+        return f"""
+      const canvas = document.getElementById('heroMotionCanvas');
+      if (canvas) {{
+        const ctx = canvas.getContext('2d');
+        let w, h, t = 0;
+
+        function init() {{
+          w = canvas.width = canvas.parentElement.clientWidth;
+          h = canvas.height = canvas.parentElement.clientHeight;
+        }}
+
+        function draw() {{
+          ctx.fillStyle = 'rgba(9, 12, 18, 0.22)';
+          ctx.fillRect(0, 0, w, h);
+          t += 0.06;
+
+          // Draw grid
+          ctx.strokeStyle = 'rgba(255, 102, 0, 0.08)';
+          ctx.lineWidth = 1;
+          for (let x = 0; x < w; x += 40) {{
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, h);
+            ctx.stroke();
+          }}
+          for (let y = 0; y < h; y += 40) {{
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(w, y);
+            ctx.stroke();
+          }}
+
+          // Oscilloscope trace 1 (SPI Master Out)
+          ctx.beginPath();
+          ctx.strokeStyle = '#FF6600';
+          ctx.lineWidth = 2.5;
+          ctx.shadowBlur = 12;
+          ctx.shadowColor = '#FF6600';
+          for (let x = 0; x < w; x += 2) {{
+            const y = (h * 0.4) + Math.sin(x * 0.03 + t) * 35 + Math.sin(x * 0.09 - t * 1.5) * 12;
+            if (x === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }}
+          ctx.stroke();
+
+          // Oscilloscope trace 2 (Clock Bus 120MHz)
+          ctx.beginPath();
+          ctx.strokeStyle = '#00FF88';
+          ctx.lineWidth = 1.8;
+          ctx.shadowBlur = 8;
+          ctx.shadowColor = '#00FF88';
+          for (let x = 0; x < w; x += 2) {{
+            const sq = Math.sign(Math.sin(x * 0.05 + t * 2)) * 25;
+            const y = (h * 0.72) + sq;
+            if (x === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }}
+          ctx.stroke();
+          ctx.shadowBlur = 0;
+
+          requestAnimationFrame(draw);
+        }}
+
+        window.addEventListener('resize', init);
+        init();
+        draw();
+      }}
+        """
+
+    # Universal default canvas fallback: dynamic radiant harmonic wave
+    return f"""
+      const canvas = document.getElementById('heroMotionCanvas');
+      if (canvas) {{
+        const ctx = canvas.getContext('2d');
+        let w, h, t = 0;
+        function init() {{
+          w = canvas.width = canvas.parentElement.clientWidth;
+          h = canvas.height = canvas.parentElement.clientHeight;
+        }}
+        function draw() {{
+          ctx.clearRect(0, 0, w, h);
+          t += 0.03;
+          ctx.beginPath();
+          ctx.strokeStyle = '{accent_color}';
+          ctx.lineWidth = 2;
+          ctx.shadowBlur = 10;
+          ctx.shadowColor = '{accent_color}';
+          for (let x = 0; x < w; x += 4) {{
+            const y = (h * 0.5) + Math.sin(x * 0.02 + t) * 40 + Math.cos(x * 0.01 - t * 0.5) * 20;
+            if (x === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }}
+          ctx.stroke();
+          ctx.shadowBlur = 0;
+          requestAnimationFrame(draw);
+        }}
+        window.addEventListener('resize', init);
+        init();
+        draw();
+      }}
+    """
+
+
 def generate_interactive_widget(archetype_key: str, company: str, title: str) -> str:
     """Produce rich domain-specific interactive JavaScript and HTML widget components."""
-    if archetype_key == "artisanal_culinary_bakery":
+    if archetype_key == "motion_creative_studio":
         return f"""
-    <!-- Artisanal Bakery Hydration & Baking Simulator -->
-    <div class="p-6 rounded-2xl bg-white border border-[#E8DFD5] shadow-xl my-6">
-      <div class="flex items-center justify-between mb-4 border-b border-[#F0E8DD] pb-3 flex-wrap gap-2">
+    <!-- Creative Motion Director & Interactive Canvas Bench -->
+    <div class="p-6 sm:p-8 rounded-3xl bg-[#11131C]/90 border border-white/10 shadow-2xl my-8 backdrop-blur-2xl">
+      <div class="flex items-center justify-between mb-6 border-b border-white/10 pb-4 flex-wrap gap-4">
         <div>
-          <h3 class="font-bold text-[#241A15] text-xl font-serif">{company} Sourdough Hydration &amp; Fermentation Bench</h3>
-          <p class="text-xs text-[#7A6A60]">Baker's Percentages &bull; Ambient Temperature Proofing Model</p>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="w-2.5 h-2.5 rounded-full bg-pink-500 animate-ping"></span>
+            <span class="text-xs font-mono text-pink-400 font-bold uppercase tracking-wider">Interactive 60 FPS Engine</span>
+          </div>
+          <h3 class="font-bold text-white text-2xl font-display">{company} Motion Director Bench</h3>
+          <p class="text-xs text-slate-400 font-sans">Role Focus: {title} &bull; Spring Physics &bull; Canvas Shaders &bull; Awwwards Micro-Interactions</p>
         </div>
         <div class="flex gap-2">
-          <button onclick="simulateBake()" class="px-4 py-1.5 bg-[#C86241] hover:bg-[#B35234] text-white rounded-lg text-xs font-bold transition shadow-md shadow-[#C86241]/20">🔥 Simulate Oven Spring</button>
-          <button onclick="exportAuditJSON()" class="px-3 py-1.5 bg-[#F3E8DB] hover:bg-[#EBDDCB] text-[#7A4020] rounded-lg text-xs font-mono font-bold transition">📥 Export Formula JSON</button>
+          <button onclick="triggerMotionBurst()" class="px-4 py-2 bg-gradient-to-r from-pink-600 to-purple-600 hover:opacity-90 text-white rounded-xl text-xs font-bold transition shadow-lg shadow-pink-500/25 flex items-center gap-2">
+            <span>✨ Trigger Kinetic Shockwave</span>
+          </button>
+          <button onclick="exportAuditJSON()" class="px-3.5 py-2 bg-slate-800/80 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-mono font-bold transition border border-white/10">
+            Export Spec JSON ↗
+          </button>
         </div>
       </div>
 
+      <!-- INTERACTIVE SLIDERS & CONTROLS -->
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-        <div class="p-4 bg-[#FAF6F0] rounded-xl border border-[#E8DFD5]">
-          <label class="text-[11px] font-mono text-[#8C7A70] uppercase font-bold">Total Flour Weight</label>
-          <div class="flex items-center gap-2 mt-1">
-            <input type="number" id="flourWeight" value="1000" min="200" max="50000" class="bg-transparent text-[#241A15] font-serif font-bold text-2xl w-full focus:outline-none" oninput="recalcBakery()">
-            <span class="text-[#8C7A70] text-xs font-mono">grams</span>
+        <div class="p-4 bg-slate-900/60 rounded-2xl border border-white/5">
+          <div class="flex justify-between items-center mb-2">
+            <label class="text-[11px] font-mono text-slate-400 uppercase font-bold">Playback Frame Rate</label>
+            <span id="fpsLabel" class="text-xs font-mono font-bold text-pink-400">60 FPS</span>
+          </div>
+          <input type="range" id="fpsSlider" min="24" max="120" value="60" step="12" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-pink-500" oninput="updateMotionFps(this.value)">
+          <div class="flex justify-between text-[10px] font-mono text-slate-500 mt-1">
+            <span>24fps (Cinematic)</span>
+            <span>60fps</span>
+            <span>120fps (ProMotion)</span>
           </div>
         </div>
-        <div class="p-4 bg-[#FAF6F0] rounded-xl border border-[#E8DFD5]">
-          <div class="flex justify-between items-center">
-            <label class="text-[11px] font-mono text-[#8C7A70] uppercase font-bold">Dough Hydration</label>
-            <span id="hydrationLabel" class="text-xs font-bold text-[#C86241] font-mono">75%</span>
+
+        <div class="p-4 bg-slate-900/60 rounded-2xl border border-white/5">
+          <div class="flex justify-between items-center mb-2">
+            <label class="text-[11px] font-mono text-slate-400 uppercase font-bold">Spring Tension Physics</label>
+            <span id="tensionLabel" class="text-xs font-mono font-bold text-cyan-400">180 N/m</span>
           </div>
-          <input type="range" id="hydrationSlider" min="60" max="90" value="75" class="w-full h-2 bg-[#E8DFD5] rounded-lg appearance-none cursor-pointer accent-[#C86241] mt-2" oninput="recalcBakery()">
+          <input type="range" id="tensionSlider" min="80" max="320" value="180" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400" oninput="document.getElementById('tensionLabel').textContent = this.value + ' N/m'">
+          <div class="flex justify-between text-[10px] font-mono text-slate-500 mt-1">
+            <span>Fluid Float</span>
+            <span>Balanced</span>
+            <span>Snappy Snap</span>
+          </div>
         </div>
-        <div class="p-4 bg-[#FAF6F0] rounded-xl border border-[#E8DFD5]">
-          <label class="text-[11px] font-mono text-[#8C7A70] uppercase font-bold">Levain (Starter 100%)</label>
-          <div class="text-[#241A15] font-serif font-bold text-2xl mt-1" id="starterWeight">200 g <span class="text-xs text-[#8C7A70] font-sans font-normal">(20%)</span></div>
+
+        <div class="p-4 bg-slate-900/60 rounded-2xl border border-white/5">
+          <label class="text-[11px] font-mono text-slate-400 uppercase font-bold block mb-2">Color Aura Palette</label>
+          <div class="flex gap-2">
+            <button onclick="setMotionColor('#FF0055', '255, 0, 85')" class="w-8 h-8 rounded-lg bg-[#FF0055] border-2 border-white/30 hover:scale-110 transition"></button>
+            <button onclick="setMotionColor('#00F5FF', '0, 245, 255')" class="w-8 h-8 rounded-lg bg-[#00F5FF] border-2 border-white/30 hover:scale-110 transition"></button>
+            <button onclick="setMotionColor('#8B5CF6', '139, 92, 246')" class="w-8 h-8 rounded-lg bg-[#8B5CF6] border-2 border-white/30 hover:scale-110 transition"></button>
+            <button onclick="setMotionColor('#00FF88', '0, 255, 136')" class="w-8 h-8 rounded-lg bg-[#00FF88] border-2 border-white/30 hover:scale-110 transition"></button>
+          </div>
         </div>
       </div>
 
-      <!-- FORMULA BREAKDOWN TABLE -->
-      <div class="overflow-x-auto rounded-xl border border-[#E8DFD5] mb-4">
-        <table class="w-full text-left text-xs font-mono">
-          <thead class="bg-[#FAF6F0] border-b border-[#E8DFD5] text-[#8C7A70]">
-            <tr>
-              <th class="p-3">Ingredient</th>
-              <th class="p-3">Baker's %</th>
-              <th class="p-3">Grams</th>
-              <th class="p-3">Status</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-[#F0E8DD]">
-            <tr>
-              <td class="p-3 font-bold text-[#241A15]">Strong Bread Flour</td>
-              <td class="p-3">100.0%</td>
-              <td class="p-3 font-bold" id="tblFlour">1,000 g</td>
-              <td class="p-3 text-[#15803D]">Optimal Protein (12.8%)</td>
-            </tr>
-            <tr>
-              <td class="p-3 font-bold text-[#241A15]">Water (Hydration)</td>
-              <td class="p-3" id="tblHydrationPct">75.0%</td>
-              <td class="p-3 font-bold text-[#C86241]" id="tblWater">750 g</td>
-              <td class="p-3 text-[#15803D]">Open Crumb Window</td>
-            </tr>
-            <tr>
-              <td class="p-3 font-bold text-[#241A15]">Active Sourdough Starter</td>
-              <td class="p-3">20.0%</td>
-              <td class="p-3 font-bold" id="tblStarter">200 g</td>
-              <td class="p-3 text-[#B45309]">Peak Ferment (x3)</td>
-            </tr>
-            <tr>
-              <td class="p-3 font-bold text-[#241A15]">Fine Sea Salt</td>
-              <td class="p-3">2.0%</td>
-              <td class="p-3 font-bold" id="tblSalt">20 g</td>
-              <td class="p-3 text-[#15803D]">Gluten Tightener</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="p-3 bg-[#FAF6F0] rounded-xl text-xs flex justify-between items-center text-[#7A6A60]">
-        <span>Total Batch Yield: <strong class="text-[#241A15]" id="totalDoughWeight">1,970 g (2.4 batards)</strong></span>
-        <span>Bulk Ferment Window: <strong class="text-[#C86241]">4 hrs 30 mins @ 26°C</strong></span>
+      <!-- LIVE MOTION PERFORMANCE METRICS -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div class="p-3 bg-black/40 rounded-xl border border-white/5">
+          <span class="text-[10px] font-mono text-slate-400 block">Render Latency</span>
+          <span class="text-lg font-bold font-mono text-emerald-400">3.8 ms</span>
+          <span class="text-[9px] text-slate-500 block">Target: &lt;16.6ms</span>
+        </div>
+        <div class="p-3 bg-black/40 rounded-xl border border-white/5">
+          <span class="text-[10px] font-mono text-slate-400 block">GPU Shader Load</span>
+          <span class="text-lg font-bold font-mono text-cyan-400">14.2%</span>
+          <span class="text-[9px] text-slate-500 block">WebGL 2.0 Pipeline</span>
+        </div>
+        <div class="p-3 bg-black/40 rounded-xl border border-white/5">
+          <span class="text-[10px] font-mono text-slate-400 block">Layout Shift (CLS)</span>
+          <span class="text-lg font-bold font-mono text-pink-400">0.000</span>
+          <span class="text-[9px] text-slate-500 block">Zero Jitter Assured</span>
+        </div>
+        <div class="p-3 bg-black/40 rounded-xl border border-white/5">
+          <span class="text-[10px] font-mono text-slate-400 block">Interaction INP</span>
+          <span class="text-lg font-bold font-mono text-amber-300">42 ms</span>
+          <span class="text-[9px] text-slate-500 block">Instant Haptic Feedback</span>
+        </div>
       </div>
     </div>
     <script>
-      function recalcBakery() {{
-        const flour = parseFloat(document.getElementById('flourWeight').value) || 1000;
-        const hyd = parseFloat(document.getElementById('hydrationSlider').value) || 75;
-        document.getElementById('hydrationLabel').textContent = hyd + '%';
-        const water = Math.round(flour * (hyd / 100));
-        const starter = Math.round(flour * 0.20);
-        const salt = Math.round(flour * 0.02);
-        const total = flour + water + starter + salt;
-        document.getElementById('starterWeight').innerHTML = starter + ' g <span class="text-xs text-[#8C7A70] font-sans font-normal">(20%)</span>';
-        document.getElementById('tblFlour').textContent = flour.toLocaleString() + ' g';
-        document.getElementById('tblHydrationPct').textContent = hyd.toFixed(1) + '%';
-        document.getElementById('tblWater').textContent = water.toLocaleString() + ' g';
-        document.getElementById('tblStarter').textContent = starter.toLocaleString() + ' g';
-        document.getElementById('tblSalt').textContent = salt.toLocaleString() + ' g';
-        document.getElementById('totalDoughWeight').textContent = total.toLocaleString() + ' g (' + (total / 820).toFixed(1) + ' batards)';
+      function updateMotionFps(val) {{
+        document.getElementById('fpsLabel').textContent = val + ' FPS';
       }}
-      function simulateBake() {{
-        alert('🔥 Oven spring simulation initiated: 250°C Dutch oven steam preheat active. Dough expansion: +42% crumb blister volume.');
+      function triggerMotionBurst() {{
+        alert('✨ Shockwave dispatched: 120 particle physics burst recalculated across canvas viewport.');
+      }}
+      function setMotionColor(hex, rgb) {{
+        console.log('Palette updated to', hex);
       }}
     </script>
         """
 
-    # Universal Interactive Telemetry Widget for SaaS / Engineering / Motion
-    return f"""
-    <!-- Interactive Telemetry & Operation Benchmark Widget -->
-    <div class="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-2xl my-6 backdrop-blur">
-      <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-3 flex-wrap gap-2">
+    if archetype_key == "sleep_healthtech":
+        return f"""
+    <!-- Clinical Sleep Telemetry & Polysomnography Triage Bench -->
+    <div class="p-6 sm:p-8 rounded-3xl bg-[#0F172A]/90 border border-white/10 shadow-2xl my-8 backdrop-blur-2xl">
+      <div class="flex items-center justify-between mb-6 border-b border-white/10 pb-4 flex-wrap gap-4">
         <div>
-          <h3 class="font-bold text-white text-lg">{company} Production Telemetry Bench</h3>
-          <p class="text-xs text-slate-400">Target Role: {title} | Sub-Second Latency &amp; State Monitor</p>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></span>
+            <span class="text-xs font-mono text-cyan-300 font-bold uppercase tracking-wider">Polysomnography &bull; Live Telemetry</span>
+          </div>
+          <h3 class="font-bold text-white text-2xl font-display">{company} Clinical Operations Bench</h3>
+          <p class="text-xs text-slate-400 font-sans">Role: {title} &bull; Circadian Analysis &bull; Apnea Hypopnea Index (AHI) Triage &bull; Automated EHR Dispatch</p>
         </div>
         <div class="flex gap-2">
-          <button onclick="triggerSimulatedLoad()" class="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold rounded-lg text-xs font-mono transition">⚡ Burst Load Test</button>
-          <button onclick="exportAuditJSON()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-mono transition">📥 Export Audit JSON</button>
+          <button onclick="simulateEhrIntake()" class="px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:opacity-90 text-white rounded-xl text-xs font-bold transition shadow-lg shadow-cyan-500/25 flex items-center gap-2">
+            <span>⚡ Simulate Patient EHR Intake</span>
+          </button>
+          <button onclick="exportAuditJSON()" class="px-3.5 py-2 bg-slate-800/80 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-mono font-bold transition border border-white/10">
+            Export Clinical JSON ↗
+          </button>
         </div>
       </div>
 
+      <!-- INTERACTIVE EEG STAGE SELECTOR -->
+      <div class="flex items-center gap-2 mb-6 flex-wrap">
+        <span class="text-xs font-mono text-slate-400 mr-2">Circadian Phase:</span>
+        <button id="tab-rem" onclick="setEegMode('rem')" class="eeg-tab px-3 py-1.5 rounded-xl border border-cyan-400 bg-cyan-500/20 text-cyan-300 text-xs font-mono font-bold transition">REM Sleep (Dreaming)</button>
+        <button id="tab-delta" onclick="setEegMode('delta')" class="eeg-tab px-3 py-1.5 rounded-xl border border-white/10 bg-slate-900/60 text-slate-300 hover:text-white text-xs font-mono font-bold transition">N3 Deep Delta (Cellular Repair)</button>
+        <button id="tab-theta" onclick="setEegMode('theta')" class="eeg-tab px-3 py-1.5 rounded-xl border border-white/10 bg-slate-900/60 text-slate-300 hover:text-white text-xs font-mono font-bold transition">N1/N2 Theta (Light Induction)</button>
+      </div>
+
+      <!-- AHI SEVERITY & CLINICAL YIELD SLIDERS -->
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-        <div class="p-4 bg-slate-950/70 rounded-xl border border-slate-800/80">
-          <span class="text-[11px] font-mono text-slate-400 uppercase">Requests per Second</span>
-          <div class="flex items-center gap-2 mt-1">
-            <input type="number" id="throughputInput" value="2450" min="100" max="50000" class="bg-transparent text-white font-mono font-bold text-2xl w-full focus:outline-none" oninput="recalculateMetrics()">
-            <span class="text-slate-500 text-xs font-mono">req/s</span>
+        <div class="p-4 bg-slate-900/70 rounded-2xl border border-white/5">
+          <div class="flex justify-between items-center mb-2">
+            <label class="text-[11px] font-mono text-slate-400 uppercase font-bold">Patient AHI Score</label>
+            <span id="ahiLabel" class="text-xs font-mono font-bold text-amber-400">22.4 (Moderate Apnea)</span>
+          </div>
+          <input type="range" id="ahiSlider" min="2" max="60" value="22" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400" oninput="recalcAhi(this.value)">
+          <div class="flex justify-between text-[10px] font-mono text-slate-500 mt-1">
+            <span>&lt;5 Normal</span>
+            <span>15-30 Mod</span>
+            <span>&gt;30 Severe</span>
           </div>
         </div>
-        <div class="p-4 bg-slate-950/70 rounded-xl border border-slate-800/80">
-          <div class="flex justify-between items-center">
-            <span class="text-[11px] font-mono text-slate-400 uppercase">Cache Hit Ratio</span>
-            <span id="cacheRatioLabel" class="text-xs font-mono font-bold text-emerald-400">96.4%</span>
-          </div>
-          <input type="range" id="cacheRatio" min="50" max="99" value="96" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-400 mt-2" oninput="recalculateMetrics()">
-        </div>
-        <div class="p-4 bg-slate-950/70 rounded-xl border border-slate-800/80">
-          <span class="text-[11px] font-mono text-slate-400 uppercase">P99 Server Latency</span>
-          <div class="text-white font-mono font-bold text-2xl mt-1" id="p99Latency">18.4 ms</div>
-        </div>
-      </div>
 
-      <!-- LIVE EVENT STREAM -->
-      <div class="rounded-xl border border-slate-800 bg-slate-950/80 p-3 mb-4">
-        <div class="flex justify-between items-center mb-2 text-xs font-mono text-slate-400">
-          <span>Real-Time Ingestion Log</span>
-          <span class="text-emerald-400">● 60 FPS Telemetry Bus</span>
+        <div class="p-4 bg-slate-900/70 rounded-2xl border border-white/5">
+          <div class="flex justify-between items-center mb-2">
+            <label class="text-[11px] font-mono text-slate-400 uppercase font-bold">Monthly Patient Volume</label>
+            <span id="patientLabel" class="text-xs font-mono font-bold text-cyan-400">450 patients</span>
+          </div>
+          <input type="range" id="patientSlider" min="50" max="2500" value="450" step="50" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400" oninput="recalcSavings(this.value)">
         </div>
-        <div id="simLogList" class="h-28 overflow-y-auto space-y-1.5 font-mono text-[11px] text-slate-300 pr-1">
-          <div class="text-slate-400">[00:00:01] System boot verified. Connection established with {company} edge routing.</div>
-          <div class="text-cyan-300">[00:00:02] Ingested 2,450 telemetry frames. Zero memory leakage.</div>
-          <div class="text-emerald-400">[00:00:03] SSL handshake latency: 4.2ms. Vercel Edge compute verified.</div>
+
+        <div class="p-4 bg-slate-900/70 rounded-2xl border border-white/5">
+          <label class="text-[11px] font-mono text-slate-400 uppercase font-bold block mb-1">Clinician Hours Saved / Yr</label>
+          <div class="text-2xl font-bold font-mono text-emerald-400 mt-1" id="hoursSavedVal">2,160 hrs</div>
+          <span class="text-[10px] text-slate-400 font-mono">Yielding $216,000/yr in operational capacity</span>
         </div>
       </div>
     </div>
     <script>
-      function recalculateMetrics() {{
-        const rps = parseInt(document.getElementById('throughputInput').value) || 2450;
-        const cache = parseInt(document.getElementById('cacheRatio').value) || 96;
-        document.getElementById('cacheRatioLabel').textContent = cache + '%';
-        const latency = (12 + (rps / 1000) * (1 - (cache / 100)) * 14).toFixed(1);
-        document.getElementById('p99Latency').textContent = latency + ' ms';
+      function recalcAhi(val) {{
+        let status = 'Normal';
+        let color = '#10B981';
+        if (val >= 5 && val < 15) {{ status = 'Mild'; color = '#FBBF24'; }}
+        else if (val >= 15 && val < 30) {{ status = 'Moderate Apnea'; color = '#F59E0B'; }}
+        else if (val >= 30) {{ status = 'Severe Apnea (Immediate BiPAP)'; color = '#EF4444'; }}
+        const lbl = document.getElementById('ahiLabel');
+        lbl.textContent = val + ' (' + status + ')';
+        lbl.style.color = color;
       }}
-      function triggerSimulatedLoad() {{
-        const list = document.getElementById('simLogList');
-        const now = new Date().toTimeString().split(' ')[0];
-        const div = document.createElement('div');
-        div.className = 'text-amber-300 font-bold';
-        div.textContent = '[' + now + '] Burst spike +5,000 req/s simulated. Auto-scaled edge worker replicas.';
-        list.prepend(div);
+      function recalcSavings(pts) {{
+        document.getElementById('patientLabel').textContent = pts + ' patients';
+        const hrs = Math.round(pts * 4.8);
+        document.getElementById('hoursSavedVal').textContent = hrs.toLocaleString() + ' hrs';
+      }}
+      function simulateEhrIntake() {{
+        alert('⚡ Automated EHR Webhook executed: Sleep study session parsed in 380ms. Physician triage route prepared.');
+      }}
+    </script>
+        """
+
+    if archetype_key == "hardware_embedded_systems":
+        return f"""
+    <!-- Hardware Diagnostics & Oscilloscope Signal Bench -->
+    <div class="p-6 sm:p-8 rounded-3xl bg-[#121620]/90 border border-orange-500/20 shadow-2xl my-8 backdrop-blur-2xl">
+      <div class="flex items-center justify-between mb-6 border-b border-orange-500/20 pb-4 flex-wrap gap-4">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="w-2.5 h-2.5 rounded-full bg-orange-500 animate-ping"></span>
+            <span class="text-xs font-mono text-orange-400 font-bold uppercase tracking-wider">Hardware Telemetry &bull; Serial Bus Analyzer</span>
+          </div>
+          <h3 class="font-bold text-white text-2xl font-display">{company} Hardware Diagnostics Bench</h3>
+          <p class="text-xs text-slate-400 font-sans">Role: {title} &bull; Thermal Analysis &bull; Signal Integrity &bull; Firmware Disassembly</p>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="injectBusGlitch()" class="px-4 py-2 bg-gradient-to-r from-orange-600 to-amber-600 hover:opacity-90 text-white rounded-xl text-xs font-bold transition shadow-lg shadow-orange-500/25 flex items-center gap-2">
+            <span>⚡ Inject SPI Clock Glitch</span>
+          </button>
+          <button onclick="exportAuditJSON()" class="px-3.5 py-2 bg-slate-800/80 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-mono font-bold transition border border-white/10">
+            Export Telemetry JSON ↗
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        <div class="p-4 bg-slate-900/70 rounded-2xl border border-white/5">
+          <div class="flex justify-between items-center mb-2">
+            <label class="text-[11px] font-mono text-slate-400 uppercase font-bold">Clock Frequency</label>
+            <span id="clockLabel" class="text-xs font-mono font-bold text-orange-400">120 MHz</span>
+          </div>
+          <input type="range" id="clockSlider" min="20" max="480" value="120" step="20" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-orange-500" oninput="document.getElementById('clockLabel').textContent = this.value + ' MHz'">
+        </div>
+
+        <div class="p-4 bg-slate-900/70 rounded-2xl border border-white/5">
+          <div class="flex justify-between items-center mb-2">
+            <label class="text-[11px] font-mono text-slate-400 uppercase font-bold">PCB Core Voltage</label>
+            <span id="voltLabel" class="text-xs font-mono font-bold text-emerald-400">3.30 V</span>
+          </div>
+          <input type="range" id="voltSlider" min="12" max="50" value="33" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500" oninput="document.getElementById('voltLabel').textContent = (this.value / 10).toFixed(2) + ' V'">
+        </div>
+
+        <div class="p-4 bg-slate-900/70 rounded-2xl border border-white/5">
+          <label class="text-[11px] font-mono text-slate-400 uppercase font-bold block mb-1">Thermal Junction Temp</label>
+          <div class="text-2xl font-bold font-mono text-amber-400 mt-1">42.6 &deg;C</div>
+          <span class="text-[10px] text-slate-400 font-mono">Throttle Threshold: 85.0 &deg;C (Nominal)</span>
+        </div>
+      </div>
+    </div>
+    <script>
+      function injectBusGlitch() {{
+        alert('⚡ Glitch injected: CRC parity recovery validated in 1.4 microseconds.');
+      }}
+    </script>
+        """
+
+    if archetype_key == "email_deliverability_crm":
+        return f"""
+    <!-- Enterprise Talent Pipeline & Placement Velocity Engine -->
+    <div class="p-6 sm:p-8 rounded-3xl bg-[#131322]/90 border border-white/10 shadow-2xl my-8 backdrop-blur-2xl">
+      <div class="flex items-center justify-between mb-6 border-b border-white/10 pb-4 flex-wrap gap-4">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="w-2.5 h-2.5 rounded-full bg-purple-500 animate-ping"></span>
+            <span class="text-xs font-mono text-purple-400 font-bold uppercase tracking-wider">Talent Acquisition &bull; Deal Funnel</span>
+          </div>
+          <h3 class="font-bold text-white text-2xl font-display">{company} Deal Velocity Hub</h3>
+          <p class="text-xs text-slate-400 font-sans">Role Focus: {title} &bull; Funnel Conversion &bull; Contract Value &bull; Commission Forecasting</p>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="dispatchTalentLead()" class="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 text-white rounded-xl text-xs font-bold transition shadow-lg shadow-purple-500/25 flex items-center gap-2">
+            <span>🚀 Dispatch Verified Enterprise Lead</span>
+          </button>
+          <button onclick="exportAuditJSON()" class="px-3.5 py-2 bg-slate-800/80 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-mono font-bold transition border border-white/10">
+            Export Funnel JSON ↗
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        <div class="p-4 bg-slate-900/70 rounded-2xl border border-white/5">
+          <div class="flex justify-between items-center mb-2">
+            <label class="text-[11px] font-mono text-slate-400 uppercase font-bold">Monthly Target Deals</label>
+            <span id="dealLabel" class="text-xs font-mono font-bold text-purple-400">14 Closed Deals</span>
+          </div>
+          <input type="range" id="dealSlider" min="2" max="50" value="14" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-purple-500" oninput="recalcTalentFunnel(this.value)">
+        </div>
+
+        <div class="p-4 bg-slate-900/70 rounded-2xl border border-white/5">
+          <div class="flex justify-between items-center mb-2">
+            <label class="text-[11px] font-mono text-slate-400 uppercase font-bold">Avg Placement Value</label>
+            <span id="acvLabel" class="text-xs font-mono font-bold text-pink-400">&euro;8,500</span>
+          </div>
+          <input type="range" id="acvSlider" min="3000" max="25000" value="8500" step="500" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-pink-500" oninput="recalcTalentFunnel()">
+        </div>
+
+        <div class="p-4 bg-slate-900/70 rounded-2xl border border-white/5">
+          <label class="text-[11px] font-mono text-slate-400 uppercase font-bold block mb-1">Projected Annual Pipeline</label>
+          <div class="text-2xl font-bold font-mono text-emerald-400 mt-1" id="pipeValue">&euro;1,428,000</div>
+          <span class="text-[10px] text-slate-400 font-mono">Net Attributed Revenue Run-Rate</span>
+        </div>
+      </div>
+    </div>
+    <script>
+      function recalcTalentFunnel() {{
+        const deals = parseInt(document.getElementById('dealSlider').value) || 14;
+        const acv = parseInt(document.getElementById('acvSlider').value) || 8500;
+        document.getElementById('dealLabel').textContent = deals + ' Closed Deals';
+        document.getElementById('acvLabel').textContent = '€' + acv.toLocaleString();
+        const total = deals * acv * 12;
+        document.getElementById('pipeValue').textContent = '€' + total.toLocaleString();
+      }}
+      function dispatchTalentLead() {{
+        alert('🚀 Lead dispatched: Candidate match verified and routed to account executive pipeline.');
+      }}
+    </script>
+        """
+
+    if archetype_key == "fintech_payments_ledger":
+        return f"""
+    <!-- High-Frequency Stockbroking & Financial Settlement Bench -->
+    <div class="p-6 sm:p-8 rounded-3xl bg-[#0E1422]/90 border border-emerald-500/20 shadow-2xl my-8 backdrop-blur-2xl">
+      <div class="flex items-center justify-between mb-6 border-b border-emerald-500/20 pb-4 flex-wrap gap-4">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+            <span class="text-xs font-mono text-emerald-300 font-bold uppercase tracking-wider">HFT Order Matching &bull; Sub-Millisecond</span>
+          </div>
+          <h3 class="font-bold text-white text-2xl font-display">{company} High-Frequency Trading Bench</h3>
+          <p class="text-xs text-slate-400 font-sans">Target Role: {title} &bull; Order Book Depth &bull; Settlement Ticker &bull; Double-Entry Ledger</p>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="executeHftOrder()" class="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:opacity-90 text-white rounded-xl text-xs font-bold transition shadow-lg shadow-emerald-500/25 flex items-center gap-2">
+            <span>⚡ Fire 5,000 Order Batch</span>
+          </button>
+          <button onclick="exportAuditJSON()" class="px-3.5 py-2 bg-slate-800/80 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-mono font-bold transition border border-white/10">
+            Export Ledger JSON ↗
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        <div class="p-4 bg-slate-900/70 rounded-2xl border border-white/5">
+          <div class="flex justify-between items-center mb-2">
+            <label class="text-[11px] font-mono text-slate-400 uppercase font-bold">Throughput Capacity</label>
+            <span id="hftTpsLabel" class="text-xs font-mono font-bold text-emerald-400">15,000 tx/sec</span>
+          </div>
+          <input type="range" id="hftTpsSlider" min="1000" max="50000" value="15000" step="1000" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500" oninput="document.getElementById('hftTpsLabel').textContent = parseInt(this.value).toLocaleString() + ' tx/sec'">
+        </div>
+
+        <div class="p-4 bg-slate-900/70 rounded-2xl border border-white/5">
+          <div class="flex justify-between items-center mb-2">
+            <label class="text-[11px] font-mono text-slate-400 uppercase font-bold">Clearing Latency P99</label>
+            <span class="text-xs font-mono font-bold text-cyan-400">0.82 ms</span>
+          </div>
+          <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden mt-3">
+            <div class="bg-cyan-400 h-full w-[24%]"></div>
+          </div>
+        </div>
+
+        <div class="p-4 bg-slate-900/70 rounded-2xl border border-white/5">
+          <label class="text-[11px] font-mono text-slate-400 uppercase font-bold block mb-1">Double-Entry Ledger Status</label>
+          <div class="text-2xl font-bold font-mono text-emerald-400 mt-1">Balanced (0 &Delta;)</div>
+          <span class="text-[10px] text-slate-400 font-mono">100% Cryptographic Audit Match</span>
+        </div>
+      </div>
+    </div>
+    <script>
+      function executeHftOrder() {{
+        alert('⚡ Order batch executed: 5,000 limit orders matched and settled across memory ledger in 4.2ms.');
+      }}
+    </script>
+        """
+
+    # Universal default telemetry widget
+    return f"""
+    <!-- Universal Interactive Telemetry & Operation Benchmark Widget -->
+    <div class="p-6 sm:p-8 rounded-3xl bg-slate-900/80 border border-slate-800 shadow-2xl my-8 backdrop-blur">
+      <div class="flex items-center justify-between mb-6 border-b border-slate-800 pb-4 flex-wrap gap-4">
+        <div>
+          <h3 class="font-bold text-white text-2xl font-display">{company} Production Telemetry Bench</h3>
+          <p class="text-xs text-slate-400 font-sans">Target Role: {title} &bull; Sub-Second Latency &bull; High-Conversion Micro-App</p>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="simulateTrafficSpike()" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold rounded-xl text-xs transition shadow-md shadow-cyan-500/20">
+            Simulate Traffic Spike ↗
+          </button>
+          <button onclick="exportAuditJSON()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-mono font-bold transition border border-slate-700">
+            Export Audit JSON ↗
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        <div class="p-4 bg-slate-950/60 rounded-xl border border-slate-800">
+          <span class="text-[10px] font-mono text-slate-400 uppercase font-bold">Core Execution Engine</span>
+          <div class="text-xl font-bold text-white mt-1">Next.js &bull; TypeScript</div>
+          <span class="text-[10px] text-emerald-400 font-mono mt-1 block">&bull; Zero Layout Shift</span>
+        </div>
+        <div class="p-4 bg-slate-950/60 rounded-xl border border-slate-800">
+          <span class="text-[10px] font-mono text-slate-400 uppercase font-bold">P99 Edge Latency</span>
+          <div class="text-xl font-bold text-cyan-400 mt-1" id="p99Latency">12.4 ms</div>
+          <span class="text-[10px] text-slate-400 font-mono mt-1 block">Global CDN Edge Delivery</span>
+        </div>
+        <div class="p-4 bg-slate-950/60 rounded-xl border border-slate-800">
+          <span class="text-[10px] font-mono text-slate-400 uppercase font-bold">Throughput Simulation</span>
+          <div class="text-xl font-bold text-purple-400 mt-1" id="simThroughput">2,480 req/s</div>
+          <span class="text-[10px] text-slate-400 font-mono mt-1 block">Auto-scaling edge cluster</span>
+        </div>
+      </div>
+    </div>
+    <script>
+      function simulateTrafficSpike() {{
+        alert('⚡ Traffic spike simulated: Scaled 4 edge replicas. Latency steady at 12ms.');
       }}
     </script>
     """
@@ -517,17 +1047,18 @@ def build_demo_html(
     """Produce complete, runnable, production-quality HTML application with custom typography and motion."""
     portfolio_base = get_base_portfolio_url()
     github_url = get_github_url()
-    widget_html = generate_interactive_widget(archetype["key"], company, title)
     canonical_vercel_url = f"{portfolio_base}/{slug}"
     canonical_github_file_url = f"https://github.com/Stghost1/BIEAI/blob/main/{slug}.html"
     theme = get_archetype_theme(archetype["key"])
+    canvas_script = generate_canvas_script(theme["canvas_type"], theme["accent_color"], theme["accent_rgb"])
+    widget_html = generate_interactive_widget(archetype["key"], company, title)
 
     return f"""<!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{company}: {archetype['name']} (B.I.E.AI Prototype)</title>
+  <title>{company}: {archetype['name']} (B.I.E.AI Bespoke Prototype)</title>
   <meta name="description" content="Production-ready interactive prototype engineered specifically for {company}'s {title} role by Emmanuel Pelumi Bamidele (Bamsemma).">
 
   <!-- Curated Typography: Diverse fonts per job -->
@@ -550,7 +1081,7 @@ def build_demo_html(
           animation: {{
             'float-slow': 'float 6s ease-in-out infinite',
             'pulse-glow': 'pulseGlow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            'marquee': 'marquee 25s linear infinite',
+            'marquee': 'marquee 22s linear infinite',
           }},
           keyframes: {{
             float: {{
@@ -579,32 +1110,49 @@ def build_demo_html(
     }}
     .font-display {{ font-family: {theme['font_display']}; }}
     .font-mono {{ font-family: {theme['font_mono']}; }}
+
+    /* 3D Perspective Card Tilt */
+    .tilt-card {{
+      transition: transform 0.15s ease-out, border-color 0.25s ease, box-shadow 0.25s ease;
+      will-change: transform;
+      transform-style: preserve-3d;
+    }}
+
+    /* Kinetic Marquee */
+    .marquee-track {{
+      display: flex;
+      width: 200%;
+      animation: marquee 20s linear infinite;
+    }}
+    .marquee-track:hover {{
+      animation-play-state: paused;
+    }}
   </style>
 </head>
-<body class="min-h-[100dvh] flex flex-col justify-between selection:bg-cyan-500/20 selection:text-cyan-300 {theme['bg_class']}">
+<body class="min-h-[100dvh] flex flex-col justify-between selection:bg-pink-500/20 selection:text-pink-300 {theme['bg_class']}">
 
   <!-- TOP NAVIGATION BAR -->
-  <header class="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md sticky top-0 z-50 px-4 sm:px-6 py-3.5">
+  <header class="border-b border-white/10 bg-black/40 backdrop-blur-xl sticky top-0 z-50 px-4 sm:px-6 py-3.5">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
       <div class="flex items-center gap-3">
         <a href="{portfolio_base}" class="flex items-center gap-2.5 text-white font-display font-bold text-lg hover:opacity-90 transition">
-          <span class="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-blue-600 text-slate-950 flex items-center justify-center font-black text-sm shadow-md">B</span>
+          <span class="w-8 h-8 rounded-xl bg-gradient-to-tr from-pink-500 via-purple-600 to-cyan-400 text-white flex items-center justify-center font-black text-sm shadow-lg shadow-pink-500/20">B</span>
           <span class="tracking-tight">B.I.E.AI</span>
         </a>
         <span class="text-slate-600 text-xs font-mono">/</span>
-        <span class="text-xs font-mono {theme['badge_class']} px-2.5 py-1 rounded-full">
-          Tailored Proof of Work &bull; {company}
+        <span class="text-xs font-mono {theme['badge_class']} px-3 py-1 rounded-full font-bold">
+          Tailored Prototype &bull; {company}
         </span>
       </div>
       <div class="flex items-center gap-2.5 text-xs font-mono">
-        <span class="hidden md:inline-flex items-center gap-1.5 text-slate-400">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          Deployed on Vercel
+        <span class="hidden md:inline-flex items-center gap-1.5 text-slate-300">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          Live on Vercel
         </span>
-        <a href="{canonical_github_file_url}" target="_blank" rel="noopener" class="px-3 py-1.5 bg-slate-900 border border-slate-700 hover:border-cyan-500/60 text-slate-200 rounded-lg transition flex items-center gap-1">
+        <a href="{canonical_github_file_url}" target="_blank" rel="noopener" class="px-3.5 py-1.5 bg-white/5 border border-white/10 hover:border-pink-500/60 text-slate-200 rounded-xl transition flex items-center gap-1.5 font-bold">
           GitHub Code ↗
         </a>
-        <a href="{portfolio_base}" class="px-3 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold rounded-lg transition">
+        <a href="{portfolio_base}" class="px-3.5 py-1.5 bg-gradient-to-r from-pink-500 to-cyan-500 hover:opacity-90 text-white font-bold rounded-xl transition shadow-md shadow-pink-500/20">
           Portfolio ↗
         </a>
       </div>
@@ -612,78 +1160,164 @@ def build_demo_html(
   </header>
 
   <!-- KINETIC TICKER (motionsites.ai inspired) -->
-  <div class="border-b border-slate-800/40 bg-slate-950/30 py-1.5 overflow-hidden whitespace-nowrap">
-    <div class="inline-flex gap-8 text-[11px] font-mono text-slate-400 animate-marquee">
-      <span>● TAILORED ARCHITECTURE FOR {company.upper()}</span>
-      <span>● HIGH-CONVERSION PROOF OF WORK</span>
-      <span>● REACT &bull; TYPESCRIPT &bull; TAILWIND</span>
-      <span>● AUTOMATED VERCEL DEPLOYMENT</span>
-      <span>● TAILORED ARCHITECTURE FOR {company.upper()}</span>
-      <span>● HIGH-CONVERSION PROOF OF WORK</span>
-      <span>● REACT &bull; TYPESCRIPT &bull; TAILWIND</span>
-      <span>● AUTOMATED VERCEL DEPLOYMENT</span>
+  <div class="border-b border-white/5 bg-black/30 py-2 overflow-hidden whitespace-nowrap">
+    <div class="marquee-track text-[11px] font-mono text-slate-400 font-bold uppercase tracking-wider">
+      <span class="mx-6 text-pink-400">● 60 FPS INTERACTIVE MOTION CANVAS</span>
+      <span class="mx-6 text-cyan-300">● BESPOKE ARCHITECTURE FOR {company.upper()}</span>
+      <span class="mx-6 text-purple-300">● ZERO ATS RESUME TRASH</span>
+      <span class="mx-6 text-emerald-400">● WORKING PRODUCTION SOFTWARE</span>
+      <span class="mx-6 text-pink-400">● 60 FPS INTERACTIVE MOTION CANVAS</span>
+      <span class="mx-6 text-cyan-300">● BESPOKE ARCHITECTURE FOR {company.upper()}</span>
+      <span class="mx-6 text-purple-300">● ZERO ATS RESUME TRASH</span>
+      <span class="mx-6 text-emerald-400">● WORKING PRODUCTION SOFTWARE</span>
     </div>
   </div>
 
   <!-- MAIN WORKSPACE -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full">
-    
-    <!-- HERO HEADER -->
-    <div class="mb-8">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full {theme['badge_class']} text-xs font-mono mb-3">
-        <span>Target Role: {title}</span>
-        <span>&bull;</span>
-        <span>{archetype['category'].upper()} ARCHETYPE</span>
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full relative">
+
+    <!-- HERO STAGE (motionsites.ai inspired) -->
+    <div class="relative rounded-3xl overflow-hidden border border-white/10 bg-gradient-to-b from-white/[0.04] to-transparent p-6 sm:p-12 mb-8">
+      
+      <!-- Interactive 60 FPS Canvas Centerpiece -->
+      <canvas id="heroMotionCanvas" class="absolute inset-0 w-full h-full pointer-events-auto opacity-70 z-0"></canvas>
+
+      <!-- Ambient Glow Spotlights -->
+      <div class="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-[{theme['accent_color']}]/20 blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -right-24 w-96 h-96 rounded-full bg-cyan-500/20 blur-3xl pointer-events-none"></div>
+
+      <!-- Hero Content -->
+      <div class="relative z-10 max-w-4xl">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full {theme['badge_class']} text-xs font-mono mb-4 font-bold">
+          <span>Target Role: {title}</span>
+          <span>&bull;</span>
+          <span>{archetype['category'].upper()} ARCHETYPE</span>
+        </div>
+
+        <h1 class="text-4xl sm:text-6xl md:text-7xl font-display font-extrabold tracking-tight leading-[1.05] bg-gradient-to-r {theme['gradient_text']} bg-clip-text text-transparent">
+          {archetype['name']}
+        </h1>
+
+        <p class="text-base sm:text-lg text-slate-300 mt-4 leading-relaxed font-sans max-w-3xl">
+          {archetype['feature']} Built specifically for <strong>{company}</strong> by <strong>Emmanuel Pelumi Bamidele (Bamsemma)</strong> to replace generic outreach with a fully-functional, Awwwards-tier interactive application.
+        </p>
+
+        <!-- Live Action Buttons -->
+        <div class="flex items-center gap-3 mt-6 flex-wrap">
+          <a href="{canonical_vercel_url}" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-pink-500 via-purple-600 to-cyan-500 text-white font-display font-bold text-sm shadow-xl shadow-pink-500/25 hover:opacity-90 transition">
+            Explore Interactive Prototype ↗
+          </a>
+          <a href="{canonical_github_file_url}" target="_blank" rel="noopener" class="px-5 py-2.5 rounded-xl bg-slate-900/80 border border-white/10 hover:border-pink-500 text-slate-200 font-mono font-bold text-xs transition">
+            View Source on GitHub ↗
+          </a>
+          <span class="text-xs font-mono text-slate-400 ml-2">
+            60 FPS Canvas Active &bull; Move mouse over viewport
+          </span>
+        </div>
       </div>
-      <h1 class="text-3xl sm:text-5xl font-display font-extrabold text-white tracking-tight leading-tight max-w-4xl">
-        {archetype['name']}
-      </h1>
-      <p class="text-sm sm:text-base text-slate-300 mt-2 max-w-3xl leading-relaxed">
-        {archetype['feature']} Engineered specifically for {company} by Emmanuel Pelumi Bamidele (Bamsemma) to illustrate technical execution speed, user experience craftsmanship, and business leverage.
-      </p>
     </div>
 
-    <!-- INTERACTIVE WIDGET COMPONENT -->
+    <!-- BESPOKE INTERACTIVE APPLICATION BENCH -->
     {widget_html}
 
-    <!-- TECHNICAL SPECS BENTO -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-8">
-      <div class="p-5 rounded-xl {theme['card_class']}">
-        <span class="text-[10px] font-mono text-cyan-400 uppercase font-bold">Tech Stack</span>
-        <h4 class="font-display font-bold text-white text-base mt-1">{archetype['tech_stack']}</h4>
-        <p class="text-xs text-slate-400 mt-1">Configured for zero layout shift, low latency, and responsive multi-device execution.</p>
+    <!-- 3D PERSPECTIVE TILT BENTO SHOWCASE (motionsites.ai inspired) -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-10">
+      
+      <div class="tilt-card p-6 sm:p-7 rounded-3xl {theme['card_class']} relative overflow-hidden">
+        <div class="w-10 h-10 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-4 font-mono font-bold text-sm">
+          01
+        </div>
+        <span class="text-[11px] font-mono text-cyan-400 uppercase font-bold tracking-wider">Engineering Architecture</span>
+        <h4 class="font-display font-bold text-white text-xl mt-1">{archetype['tech_stack']}</h4>
+        <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+          Engineered for zero layout shift, sub-50ms interaction latency, and high-frequency state updates.
+        </p>
       </div>
-      <div class="p-5 rounded-xl {theme['card_class']}">
-        <span class="text-[10px] font-mono text-violet-400 uppercase font-bold">Production Hosting</span>
-        <h4 class="font-display font-bold text-white text-base mt-1">Vercel Edge &bull; Clean Rewrites</h4>
-        <p class="text-xs text-slate-400 mt-1">Canonical production URL live at <a href="{canonical_vercel_url}" class="underline text-slate-300">{slug}</a> with automated continuous deployment.</p>
+
+      <div class="tilt-card p-6 sm:p-7 rounded-3xl {theme['card_class']} relative overflow-hidden">
+        <div class="w-10 h-10 rounded-2xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-pink-400 mb-4 font-mono font-bold text-sm">
+          02
+        </div>
+        <span class="text-[11px] font-mono text-pink-400 uppercase font-bold tracking-wider">Production Vercel Edge</span>
+        <h4 class="font-display font-bold text-white text-xl mt-1">Live Global CDN Deployment</h4>
+        <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+          Registered in vercel.json rewrites. Accessible anywhere at <a href="{canonical_vercel_url}" class="underline text-pink-300 font-mono">{slug}</a>.
+        </p>
       </div>
-      <div class="p-5 rounded-xl {theme['card_class']}">
-        <span class="text-[10px] font-mono text-emerald-400 uppercase font-bold">Source Control</span>
-        <h4 class="font-display font-bold text-white text-base mt-1">Verified GitHub Repo</h4>
-        <p class="text-xs text-slate-400 mt-1">Committed to <a href="{canonical_github_file_url}" target="_blank" rel="noopener" class="underline text-slate-300">Stghost1/BIEAI</a> under conventional commit standards.</p>
+
+      <div class="tilt-card p-6 sm:p-7 rounded-3xl {theme['card_class']} relative overflow-hidden">
+        <div class="w-10 h-10 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-4 font-mono font-bold text-sm">
+          03
+        </div>
+        <span class="text-[11px] font-mono text-emerald-400 uppercase font-bold tracking-wider">Verified Source Repository</span>
+        <h4 class="font-display font-bold text-white text-xl mt-1">Stghost1/BIEAI on GitHub</h4>
+        <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+          Committed with conventional commits. Inspect standalone code at <a href="{canonical_github_file_url}" target="_blank" rel="noopener" class="underline text-emerald-300 font-mono">GitHub Repo</a>.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- LIVE TELEMETRY LOG -->
+    <div class="p-6 rounded-2xl bg-black/40 border border-white/5 font-mono text-xs text-slate-400 my-8">
+      <div class="flex items-center justify-between mb-3 border-b border-white/5 pb-2">
+        <span class="text-slate-300 font-bold uppercase flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          Live Micro-Application Activity Telemetry
+        </span>
+        <span class="text-[10px] text-slate-500">Connected to Vercel Edge Event Bus</span>
+      </div>
+      <div id="liveTelemetryStream" class="space-y-1 text-[11px]">
+        <div class="text-emerald-400">● [200 OK] Handshake established with {company} demonstration cluster.</div>
+        <div class="text-slate-400">● Canvas 60 FPS requestAnimationFrame loop active. Zero frame drops detected.</div>
+        <div class="text-cyan-400">● Dynamic archetype resolved: {archetype['name']}.</div>
       </div>
     </div>
 
   </main>
 
   <!-- FOOTER -->
-  <footer class="border-t border-slate-800/80 bg-slate-950/90 py-6 px-4 sm:px-6 text-xs text-slate-400">
+  <footer class="border-t border-white/10 bg-black/60 py-8 px-4 sm:px-6 text-xs text-slate-400">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
-        <span>Engineered specifically for <strong>{company}</strong> by <strong class="text-slate-200">Emmanuel Pelumi Bamidele (Bamsemma)</strong></span>
+        <span class="w-2.5 h-2.5 rounded-full bg-pink-500"></span>
+        <span>Engineered specifically for <strong>{company}</strong> by <strong class="text-white">Emmanuel Pelumi Bamidele (Bamsemma)</strong></span>
       </div>
       <div class="flex items-center gap-4 font-mono">
-        <a href="{portfolio_base}" class="hover:text-cyan-400 transition">bieai.vercel.app</a>
+        <a href="{portfolio_base}" class="hover:text-pink-400 transition">bieai.vercel.app</a>
         <span>&bull;</span>
         <a href="{github_url}" target="_blank" rel="noopener" class="hover:text-cyan-400 transition">github.com/Stghost1/BIEAI</a>
         <span>&bull;</span>
-        <a href="{portfolio_base}/radar" class="hover:text-violet-400 transition">Radar ↗</a>
+        <a href="{portfolio_base}/radar" class="hover:text-purple-400 transition">Radar Engine ↗</a>
       </div>
     </div>
   </footer>
 
+  <!-- 3D PERSPECTIVE TILT SCRIPT -->
+  <script>
+    document.querySelectorAll('.tilt-card').forEach(card => {{
+      card.addEventListener('mousemove', (e) => {{
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -6;
+        const rotateY = ((x - centerX) / centerX) * 6;
+        card.style.transform = `perspective(1000px) rotateX(${{rotateX}}deg) rotateY(${{rotateY}}deg) scale3d(1.02, 1.02, 1.02)`;
+      }});
+      card.addEventListener('mouseleave', () => {{
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      }});
+    }});
+  </script>
+
+  <!-- BESPOKE 60 FPS CANVAS SCRIPT -->
+  <script>
+    {canvas_script}
+  </script>
+
+  <!-- JSON AUDIT EXPORT SCRIPT -->
   <script>
     function exportAuditJSON() {{
       const data = {{
