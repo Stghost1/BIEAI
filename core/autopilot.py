@@ -24,7 +24,12 @@ from core.db import (
     update_opportunity_email,
 )
 from core.demo_builder import build_tailored_demo
-from core.mailer import extract_email, send_proposal_email, build_webmail_links
+from core.mailer import (
+    extract_email,
+    send_proposal_email,
+    build_webmail_links,
+    send_autopilot_dispatch_alert,
+)
 from core.outreach_generator import generate_outreach
 from core.email_scourer import scour_company_email
 
@@ -139,6 +144,29 @@ def run_autopilot_pipeline(
     }
     run_id = log_autopilot_run(run_record)
     logs.append(f"Autopilot telemetry recorded in audit database (Run #{run_id}).")
+
+    # 6. Synchronize real-time application update to operator email (techwithbie@gmail.com)
+    try:
+        alert_res = send_autopilot_dispatch_alert(
+            opp=opp,
+            demo=demo,
+            draft=draft,
+            send_res={
+                "ok": True if email_status in ("sent", "webmail_ready") else False,
+                "mode": "smtp" if email_status == "sent" else ("webmail" if email_status == "webmail_ready" else "queued"),
+                "status": email_status,
+                "message": dispatch_msg,
+                "recipient": recipient,
+                "gmail_url": webmail_links.get("gmail", "#"),
+                "outlook_url": webmail_links.get("outlook", "#")
+            }
+        )
+        if alert_res.get("ok"):
+            logs.append(f"Operator alert synchronized to {alert_res.get('recipient')}.")
+        elif alert_res.get("mode") == "webmail_ready":
+            logs.append(f"Operator alert pre-staged for {alert_res.get('recipient')} (SMTP password pending in settings).")
+    except Exception as notify_err:
+        logs.append(f"Operator sync notice: {notify_err}")
 
     return {
         "ok": True,
