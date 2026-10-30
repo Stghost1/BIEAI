@@ -68,9 +68,26 @@ def background_scan():
 class AbrahamicEngineHandler(BaseHTTPRequestHandler):
     pass
 
+class RobustThreadingHTTPServer(ThreadingHTTPServer):
+    daemon_threads = True
+    allow_reuse_address = True
+
+    def handle_error(self, request, client_address):
+        exc_type, exc_val, exc_tb = sys.exc_info()
+        if exc_type and issubclass(exc_type, (ConnectionError, OSError)):
+            return
+        super().handle_error(request, client_address)
+
+
 class ScoutDeskHandler(AbrahamicEngineHandler):
     def log_message(self, format, *args):
         pass
+
+    def handle_one_request(self):
+        try:
+            super().handle_one_request()
+        except (ConnectionError, OSError):
+            pass
 
     def send_cors(self):
         self.send_header("Access-Control-Allow-Origin", "*")
@@ -78,85 +95,105 @@ class ScoutDeskHandler(AbrahamicEngineHandler):
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
 
     def json_response(self, data: dict | list, status: int = 200):
-        body = json.dumps(data, default=str).encode("utf-8")
-        self.send_response(status)
-        self.send_header("Content-Type", "application/json; charset=utf-8")
-        self.send_header("Content-Length", str(len(body)))
-        self.send_cors()
-        self.end_headers()
-        self.wfile.write(body)
+        try:
+            body = json.dumps(data, default=str).encode("utf-8")
+            self.send_response(status)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.send_cors()
+            self.end_headers()
+            self.wfile.write(body)
+        except (ConnectionError, OSError):
+            pass
 
     def serve_file(self, file_path: Path):
-        if not file_path.is_file():
-            self.json_response({"error": "File not found"}, 404)
-            return
-        mime, _ = mimetypes.guess_type(str(file_path))
-        mime = mime or "application/octet-stream"
-        file_size = file_path.stat().st_size
-
-        # Streaming and Range support for large media / video files
-        range_header = self.headers.get("Range")
-        if range_header and range_header.startswith("bytes="):
-            try:
-                ranges = range_header.replace("bytes=", "").split("-")
-                start = int(ranges[0]) if ranges[0] else 0
-                end = int(ranges[1]) if len(ranges) > 1 and ranges[1] else file_size - 1
-                if start >= file_size or end >= file_size or start > end:
-                    self.send_response(416)
-                    self.send_header("Content-Range", f"bytes */{file_size}")
-                    self.end_headers()
-                    return
-                length = end - start + 1
-                self.send_response(206)
-                self.send_header("Content-Type", mime)
-                self.send_header("Content-Range", f"bytes {start}-{end}/{file_size}")
-                self.send_header("Content-Length", str(length))
-                self.send_header("Accept-Ranges", "bytes")
-                self.send_cors()
-                self.end_headers()
-                with open(file_path, "rb") as f:
-                    f.seek(start)
-                    remaining = length
-                    chunk_size = 64 * 1024
-                    while remaining > 0:
-                        to_read = min(chunk_size, remaining)
-                        buf = f.read(to_read)
-                        if not buf:
-                            break
-                        self.wfile.write(buf)
-                        remaining -= len(buf)
-                return
-            except Exception:
-                pass
-
-        # Full file response
-        self.send_response(200)
-        if mime.startswith(("text/", "application/json", "application/javascript")):
-            self.send_header("Content-Type", f"{mime}; charset=utf-8")
-        else:
-            self.send_header("Content-Type", mime)
-        self.send_header("Content-Length", str(file_size))
-        self.send_header("Accept-Ranges", "bytes")
-        self.send_cors()
-        self.end_headers()
         try:
+            if not file_path.is_file():
+                self.json_response({"error": "File not found"}, 404)
+                return
+            mime, _ = mimetypes.guess_type(str(file_path))
+            mime = mime or "application/octet-stream"
+            file_size = file_path.stat().st_size
+
+            # Streaming and Range support for large media / video files
+            range_header = self.headers.get("Range")
+            if range_header and range_header.startswith("bytes="):
+                try:
+                    ranges = range_header.replace("bytes=", "").split("-")
+                    start = int(ranges[0]) if ranges[0] else 0
+                    end = int(ranges[1]) if len(ranges) > 1 and ranges[1] else file_size - 1
+                    if start >= file_size or end >= file_size or start > end:
+                        self.send_response(416)
+                        self.send_header("Content-Range", f"bytes */{file_size}")
+                        self.end_headers()
+                        return
+                    length = end - start + 1
+                    self.send_response(206)
+                    self.send_header("Content-Type", mime)
+                    self.send_header("Content-Range", f"bytes {start}-{end}/{file_size}")
+                    self.send_header("Content-Length", str(length))
+                    self.send_header("Accept-Ranges", "bytes")
+                    self.send_cors()
+                    self.end_headers()
+                    with open(file_path, "rb") as f:
+                        f.seek(start)
+                        remaining = length
+                        chunk_size = 64 * 1024
+                        while remaining > 0:
+                            to_read = min(chunk_size, remaining)
+                            buf = f.read(to_read)
+                            if not buf:
+                                break
+                            self.wfile.write(buf)
+                            remaining -= len(buf)
+                    return
+                except (ConnectionError, OSError):
+                    return
+                except Exception:
+                    pass
+
+            # Full file response
+            self.send_response(200)
+            if mime.startswith(("text/", "application/json", "application/javascript")):
+                self.send_header("Content-Type", f"{mime}; charset=utf-8")
+            else:
+                self.send_header("Content-Type", mime)
+            self.send_header("Content-Length", str(file_size))
+            self.send_header("Accept-Ranges", "bytes")
+            self.send_cors()
+            self.end_headers()
             with open(file_path, "rb") as f:
                 shutil.copyfileobj(f, self.wfile, length=64 * 1024)
-        except (ConnectionResetError, BrokenPipeError):
+        except (ConnectionError, OSError):
             pass
 
     def do_OPTIONS(self):
-        self.send_response(200)
-        self.send_cors()
-        self.end_headers()
+        try:
+            self.send_response(200)
+            self.send_cors()
+            self.end_headers()
+        except (ConnectionError, OSError):
+            pass
 
     def do_GET(self):
         parsed = urlparse(self.path)
         path = parsed.path
         query = parse_qs(parsed.query)
 
-        if path in ("/", "/index.html", "/radar", "/surveys"):
+        if path in ("/radar", "/radar.html", "/surveys"):
+            radar_candidate = ROOT / "radar.html"
+            if radar_candidate.is_file():
+                self.serve_file(radar_candidate)
+                return
             self.serve_file(ROOT / "index.html")
+            return
+
+        if path in ("/", "/index.html"):
+            self.serve_file(ROOT / "index.html")
+            return
+
+        if path in ("/media-kit", "/media-kit.html"):
+            self.serve_file(ROOT / "media-kit.html")
             return
 
         if path in ("/styles.css", "/app.js") or path.startswith("/media/") or path.startswith("/assets/"):
@@ -549,11 +586,12 @@ def main():
     print(f"Autonomous Auto-Pilot: Ready")
     print("=" * 70)
 
-    server = ThreadingHTTPServer(("127.0.0.1", PORT), ScoutDeskHandler)
+    server = RobustThreadingHTTPServer(("127.0.0.1", PORT), ScoutDeskHandler)
     try:
         server.serve_forever()
     except KeyboardInterrupt:
         print("\nShutting down Abrahamic Opportunities Engine Server.")
+    finally:
         server.server_close()
 
 
