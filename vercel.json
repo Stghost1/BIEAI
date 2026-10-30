@@ -3,12 +3,20 @@
   "trailingSlash": false,
   "rewrites": [
     {
-      "source": "/radar",
-      "destination": "/radar.html"
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/portfolio",
+      "destination": "/portfolio.html"
     },
     {
       "source": "/media-kit",
       "destination": "/media-kit.html"
+    },
+    {
+      "source": "/radar",
+      "destination": "/portfolio.html"
     },
     {
       "source": "/swiftlegal-nigeria",
