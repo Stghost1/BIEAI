@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nigerian Invoice Generator</title>
+
+  <!-- Google Fonts: Roboto for body, Playfair Display for invoice headings -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+
+  <!-- ============================================================
+       GLOBAL STYLES
+       Sets up the color palette, base typography, and layout rules.
+       Navy blue (#0a2342) is primary, white is background,
+       green (#008751) is the Nigerian-flag accent.
+  ============================================================ -->
+  <style>
+    /* ── CSS Variables (design tokens) ─────────────────────────── */
+    :root {
+      --navy:      #0a2342;
+      --navy-mid:  #153a6a;
+      --navy-lite: #1e5190;
+      --green:     #008751;
+      --green-dk:  #006b40;
+      --white:     #ffffff;
+      --off-white: #f4f7fb;
+      --border:    #d1dce8;
+      --text:      #1a2535;
+      --muted:     #6b7f99;
+      --danger:    #d93025;
+      --shadow:    0 2px 12px rgba(10,35,66,0.10);
+      --radius:    10px;
+    }
+
+    /* ── Reset & Base ────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: var(--off-white);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Top Header Bar ──────────────────────────────────────────── */
+    .app-header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+      color: var(--white);
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 3px 16px rgba(10,35,66,0.25);
+    }
+    .app-header .logo-icon {
+      width: 42px; height: 42px;
+      background: var(--green);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; flex-shrink: 0;
+    }
+    .app-header h1 { font-size: 1.2rem; font-weight: 700; line-height: 1.2; }
+    .app-header p  { font-size: 0.78rem; opacity: 0.75; margin-top: 2px; }
+
+    /* ── Main Layout ─────────────────────────────────────────────── */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 24px 16px 60px;
+    }
+
+    /* ── Card Component ─────────────────────────────────────────── */
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+    }
+    .card-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--navy-lite);
+      margin-bottom: 18px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--off-white);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-title .dot {
+      width: 8px; height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    /* ── Form Grid & Fields ─────────────────────────────────────── */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-grid .full { grid-column: 1 / -1; }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    label .opt { color: var(--muted); font-weight: 400; }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 13px;
+      border: 1.5px solid var(--border);
+      border-radius: 7px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text);
+      background: var(--white);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -webkit-appearance: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--navy-lite);
+      box-shadow: 0 0 0 3px rgba(30,81,144,0.12);
+    }
+    textarea { resize: vertical; min-height: 80px; }
+
+    /* Logo upload area */
+    .logo-upload-area {
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+    .logo-upload-area:hover { border-color: var(--navy-lite); background: var(--off-white); }
+    .logo-upload-area input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .logo-upload-area .upload-hint { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+    #logoPreview {
+      max-height: 60px;
+      max-width: 180px;
+      margin: 0 auto 6px;
+      display: none;
+      border-radius: 4px;
+    }
+
+    /* Invoice Number badge */
+    #invoiceNumber {
+      background: var(--off-white);
+      font-weight: 600;
+      color: var(--navy);
+      cursor: default;
+    }
+
+    /* ── Line Items Table ────────────────────────────────────────── */
+    .items-wrapper { overflow-x: auto; }
+    table.items-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 520px;
+    }
+    table.items-table thead tr {
+      background: var(--navy);
+      color: var(--white);
+    }
+    table.items-table th {
+      padding: 10px 12px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-align: left;
+      white-space: nowrap;
+    }
+    table.items-table th:last-child { text-align: center; width: 48px; }
+    table.items-table td {
+      padding: 6px 6px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    table.items-table td input {
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 8px 9px;
+      font-size: 0.88rem;
+    }
+    table.items-table .col-desc  { min-width: 160px; }
+    table.items-table .col-qty   { width: 72px; }
+    table.items-table .col-price { width: 120px; }
+    table.items-table .col-total { width: 110px; }
+    table.items-table .row-total {
+      background: var(--off-white);
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--navy);
+      cursor: default;
+    }
+    .btn-remove {
+      background: none; border: none; cursor: pointer;
+      color: var(--danger); font-size: 1.1rem;
+      width: 28px; height: 28px; border-radius: 5px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+      margin: 0 auto;
+    }
+    .btn-remove:hover { background: #fde8e6; }
+    .btn-add-row {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 12px;
+      background: none;
+      border: 1.5px dashed var(--navy-lite);
+      color: var(--navy-lite);
+      padding: 7px 16px;
+      border-radius: 7px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-add-row:hover { background: var(--navy-lite); color: var(--white); }
+
+    /* ── Totals Summary ─────────────────────────────────────────── */
+    .totals-block {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+    .totals-block .totals-inner {
+      min-width: 260px;
+      width: 100%;
+      max-width: 300px;
+    }
+    .totals-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      padding: 5px 0;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+    .totals-row:last-child { border-bottom: none; }
+    .totals-row.grand {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--navy);
+      padding-top: 10px;
+    }
+    .totals-row .label { color: var(--muted); }
+    .totals-row.grand .label { color: var(--navy); }
+
+    /* ── Action Buttons ─────────────────────────────────────────── */
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 24px;
+      border-radius: 8px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
+      text-decoration: none;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary {
+      background: var(--navy);
+      color: var(--white);
+      box-shadow: 0 3px 12px rgba(10,35,66,0.25);
+    }
+    .btn-primary:hover { background: var(--navy-mid); box-shadow: 0 5px 18px rgba(10,35,66,0.32); }
+    .btn-success {
+      background: var(--green);
+      color: var(--white);
+      box-shadow: 0 3px 12px rgba(0,135,81,0.25);
+    }
+    .btn-success:hover { background: var(--green-dk); }
+    .btn-whatsapp {
+      background: #25d366;
+      color: var(--white);
+      box-shadow: 0 3px 12px rgba(37,211,102,0.30);
+    }
+    .btn-whatsapp:hover { background: #1da851; }
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--navy-lite);
+      color: var(--navy-lite);
+    }
+    .btn-outline:hover { background: var(--navy-lite); color: var(--white); }
+
+    /* ── Invoice Preview Section ────────────────────────────────── */
+    #invoicePreview {
+      display: none;
+      margin-top: 28px;
+    }
+    #invoicePreview .preview-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    #invoicePreview .preview-bar h2 {
+      font-size: 1rem;
+      color: var(--navy);
+      font-weight: 700;
+    }
+    .preview-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    /* ── The Printable Invoice Document ────────────────────────── */
+    .invoice-doc {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      padding: 40px 44px;
+      font-family: 'Roboto', sans-serif;
+      color: #1a2535;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Invoice top strip */
+    .inv-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 32px;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .inv-biz { flex: 1; min-width: 200px; }
+    .inv-biz img { max-height: 64px; max-width: 200px; margin-bottom: 10px; display: block; }
+    .inv-biz-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem;
+      color: var(--navy);
+      line-height: 1.2;
+    }
+
+    .inv-badge {
+      background: var(--navy);
+      color: var(--white);
+      border-radius: 8px;
+      padding: 16px 22px;
+      text-align: right;
+      min-width: 180px;
+    }
+    .inv-badge .inv-word {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+      border-bottom: 2px solid var(--green);
+      padding-bottom: 6px;
+      margin-bottom: 8px;
+    }
+    .inv-badge .inv-num { font-size: 0.88rem; opacity: 0.85; }
+    .inv-badge .inv-num span { font-weight: 700; }
+
+    /* Green divider */
+    .inv-divider {
+      height: 4px;
+      background: linear-gradient(90deg, var(--green) 0%, var(--navy) 100%);
+      border-radius: 2px;
+      margin-bottom: 28px;
+    }
+
+    /* Parties: from / to */
+    .inv-parties {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+    .inv-party-box h4 {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--green);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .inv-party-box p { font-size: 0.9rem; line-height: 1.6; }
+
+    /* Dates */
+    .inv-dates {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      background: var(--off-white);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 28px;
+    }
+    .inv-date-item { flex: 1; min-width: 120px; }
+    .inv-date-item .dl { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 3px; }
+    .inv-date-item .dv { font-weight: 600; font-size: 0.92rem; color: var(--navy); }
+
+    /* Invoice items table */
+    .inv-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+    .inv-table thead tr { background: var(--navy); color: var(--white); }
+    .inv-table th {
+      padding: 11px 14px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-align: left;
+    }
+    .inv-table th:nth-child(2),
+    .inv-table th:nth-child(3),
+    .inv-table th:nth-child(4) { text-align: right; }
+    .inv-table td {
+      padding: 11px 14px;
+      font-size: 0.88rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .inv-table td:nth-child(2),
+    .inv-table td:nth-child(3),
+    .inv-table td:nth-child(4) { text-align: right; }
+    .inv-table tbody tr:nth-child(even) { background: var(--off-white); }
+
+    /* Invoice totals */
+    .inv-totals {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 28px;
+    }
+    .inv-totals-box { width: 260px; }
+    .inv-totals-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 7px 0;
+      font-size: 0.88rem;
+      border-bottom: 1px dashed var(--border);
+    }
+    .inv-totals-row:last-child { border-bottom: none; }
+    .inv-totals-row.grand {
+      background: var(--navy);
+      color: var(--white);
+      padding: 10px 12px;
+      border-radius: 7px;
+      font-weight: 700;
+      font-size: 1rem;
+      border-bottom: none;
+      margin-top: 6px;
+    }
+    .inv-totals-row .tl { color: var(--muted); font-weight: 400; }
+    .inv-totals-row.grand .tl { color: rgba(255,255,255,0.8); }
+
+    /* Notes */
+    .inv-notes {
+      background: var(--off-white);
+      border-left: 4px solid var(--green);
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+    .inv-notes strong { color: var(--navy); display: block; margin-bottom: 4px; }
+
+    /* Footer of invoice */
+    .inv-footer {
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+    .inv-footer span { color: var(--green); font-weight: 600; }
+
+    /* ── Responsive: Mobile ──────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .app-header h1 { font-size: 1rem; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-grid .full { grid-column: 1; }
+      .card { padding: 18px 14px; }
+      .invoice-doc { padding: 24px 18px; }
+      .inv-parties { grid-template-columns: 1fr; gap: 14px; }
+      .inv-top { flex-direction: column; }
+      .inv-badge { text-align: left; min-width: unset; }
+      .actions { flex-direction: column; }
+      .btn { width: 100%; justify-content: center; }
+      .preview-actions { flex-direction: column; }
+      .preview-actions .btn { width: 100%; justify-content: center; }
+    }
+
+    /* ── PRINT STYLES ────────────────────────────────────────────
+       When the user clicks "Download as PDF", the browser's
+       print dialog opens. Only the invoice document prints —
+       the form and all buttons are hidden.
+    ──────────────────────────────────────────────────────────── */
+    @media print {
+      body { background: white; }
+      .app-header,
+      .form-section,
+      .preview-bar,
+      #invoicePreview .preview-bar { display: none !important; }
+      #invoicePreview { display: block !important; margin: 0 !important; }
+      .invoice-doc {
+        box-shadow: none !important;
+        border: none !important;
+        padding: 20px !important;
+        max-width: 100% !important;
+        page-break-after: avoid;
+      }
+      .inv-top, .inv-parties, .inv-dates,
+      .inv-table, .inv-totals, .inv-notes { page-break-inside: avoid; }
+    }
+
+    /* ── Toast notification ─────────────────────────────────────── */
+    #toast {
+      position: fixed;
+      bottom: 28px; left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--navy);
+      color: var(--white);
+      padding: 11px 22px;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+      z-index: 9999;
+      white-space: nowrap;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.22);
+    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* Scrollbar styling (non-critical cosmetic) */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--off-white); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================================================
+       APP HEADER
+       Branding bar shown at the top of the page always.
+  ============================================================ -->
+  <header class="app-header">
+    <div class="logo-icon">🧾</div>
+    <div>
+      <h1>Nigerian Invoice Generator</h1>
+      <p>Professional invoices in seconds — free forever</p>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       MAIN CONTAINER
+       All form cards and the generated invoice live inside here.
+  ============================================================ -->
+  <div class="container">
+
+    <!-- ── SECTION 1: Business Information ──────────────────────
+         Saved to localStorage so the user never re-types these.
+    ──────────────────────────────────────────────────────────── -->
+    <div class="card form-section">
+      <div class="card-title"><span class="dot"></span> Your Business Info</div>
+      <div class="form-grid">
+
+        <!-- Business Name -->
+        <div class="full">
+          <label for="bizName">Business Name</label>
+          <input type="text" id="bizName" placeholder="e.g. Adeyemi & Sons Trading Ltd" autocomplete="organization" />
+        </div>
+
+        <!-- Business Logo upload -->
+        <div class="full">
+          <label>Business Logo <span class="opt">(optional)</span></label>
+          <div class="logo-upload-area" id="logoDropArea">
+            <img id="logoPreview" src="" alt="Logo Preview" />
+            <div>📁 Click to upload your logo</div>
+            <div class="upload-hint">PNG or JPG, max 2MB</div>
+            <input type="file" id="logoInput" accept="image/*" />
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── SECTION 2: Client Information ────────────────────────
+         Who is this invoice being sent to?
+    ──────────────────────────────────────────────────────────── -->
+    <div class="card form-section">
+      <div class="card-title"><span class="dot"></span> Client Details</div>
+      <div class="form-grid">
+
+        <div>
+          <label for="clientName">Client Name</label>
+          <input type="text" id="clientName" placeholder="e.g. Funke Enterprises" autocomplete="name" />
+        </div>
+
+        <div>
+          <label for="clientEmail">Client Email <span class="opt">(optional)</span></label>
+          <input type="email" id="clientEmail" placeholder="e.g. funke@example.com" autocomplete="email" />
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── SECTION 3: Invoice Settings ──────────────────────────
+         Invoice number is auto-generated but can be edited.
+         Date defaults to today; currency defaults to NGN.
+    ──────────────────────────────────────────────────────────── -->
+    <div class="card form-section">
+      <div class="card-title"><span class="dot"></span> Invoice Settings</div>
+      <div class="form-grid">
+
+        <div>
+          <label for="invoiceNumber">Invoice Number</label>
+          <input type="text" id="invoiceNumber" readonly />
+        </div>
+
+        <div>
+          <label for="currency">Currency</label>
+          <select id="currency">
+            <option value="₦">₦ NGN — Nigerian Naira</option>
+            <option value="$">$ USD — US Dollar</option>
+            <option value="£">£ GBP — British Pound</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="invoiceDate">Invoice Date</label>
+          <input type="date" id="invoiceDate" />
+        </div>
+
+        <div>
+          <label for="dueDate">Due Date</label>
+          <input type="date" id="dueDate" />
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── SECTION 4: Line Items ─────────────────────────────────
+         Dynamic table — rows are added/removed with JS.
+         Totals calculate automatically on input.
+    ──────────────────────────────────────────────────────────── -->
+    <div class="card form-section">
+      <div class="card-title"><span class="dot"></span> Items &amp; Services</div>
+
+      <div class="items-wrapper">
+        <table class="items-table" id="itemsTable">
+          <thead>
+            <tr>
+              <th class="col-desc">Description</th>
+              <th class="col-qty">Qty</th>
+              <th class="col-price">Unit Price</th>
+              <th class="col-total">Total</th>
+              <th></th>
+            </tr>
+          </thead>
+          <!-- Rows are injected here by JavaScript -->
+          <tbody id="itemsBody"></tbody>
+        </table>
+      </div>
+
+      <!-- Button to add a new item row -->
+      <button class="btn-add-row" id="addRowBtn" type="button">
+        <span>＋</span> Add Item
+      </button>
+
+      <!-- Subtotal / Tax / Grand Total summary -->
+      <div class="totals-block">
+        <div class="totals-inner">
+          <div class="totals-row">
+            <span class="label">Subtotal</span>
+            <span id="subtotalDisplay">—</span>
+          </div>
+          <div class="totals-row" id="taxRow">
+            <span class="label">
+              Tax
+              <input
+                type="number" id="taxRate" min="0" max="100" step="0.1"
+                placeholder="%" title="Enter tax %"
+                style="width:58px;padding:3px 6px;font-size:0.82rem;display:inline-block;margin-left:6px;border-radius:5px;border:1px solid var(--border);"
+              />
+            </span>
+            <span id="taxDisplay">—</span>
+          </div>
+          <div class="totals-row grand">
+            <span class="label">Grand Total</span>
+            <span id="grandDisplay">—</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SECTION 5: Notes / Terms ──────────────────────────────
+         Optional text that appears at the bottom of the invoice.
+    ──────────────────────────────────────────────────────────── -->
+    <div class="card form-section">
+      <div class="card-title"><span class="dot"></span> Notes &amp; Payment Terms</div>
+      <div class="form-grid">
+        <div class="full">
+          <label for="notes">Notes / Terms <span class="opt">(optional)</span></label>
+          <textarea id="notes" placeholder="e.g. Payment is due within 14 days. Bank: GTBank. Account: 0123456789. Account Name: Adeyemi Trading."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── GENERATE BUTTON ───────────────────────────────────────
+         Triggers JavaScript to validate the form and build the
+         invoice preview HTML below.
+    ──────────────────────────────────────────────────────────── -->
+    <div class="actions">
+      <button class="btn btn-primary" id="generateBtn" type="button">
+        ✦ Generate Invoice
+      </button>
+      <button class="btn btn-outline" id="resetBtn" type="button">
+        ↺ Start New Invoice
+      </button>
+    </div>
+
+    <!-- ============================================================
+         INVOICE PREVIEW SECTION
+         Hidden until the user clicks "Generate Invoice".
+         Contains the printable invoice document + action buttons.
+    ============================================================ -->
+    <div id="invoicePreview">
+
+      <!-- Preview toolbar (hidden during print) -->
+      <div class="preview-bar">
+        <h2>📄 Invoice Preview</h2>
+        <div class="preview-actions">
+          <button class="btn btn-success" id="downloadBtn" type="button">
+            ⬇ Download PDF
+          </button>
+          <button class="btn btn-whatsapp" id="whatsappBtn" type="button">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="flex-shrink:0">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            Send via WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- ── THE ACTUAL PRINTABLE INVOICE ──────────────────────
+           This div is what gets styled for print.
+           All content is injected here by generateInvoice().
+      ──────────────────────────────────────────────────────────-->
+      <div class="invoice-doc" id="invoiceDoc"></div>
+
+    </div><!-- /#invoicePreview -->
+
+  </div><!-- /.container -->
+
+  <!-- Toast notification element -->
+  <div id="toast"></div>
+
+  <!-- ============================================================
+       JAVASCRIPT
+       All app logic lives here — no external scripts needed.
+  ============================================================ -->
+  <script>
+    // ── Utility: show a brief toast message ─────────────────────
+    function showToast(msg, duration = 2800) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), duration);
+    }
+
+    // ── Utility: format a number as currency ────────────────────
+    function fmt(num) {
+      const sym = document.getElementById('currency').value;
+      return sym + Number(num).toLocaleString('en-NG', {
+        minimumFractionDigits: 2, maximumFractionDigits: 2
+      });
+    }
+
+    // ── Utility: format a date string as "12 June 2025" ─────────
+    function fmtDate(val) {
+      if (!val) return '—';
+      const d = new Date(val + 'T00:00:00'); // avoid timezone shift
+      return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+
+    // ── Auto-generate Invoice Number on load ─────────────────────
+    // Format: INV-YYYYMM-XXX (e.g. INV-202506-047)
+    function generateInvNumber() {
+      const now   = new Date();
+      const ym    = now.toISOString().slice(0,7).replace('-','');
+      const seq   = String(Math.floor(Math.random() * 899) + 100); // 100-999
+      return `INV-${ym}-${seq}`;
+    }
+
+    // ── Set default dates ────────────────────────────────────────
+    function setDefaultDates() {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('invoiceDate').value = today;
+      // Default due date = 14 days from now
+      const due = new Date();
+      due.setDate(due.getDate() + 14);
+      document.getElementById('dueDate').value = due.toISOString().split('T')[0];
+    }
+
+    // ── localStorage: save & restore business info ───────────────
+    function saveBizInfo() {
+      const name = document.getElementById('bizName').value.trim();
+      if (name) localStorage.setItem('inv_bizName', name);
+      if (window._logoDataURL) localStorage.setItem('inv_logoData', window._logoDataURL);
+    }
+
+    function restoreBizInfo() {
+      const name = localStorage.getItem('inv_bizName');
+      if (name) document.getElementById('bizName').value = name;
+      const logo = localStorage.getItem('inv_logoData');
+      if (logo) {
+        window._logoDataURL = logo;
+        const prev = document.getElementById('logoPreview');
+        prev.src  = logo;
+        prev.style.display = 'block';
+        document.querySelector('.logo-upload-area .upload-hint').textContent = 'Logo loaded from last session';
+      }
+    }
+
+    // ── Logo upload handler ──────────────────────────────────────
+    document.getElementById('logoInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      if (file.size > 2 * 1024 * 1024) { showToast('⚠️ Logo too large (max 2MB)'); return; }
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        window._logoDataURL = ev.target.result;
+        const prev = document.getElementById('logoPreview');
+        prev.src  = ev.target.result;
+        prev.style.display = 'block';
+        document.querySelector('.logo-upload-area .upload-hint').textContent = file.name;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // ── LINE ITEMS TABLE ─────────────────────────────────────────
+    let rowCount = 0; // used to give each row a unique ID
+
+    // Add a single item row to the table
+    function addRow(desc = '', qty = '', price = '') {
+      rowCount++;
+      const id  = rowCount;
+      const tr  = document.createElement('tr');
+      tr.id     = `row-${id}`;
+      tr.innerHTML = `
+        <td class="col-desc">
+          <input type="text" placeholder="e.g. Website Design" value="${esc(desc)}"
+                 oninput="calcTotals()" id="desc-${id}" />
+        </td>
+        <td class="col-qty">
+          <input type="number" placeholder="1" min="0" value="${esc(qty)}"
+                 oninput="updateRowTotal(${id})" id="qty-${id}" />
+        </td>
+        <td class="col-price">
+          <input type="number" placeholder="0.00" min="0" step="0.01" value="${esc(price)}"
+                 oninput="updateRowTotal(${id})" id="price-${id}" />
+        </td>
+        <td class="col-total">
+          <input type="text" class="row-total" id="total-${id}" value="—" readonly />
+        </td>
+        <td>
+          <button class="btn-remove" type="button" onclick="removeRow(${id})" title="Remove row">✕</button>
+        </td>
+      `;
+      document.getElementById('itemsBody').appendChild(tr);
+      if (qty && price) updateRowTotal(id);
+    }
+
+    // Escape helper to prevent XSS in injected values
+    function esc(s) {
+      return String(s).replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    }
+
+    // Update a single row's Total cell, then recalc grand totals
+    function updateRowTotal(id) {
+      const qty   = parseFloat(document.getElementById(`qty-${id}`)?.value)   || 0;
+      const price = parseFloat(document.getElementById(`price-${id}`)?.value) || 0;
+      const total = qty * price;
+      const el    = document.getElementById(`total-${id}`);
+      if (el) el.value = total > 0 ? fmt(total) : '—';
+      calcTotals();
+    }
+
+    // Remove a row
+    function removeRow(id) {
+      const row = document.getElementById(`row-${id}`);
+      if (row) row.remove();
+      calcTotals();
+    }
+
+    // Recalculate subtotal, tax, grand total
+    function calcTotals() {
+      const rows    = document.querySelectorAll('#itemsBody tr');
+      let subtotal  = 0;
+      rows.forEach(tr => {
+        const id  = tr.id.replace('row-', '');
+        const qty = parseFloat(document.getElementById(`qty-${id}`)?.value)   || 0;
+        const prc = parseFloat(document.getElementById(`price-${id}`)?.value) || 0;
+        subtotal += qty * prc;
+      });
+      const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
+      const taxAmt  = subtotal * (taxRate / 100);
+      const grand   = subtotal + taxAmt;
+
+      document.getElementById('subtotalDisplay').textContent = subtotal > 0 ? fmt(subtotal) : '—';
+      document.getElementById('taxDisplay').textContent      = taxAmt   > 0 ? fmt(taxAmt)   : (taxRate > 0 ? fmt(0) : '—');
+      document.getElementById('grandDisplay').textContent    = grand    > 0 ? fmt(grand)     : '—';
+    }
+
+    // Listen for tax-rate changes
+    document.getElementById('taxRate').addEventListener('input', calcTotals);
+    // Listen for currency changes → reformat all totals
+    document.getElementById('currency').addEventListener('change', () => {
+      const rows = document.querySelectorAll('#itemsBody tr');
+      rows.forEach(tr => {
+        const id = tr.id.replace('row-', '');
+        updateRowTotal(id);
+      });
+      calcTotals();
+    });
+    // Add-row button
+    document.getElementById('addRowBtn').addEventListener('click', () => addRow());
+
+    // ── GENERATE INVOICE ────────────────────────────────────────
+    document.getElementById('generateBtn').addEventListener('click', function() {
+      // Validate required fields
+      if (!document.getElementById('bizName').value.trim()) {
+        showToast('⚠️ Please enter your Business Name'); return;
+      }
+      if (!document.getElementById('clientName').value.trim()) {
+        showToast('⚠️ Please enter the Client Name'); return;
+      }
+      if (!document.getElementById('invoiceDate').value) {
+        showToast('⚠️ Please select an Invoice Date'); return;
+      }
+      const rows = document.querySelectorAll('#itemsBody tr');
+      if (rows.length === 0) {
+        showToast('⚠️ Please add at least one line item'); return;
+      }
+      let hasItems = false;
+      rows.forEach(tr => {
+        const id  = tr.id.replace('row-', '');
+        const desc  = document.getElementById(`desc-${id}`)?.value.trim();
+        const price = parseFloat(document.getElementById(`price-${id}`)?.value) || 0;
+        if (desc || price) hasItems = true;
+      });
+      if (!hasItems) { showToast('⚠️ Please fill in at least one line item'); return; }
+
+      saveBizInfo(); // persist biz info to localStorage
+
+      // ── Gather all field values ────────────────────────────────
+      const bizName    = document.getElementById('bizName').value.trim();
+      const clientName = document.getElementById('clientName').value.trim();
+      const clientEmail= document.getElementById('clientEmail').value.trim();
+      const invNum     = document.getElementById('invoiceNumber').value;
+      const invDate    = document.getElementById('invoiceDate').value;
+      const dueDate    = document.getElementById('dueDate').value;
+      const taxRate    = parseFloat(document.getElementById('taxRate').value) || 0;
+      const notes      = document.getElementById('notes').value.trim();
+      const sym        = document.getElementById('currency').value;
+
+      // ── Build line-items data ──────────────────────────────────
+      let subtotal = 0;
+      let itemsHTML = '';
+      rows.forEach(tr => {
+        const id    = tr.id.replace('row-', '');
+        const desc  = document.getElementById(`desc-${id}`)?.value.trim()  || '—';
+        const qty   = parseFloat(document.getElementById(`qty-${id}`)?.value)   || 0;
+        const price = parseFloat(document.getElementById(`price-${id}`)?.value) || 0;
+        const total = qty * price;
+        subtotal += total;
+        itemsHTML += `
+          <tr>
+            <td>${escHTML(desc)}</td>
+            <td>${qty > 0 ? qty : '—'}</td>
+            <td>${price > 0 ? fmt(price) : '—'}</td>
+            <td>${total > 0 ? fmt(total) : '—'}</td>
+          </tr>`;
+      });
+
+      const taxAmt = subtotal * (taxRate / 100);
+      const grand  = subtotal + taxAmt;
+
+      // ── Logo HTML ──────────────────────────────────────────────
+      const logoHTML = window._logoDataURL
+        ? `<img src="${window._logoDataURL}" alt="${escHTML(bizName)} Logo" />`
+        : '';
+
+      // ── Notes section ─────────────────────────────────────────
+      const notesHTML = notes
+        ? `<div class="inv-notes"><strong>Notes &amp; Payment Terms</strong>${escHTML(notes)}</div>`
+        : '';
+
+      // ── Client email line ──────────────────────────────────────
+      const emailLine = clientEmail ? `<br />${escHTML(clientEmail)}` : '';
+
+      // ── Tax row ────────────────────────────────────────────────
+      const taxRowHTML = taxRate > 0
+        ? `<div class="inv-totals-row"><span class="tl">Tax (${taxRate}%)</span><span>${fmt(taxAmt)}</span></div>`
+        : '';
+
+      // ── Inject rendered invoice into #invoiceDoc ───────────────
+      document.getElementById('invoiceDoc').innerHTML = `
+        <div class="inv-top">
+          <div class="inv-biz">
+            ${logoHTML}
+            <div class="inv-biz-name">${escHTML(bizName)}</div>
+          </div>
+          <div class="inv-badge">
+            <div class="inv-word">INVOICE</div>
+            <div class="inv-num">No. <span>${escHTML(invNum)}</span></div>
+          </div>
+        </div>
+
+        <div class="inv-divider"></div>
+
+        <div class="inv-parties">
+          <div class="inv-party-box">
+            <h4>From</h4>
+            <p>${escHTML(bizName)}</p>
+          </div>
+          <div class="inv-party-box">
+            <h4>Bill To</h4>
+            <p><strong>${escHTML(clientName)}</strong>${emailLine}</p>
+          </div>
+        </div>
+
+        <div class="inv-dates">
+          <div class="inv-date-item">
+            <div class="dl">Invoice Date</div>
+            <div class="dv">${fmtDate(invDate)}</div>
+          </div>
+          <div class="inv-date-item">
+            <div class="dl">Due Date</div>
+            <div class="dv">${dueDate ? fmtDate(dueDate) : '—'}</div>
+          </div>
+          <div class="inv-date-item">
+            <div class="dl">Invoice No.</div>
+            <div class="dv">${escHTML(invNum)}</div>
+          </div>
+        </div>
+
+        <table class="inv-table">
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Qty</th>
+              <th>Unit Price</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>${itemsHTML}</tbody>
+        </table>
+
+        <div class="inv-totals">
+          <div class="inv-totals-box">
+            <div class="inv-totals-row">
+              <span class="tl">Subtotal</span>
+              <span>${fmt(subtotal)}</span>
+            </div>
+            ${taxRowHTML}
+            <div class="inv-totals-row grand">
+              <span class="tl">Total Due</span>
+              <span>${fmt(grand)}</span>
+            </div>
+          </div>
+        </div>
+
+        ${notesHTML}
+
+        <div class="inv-footer">
+          Thank you for your business — <span>${escHTML(bizName)}</span>
+        </div>
+      `;
+
+      // Show the preview section and scroll to it
+      const preview = document.getElementById('invoicePreview');
+      preview.style.display = 'block';
+      preview.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      showToast('✅ Invoice generated!');
+
+      // Cache grand total & client info for WhatsApp button
+      window._grandTotal  = grand;
+      window._sym         = sym;
+      window._clientName  = clientName;
+      window._invNum      = invNum;
+    });
+
+    // ── DOWNLOAD PDF ─────────────────────────────────────────────
+    // Uses the browser's built-in print-to-PDF.
+    // Print CSS hides everything except #invoiceDoc.
+    document.getElementById('downloadBtn').addEventListener('click', function() {
+      showToast('📄 Opening print / Save as PDF dialog…');
+      setTimeout(() => window.print(), 500);
+    });
+
+    // ── SEND VIA WHATSAPP ────────────────────────────────────────
+    // Opens wa.me with a pre-filled message.
+    document.getElementById('whatsappBtn').addEventListener('click', function() {
+      const name   = window._clientName || document.getElementById('clientName').value.trim() || 'Client';
+      const invNum = window._invNum     || document.getElementById('invoiceNumber').value;
+      const total  = window._grandTotal != null
+        ? (window._sym || '₦') + Number(window._grandTotal).toLocaleString('en-NG', { minimumFractionDigits: 2 })
+        : '(see attachment)';
+
+      const msg = `Hello ${name}, please find your invoice ${invNum} for ${total} attached. Kindly confirm receipt and payment at your earliest convenience. Thank you!`;
+      const url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
+    });
+
+    // ── RESET / NEW INVOICE ──────────────────────────────────────
+    document.getElementById('resetBtn').addEventListener('click', function() {
+      if (!confirm('Start a new invoice? The current data will be cleared.')) return;
+      // Reset all form inputs
+      ['bizName','clientName','clientEmail','notes'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      document.getElementById('taxRate').value = '';
+      document.getElementById('itemsBody').innerHTML = '';
+      // Keep biz name from localStorage
+      restoreBizInfo();
+      // Fresh invoice number & dates
+      document.getElementById('invoiceNumber').value = generateInvNumber();
+      setDefaultDates();
+      // Hide preview
+      document.getElementById('invoicePreview').style.display = 'none';
+      // Add one blank row
+      addRow();
+      calcTotals();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      showToast('🆕 Ready for a new invoice!');
+    });
+
+    // ── HTML escape helper (prevents XSS in invoice output) ──────
+    function escHTML(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/\n/g, '<br />');
+    }
+
+    // ── INITIALISE ON PAGE LOAD ──────────────────────────────────
+    (function init() {
+      document.getElementById('invoiceNumber').value = generateInvNumber();
+      setDefaultDates();
+      restoreBizInfo();
+      addRow(); // start with one empty row
+    })();
+  </script>
+
+</body>
+</html>

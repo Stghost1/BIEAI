@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Investment ROI Calculator | B.I.E.AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:radial-gradient(ellipse 80% 60% at 50% -10%, rgba(212,175,55,0.12) 0%,transparent 65%), #0a0a0f;
+  min-height:100vh;
+  color:#fff;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;}
+input[type=number]{-moz-appearance:textfield;}
+input::placeholder{color:rgba(255,255,255,0.15);}
+
+/* Back bar */
+.back-bar{
+  background:rgba(10,10,15,0.9);
+  padding:0.55rem 1.5rem;
+  display:flex;align-items:center;gap:1rem;
+  border-bottom:1px solid rgba(212,175,55,0.15);
+  backdrop-filter:blur(12px);
+  position:sticky;top:0;z-index:100;
+}
+.back-bar a{
+  color:rgba(255,255,255,0.55);text-decoration:none;
+  font-size:0.78rem;letter-spacing:0.05em;
+  display:flex;align-items:center;gap:0.4rem;
+  transition:color 0.2s;
+}
+.back-bar a:hover{color:#fff;}
+.back-bar span{color:rgba(255,255,255,0.15);font-size:0.75rem;}
+.back-bar .demo-note{color:rgba(212,175,55,0.45);font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;}
+
+/* Wrapper */
+.wrapper{
+  max-width:560px;margin:0 auto;
+  padding:48px 20px 80px;
+  display:flex;flex-direction:column;align-items:center;
+}
+
+/* Header */
+.header{text-align:center;margin-bottom:44px;animation:fadeUp 0.8s ease both;}
+.header-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.25);
+  border-radius:99px;padding:6px 16px;margin-bottom:20px;
+}
+.header-pill span{color:#D4AF37;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:500;}
+h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,6vw,3.2rem);
+  font-weight:700;line-height:1.1;
+  letter-spacing:-0.02em;margin-bottom:12px;
+}
+h1 em{color:#D4AF37;font-style:normal;}
+.header p{color:rgba(255,255,255,0.4);font-size:0.95rem;max-width:380px;line-height:1.65;margin:0 auto;}
+
+/* Main card */
+.card{
+  width:100%;
+  background:rgba(255,255,255,0.025);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:24px;overflow:hidden;
+  backdrop-filter:blur(20px);
+  animation:fadeUp 0.8s 0.2s ease both;
+}
+.card-gold-bar{
+  height:3px;
+  background:linear-gradient(90deg,transparent,#D4AF37,#F5D76E,#D4AF37,transparent);
+}
+.card-inner{padding:36px 32px;}
+
+/* Currency row */
+.currency-row{
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:8px;
+}
+.currency-row label{
+  color:rgba(255,255,255,0.55);font-size:0.7rem;
+  letter-spacing:0.1em;text-transform:uppercase;
+  white-space:nowrap;
+}
+.currency-select{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:8px;padding:8px 12px;
+  color:#fff;font-family:'DM Sans',sans-serif;font-size:0.85rem;
+  outline:none;cursor:pointer;flex:1;
+  transition:border-color 0.2s;
+}
+.currency-select:focus{border-color:rgba(212,175,55,0.5);}
+.currency-select option{background:#1a1a2e;color:#fff;}
+
+/* Fields */
+.fields{display:flex;flex-direction:column;gap:20px;margin-top:20px;}
+.field{display:flex;flex-direction:column;gap:7px;}
+.field-label{color:rgba(255,255,255,0.55);font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;}
+.field-input-wrap{
+  position:relative;
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:12px;
+  display:flex;align-items:center;
+  transition:border-color 0.2s,background 0.2s;
+}
+.field-input-wrap.focused{
+  border-color:rgba(212,175,55,0.5);
+  background:rgba(212,175,55,0.04);
+}
+.field-sym{
+  color:rgba(212,175,55,0.7);font-size:1rem;
+  padding:0 0 0 16px;user-select:none;
+  font-family:'DM Sans',sans-serif;
+  min-width:2.5rem;
+}
+.field-input{
+  background:transparent;border:none;outline:none;
+  color:#fff;font-size:1rem;font-family:'DM Sans',sans-serif;
+  padding:14px 16px;width:100%;font-weight:500;
+}
+.field-hint{color:rgba(255,255,255,0.22);font-size:0.72rem;}
+
+/* Calc button */
+.calc-btn{
+  margin-top:12px;
+  width:100%;
+  background:linear-gradient(135deg,#D4AF37,#F5D76E);
+  border:none;border-radius:12px;
+  padding:16px;
+  color:#0a0a0f;font-size:0.95rem;font-weight:600;
+  font-family:'DM Sans',sans-serif;letter-spacing:0.02em;
+  cursor:pointer;transition:opacity 0.2s,transform 0.2s;
+}
+.calc-btn:hover{opacity:0.9;transform:translateY(-1px);}
+.calc-btn:disabled{
+  background:rgba(212,175,55,0.2);
+  color:rgba(212,175,55,0.35);cursor:not-allowed;
+  transform:none;
+}
+
+/* Results */
+.results{display:none;flex-direction:column;gap:0;}
+.results.show{display:flex;}
+
+.results-header{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:24px;
+}
+.results-header h2{
+  font-family:'Playfair Display',serif;color:#fff;
+  font-size:1.35rem;font-weight:600;
+}
+.recalc-btn{
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:8px;padding:7px 14px;
+  color:rgba(255,255,255,0.5);font-size:0.75rem;
+  cursor:pointer;font-family:'DM Sans',sans-serif;
+  transition:background 0.2s,color 0.2s;
+}
+.recalc-btn:hover{background:rgba(255,255,255,0.1);color:#fff;}
+
+/* ROI gauge */
+.gauge-card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:16px;padding:24px;
+  margin-bottom:12px;
+}
+.gauge-label{color:rgba(255,255,255,0.45);font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:14px;}
+.gauge-inner{display:flex;align-items:center;gap:20px;}
+.gauge-bar-wrap{flex:1;}
+.gauge-track{height:8px;background:rgba(255,255,255,0.08);border-radius:99px;overflow:hidden;}
+.gauge-fill{
+  height:100%;width:0%;border-radius:99px;
+  transition:width 1.4s cubic-bezier(0.16,1,0.3,1) 200ms;
+}
+.gauge-scale{display:flex;justify-content:space-between;margin-top:5px;}
+.gauge-scale span{color:rgba(255,255,255,0.22);font-size:0.65rem;}
+.gauge-num{text-align:right;min-width:80px;}
+.gauge-pct{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;line-height:1;}
+.gauge-verdict{font-size:0.7rem;margin-top:4px;}
+
+/* Metric grid */
+.metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.metric{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:16px;padding:22px 20px;
+  position:relative;overflow:hidden;
+  transition:all 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+.metric.accent{border-color:rgba(212,175,55,0.35);}
+.metric.accent::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,#D4AF37,#F5D76E,#D4AF37);
+}
+.metric-label{color:rgba(255,255,255,0.42);font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px;}
+.metric-val{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;letter-spacing:-0.02em;line-height:1;}
+.metric.accent .metric-val{color:#F5D76E;}
+.metric-sub{color:rgba(255,255,255,0.3);font-size:0.7rem;margin-top:5px;}
+
+/* Payback */
+.payback{
+  background:rgba(212,175,55,0.06);
+  border:1px solid rgba(212,175,55,0.18);
+  border-radius:12px;padding:14px 18px;
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:12px;
+  opacity:0;transform:translateY(8px);
+  transition:all 0.6s ease 0.6s;
+}
+.payback.show{opacity:1;transform:translateY(0);}
+.payback-label{color:rgba(255,255,255,0.45);font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;}
+.payback-val{font-family:'Playfair Display',serif;color:#F5D76E;font-size:1.25rem;font-weight:600;}
+
+/* Tip */
+.tip{
+  padding:14px 18px;
+  background:rgba(255,255,255,0.02);
+  border-radius:10px;
+  color:rgba(255,255,255,0.28);
+  font-size:0.72rem;line-height:1.6;
+  opacity:0;transition:opacity 0.6s ease 0.8s;
+}
+.tip.show{opacity:1;}
+
+/* Footer */
+.page-footer{
+  margin-top:32px;
+  color:rgba(255,255,255,0.15);
+  font-size:0.68rem;letter-spacing:0.08em;
+  text-transform:uppercase;
+  animation:fadeUp 1s 0.6s ease both;
+  text-align:center;
+}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+
+@media(max-width:480px){
+  .card-inner{padding:24px 20px;}
+  .metrics-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- Back bar -->
+<div class="back-bar">
+  <a href="index.html">&#8592; Back to B.I.E.AI Portfolio</a>
+  <span>|</span>
+  <span class="demo-note">Demo Tool  |  Built by B.I.E.AI</span>
+</div>
+
+<div class="wrapper">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-pill"><span>&#127968; Property &amp; Investment</span></div>
+    <h1>Investment ROI<br><em>Calculator</em></h1>
+    <p>Know your numbers before you invest. Analyse rental yield, monthly profit &amp; payback period in seconds.</p>
+  </div>
+
+  <!-- Card -->
+  <div class="card">
+    <div class="card-gold-bar"></div>
+    <div class="card-inner">
+
+      <!-- Input Form -->
+      <div id="formSection">
+
+        <!-- Currency selector -->
+        <div class="currency-row">
+          <label>Currency</label>
+          <select class="currency-select" id="currencySelect" onchange="updateSymbol()">
+            <option value="$">$  |  US Dollar (USD)</option>
+            <option value="&#163;">&#163;  |  British Pound (GBP)</option>
+            <option value="&#8364;">&#8364;  |  Euro (EUR)</option>
+            <option value="&#8358;">&#8358;  |  Nigerian Naira (NGN)</option>
+            <option value="GH&#8373;">GH&#8373;  |  Ghanaian Cedi (GHS)</option>
+            <option value="R">R  |  South African Rand (ZAR)</option>
+            <option value="KES">KES  |  Kenyan Shilling</option>
+            <option value="C$">C$  |  Canadian Dollar (CAD)</option>
+            <option value="A$">A$  |  Australian Dollar (AUD)</option>
+            <option value="AED">AED  |  UAE Dirham</option>
+            <option value="&#8377;">&#8377;  |  Indian Rupee (INR)</option>
+          </select>
+        </div>
+
+        <div class="fields">
+          <div class="field">
+            <div class="field-label">Property / Asset Price</div>
+            <div class="field-input-wrap" id="wrap-price">
+              <span class="field-sym" id="sym1">$</span>
+              <input class="field-input" type="number" id="price" placeholder="0"
+                onfocus="document.getElementById('wrap-price').classList.add('focused')"
+                onblur="document.getElementById('wrap-price').classList.remove('focused')">
+            </div>
+            <div class="field-hint">Total purchase price of the property or asset</div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">Monthly Rental / Income</div>
+            <div class="field-input-wrap" id="wrap-rent">
+              <span class="field-sym" id="sym2">$</span>
+              <input class="field-input" type="number" id="rent" placeholder="0"
+                onfocus="document.getElementById('wrap-rent').classList.add('focused')"
+                onblur="document.getElementById('wrap-rent').classList.remove('focused')">
+            </div>
+            <div class="field-hint">Expected income you will collect each month</div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">Monthly Expenses <span style="opacity:0.5;font-size:0.9em;">(optional)</span></div>
+            <div class="field-input-wrap" id="wrap-exp">
+              <span class="field-sym" id="sym3">$</span>
+              <input class="field-input" type="number" id="expenses" placeholder="0"
+                onfocus="document.getElementById('wrap-exp').classList.add('focused')"
+                onblur="document.getElementById('wrap-exp').classList.remove('focused')">
+            </div>
+            <div class="field-hint">Maintenance, management fees, insurance, etc.</div>
+          </div>
+
+          <div class="field">
+            <div class="field-label">Monthly Mortgage / Loan <span style="opacity:0.5;font-size:0.9em;">(optional)</span></div>
+            <div class="field-input-wrap" id="wrap-mort">
+              <span class="field-sym" id="sym4">$</span>
+              <input class="field-input" type="number" id="mortgage" placeholder="0"
+                onfocus="document.getElementById('wrap-mort').classList.add('focused')"
+                onblur="document.getElementById('wrap-mort').classList.remove('focused')">
+            </div>
+            <div class="field-hint">Leave blank if purchasing outright</div>
+          </div>
+
+          <button class="calc-btn" id="calcBtn" onclick="calculate()">
+            Calculate My Returns &#8594;
+          </button>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="results" id="results">
+        <div class="results-header">
+          <h2>Your Results</h2>
+          <button class="recalc-btn" onclick="reset()">&#8592; Recalculate</button>
+        </div>
+
+        <!-- ROI Gauge -->
+        <div class="gauge-card">
+          <div class="gauge-label">Annual ROI</div>
+          <div class="gauge-inner">
+            <div class="gauge-bar-wrap">
+              <div class="gauge-track"><div class="gauge-fill" id="gaugeFill"></div></div>
+              <div class="gauge-scale"><span>0%</span><span>50%+</span></div>
+            </div>
+            <div class="gauge-num">
+              <div class="gauge-pct" id="gaugePct">0%</div>
+              <div class="gauge-verdict" id="gaugeVerdict"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metrics -->
+        <div class="metrics-grid">
+          <div class="metric accent">
+            <div class="metric-label">Monthly Profit</div>
+            <div class="metric-val" id="mMonthly"> | </div>
+            <div class="metric-sub" id="mMonthlySub">After all expenses</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Annual Profit</div>
+            <div class="metric-val" id="mAnnual"> | </div>
+            <div class="metric-sub">Projected yearly earnings</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Gross Yield</div>
+            <div class="metric-val" id="mYield"> | </div>
+            <div class="metric-sub">Gross rental yield</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Net Yield</div>
+            <div class="metric-val" id="mNetYield"> | </div>
+            <div class="metric-sub">After expenses &amp; mortgage</div>
+          </div>
+        </div>
+
+        <!-- Payback -->
+        <div class="payback" id="payback">
+          <span class="payback-label">Payback Period</span>
+          <span class="payback-val" id="paybackVal"> |  years</span>
+        </div>
+
+        <!-- Tip -->
+        <div class="tip" id="tip">
+          &#128161; <strong>Industry benchmark:</strong> A gross rental yield of 5&#8211;8% is considered healthy for most developed markets. Emerging markets often target 8&#8211;12%+. An ROI above 10% is generally considered strong worldwide.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="page-footer">Built by B.I.E.AI  |  AI-Powered Business Tools</div>
+
+</div>
+
+<script>
+var sym = '$';
+
+function updateSymbol() {
+  sym = document.getElementById('currencySelect').value;
+  ['sym1','sym2','sym3','sym4'].forEach(function(id) {
+    document.getElementById(id).textContent = sym;
+  });
+}
+
+function fmt(n) {
+  var abs = Math.abs(n);
+  var sign = n < 0 ? '-' : '';
+  if (abs >= 1000000) return sign + sym + (abs/1000000).toFixed(2) + 'M';
+  if (abs >= 1000)    return sign + sym + (abs/1000).toFixed(1) + 'K';
+  return sign + sym + Math.round(abs).toLocaleString();
+}
+
+function animateCounter(el, target, duration, formatter) {
+  var start = null;
+  var formatted = formatter | function(v){ return fmt(v); };
+  function step(ts) {
+    if (!start) start = ts;
+    var prog = Math.min((ts - start) / duration, 1);
+    var ease = 1 - Math.pow(1 - prog, 3);
+    var cur = ease * target;
+    el.textContent = formatted(cur);
+    if (prog < 1) requestAnimationFrame(step);
+    else el.textContent = formatted(target);
+  }
+  requestAnimationFrame(step);
+}
+
+function calculate() {
+  var p = parseFloat(document.getElementById('price').value) | 0;
+  var r = parseFloat(document.getElementById('rent').value) | 0;
+  var e = parseFloat(document.getElementById('expenses').value) | 0;
+  var m = parseFloat(document.getElementById('mortgage').value) | 0;
+
+  if (!p | !r) {
+    alert('Please enter at least Property Price and Monthly Income.');
+    return;
+  }
+
+  var monthlyProfit = r - e - m;
+  var annualProfit  = monthlyProfit * 12;
+  var roi           = p > 0 ? (annualProfit / p) * 100 : 0;
+  var grossYield    = p > 0 ? ((r * 12) / p) * 100 : 0;
+  var netYield      = p > 0 ? ((annualProfit) / p) * 100 : 0;
+  var payback       = annualProfit > 0 ? p / annualProfit : null;
+
+  // Show results
+  document.getElementById('formSection').style.display = 'none';
+  var res = document.getElementById('results');
+  res.classList.add('show');
+
+  // ROI Gauge
+  var roiColor = roi < 5 ? '#ef4444' : roi < 10 ? '#f59e0b' : '#22c55e';
+  var pct = Math.min(roi / 50, 1) * 100;
+  var fill = document.getElementById('gaugeFill');
+  fill.style.background = 'linear-gradient(90deg,' + roiColor + '88,' + roiColor + ')';
+  setTimeout(function(){ fill.style.width = pct + '%'; }, 100);
+
+  var verdict = roi < 5 ? 'Poor return' : roi < 10 ? 'Fair return' : roi < 20 ? 'Good return' : 'Excellent return';
+  document.getElementById('gaugeVerdict').textContent = verdict;
+  document.getElementById('gaugeVerdict').style.color = roiColor;
+  document.getElementById('gaugePct').style.color = roiColor;
+  animateCounter(document.getElementById('gaugePct'), roi, 1400, function(v){ return v.toFixed(1) + '%'; });
+
+  // Metrics
+  animateCounter(document.getElementById('mMonthly'), Math.abs(monthlyProfit), 1200);
+  if (monthlyProfit < 0) {
+    document.getElementById('mMonthlySub').textContent = '⚠ ' + fmt(Math.abs(monthlyProfit)) + ' monthly loss';
+    document.getElementById('mMonthly').style.color = '#ef4444';
+  } else {
+    document.getElementById('mMonthlySub').textContent = 'After all expenses';
+    document.getElementById('mMonthly').style.color = '#F5D76E';
+  }
+
+  animateCounter(document.getElementById('mAnnual'), Math.max(0, annualProfit), 1200);
+  animateCounter(document.getElementById('mYield'), grossYield, 1200, function(v){ return v.toFixed(1) + '%'; });
+  animateCounter(document.getElementById('mNetYield'), netYield, 1200, function(v){ return v.toFixed(1) + '%'; });
+
+  // Payback
+  if (payback && payback > 0 && payback < 100) {
+    document.getElementById('paybackVal').textContent = payback.toFixed(1) + ' years';
+    setTimeout(function(){ document.getElementById('payback').classList.add('show'); }, 100);
+  }
+
+  // Tip
+  setTimeout(function(){ document.getElementById('tip').classList.add('show'); }, 100);
+}
+
+function reset() {
+  document.getElementById('formSection').style.display = 'block';
+  var res = document.getElementById('results');
+  res.classList.remove('show');
+  document.getElementById('gaugeFill').style.width = '0%';
+  document.getElementById('payback').classList.remove('show');
+  document.getElementById('tip').classList.remove('show');
+  document.getElementById('mMonthly').style.color = '';
+  ['price','rent','expenses','mortgage'].forEach(function(id){
+    document.getElementById(id).value = '';
+  });
+}
+
+// Validate button state
+['price','rent'].forEach(function(id) {
+  document.getElementById(id).addEventListener('input', function() {
+    var p = document.getElementById('price').value;
+    var r = document.getElementById('rent').value;
+    document.getElementById('calcBtn').disabled = !p | !r;
+  });
+});
+document.getElementById('calcBtn').disabled = true;
+</script>
+</body>
+</html>

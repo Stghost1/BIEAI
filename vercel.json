@@ -11,12 +11,12 @@
       "destination": "/media-kit.html"
     },
     {
-      "source": "/lagos-premier-realty",
-      "destination": "/lagos-premier-realty.html"
-    },
-    {
       "source": "/swiftlegal-nigeria",
       "destination": "/swiftlegal-nigeria.html"
+    },
+    {
+      "source": "/lagos-premier-realty",
+      "destination": "/lagos-premier-realty.html"
     },
     {
       "source": "/nutricoach-abuja",
@@ -27,6 +27,10 @@
       "destination": "/invoice-generator.html"
     },
     {
+      "source": "/nigerian-invoice-generator",
+      "destination": "/nigerian-invoice-generator.html"
+    },
+    {
       "source": "/roi-calculator",
       "destination": "/roi-calculator.html"
     },
@@ -35,76 +39,200 @@
       "destination": "/roi-business.html"
     },
     {
-      "source": "/demo-apex-fintech-corp-senior-full-stack-en",
-      "destination": "/demo-apex-fintech-corp-senior-full-stack-en.html"
-    },
-    {
-      "source": "/demo-dreem-health-digital-workplace-au",
-      "destination": "/demo-dreem-health-digital-workplace-au.html"
-    },
-    {
-      "source": "/demo-nova-commerce-clou-full-stack-next-js-e",
-      "destination": "/demo-nova-commerce-clou-full-stack-next-js-e.html"
-    },
-    {
       "source": "/demo-anori-tech-hardware-engineer",
       "destination": "/demo-anori-tech-hardware-engineer.html"
     },
     {
-      "source": "/demo-highlevel-lead-product-designe",
-      "destination": "/demo-highlevel-lead-product-designe.html"
+      "source": "/demo-apex-fintech-corp-senior-full-stack-en",
+      "destination": "/demo-apex-fintech-corp-senior-full-stack-en.html"
     },
     {
-      "source": "/demo-fuel50-product-design-lead",
-      "destination": "/demo-fuel50-product-design-lead.html"
-    },
-    {
-      "source": "/demo-wagmo-senior-software-en",
-      "destination": "/demo-wagmo-senior-software-en.html"
-    },
-    {
-      "source": "/demo-dreem-health-digital-workplace",
-      "destination": "/demo-dreem-health-digital-workplace.html"
-    },
-    {
-      "source": "/demo-huzzle-account-executive",
-      "destination": "/demo-huzzle-account-executive.html"
-    },
-    {
-      "source": "/demo-highlevel-lead-product-desig",
-      "destination": "/demo-highlevel-lead-product-desig.html"
-    },
-    {
-      "source": "/demo-autoscout24-engineering-manage",
-      "destination": "/demo-autoscout24-engineering-manage.html"
-    },
-    {
-      "source": "/demo-bjak-frontend-engineer",
-      "destination": "/demo-bjak-frontend-engineer.html"
-    },
-    {
-      "source": "/demo-huzzle-sales-development-",
-      "destination": "/demo-huzzle-sales-development-.html"
-    },
-    {
-      "source": "/demo-bluetuskr-graphic-designer-v",
-      "destination": "/demo-bluetuskr-graphic-designer-v.html"
-    },
-    {
-      "source": "/demo-lemon-io-senior-devops-engi",
-      "destination": "/demo-lemon-io-senior-devops-engi.html"
+      "source": "/demo-apex-fintech-senior-full-stack",
+      "destination": "/demo-apex-fintech-senior-full-stack.html"
     },
     {
       "source": "/demo-aprio-accounting-and-imp",
       "destination": "/demo-aprio-accounting-and-imp.html"
     },
     {
+      "source": "/demo-aprio-accounting-and-implement",
+      "destination": "/demo-aprio-accounting-and-implement.html"
+    },
+    {
+      "source": "/demo-aprio-senior-accountant",
+      "destination": "/demo-aprio-senior-accountant.html"
+    },
+    {
+      "source": "/demo-autoscout24-engineering-manage",
+      "destination": "/demo-autoscout24-engineering-manage.html"
+    },
+    {
+      "source": "/demo-autoscout24-engineering-manager-data",
+      "destination": "/demo-autoscout24-engineering-manager-data.html"
+    },
+    {
+      "source": "/demo-autoscout24-engineering-manager",
+      "destination": "/demo-autoscout24-engineering-manager.html"
+    },
+    {
+      "source": "/demo-autoscout24-senior-creative-st",
+      "destination": "/demo-autoscout24-senior-creative-st.html"
+    },
+    {
+      "source": "/demo-autoscout24-senior-creative-strategi",
+      "destination": "/demo-autoscout24-senior-creative-strategi.html"
+    },
+    {
+      "source": "/demo-bjak-frontend-engineer",
+      "destination": "/demo-bjak-frontend-engineer.html"
+    },
+    {
+      "source": "/demo-bjak-software-engineer",
+      "destination": "/demo-bjak-software-engineer.html"
+    },
+    {
+      "source": "/demo-bluetuskr-graphic-designer-v",
+      "destination": "/demo-bluetuskr-graphic-designer-v.html"
+    },
+    {
+      "source": "/demo-bluetuskr-senior-product-designer",
+      "destination": "/demo-bluetuskr-senior-product-designer.html"
+    },
+    {
+      "source": "/demo-codesphere-working-student-ceo-offi",
+      "destination": "/demo-codesphere-working-student-ceo-offi.html"
+    },
+    {
+      "source": "/demo-control-shift-video-freelance-designer",
+      "destination": "/demo-control-shift-video-freelance-designer.html"
+    },
+    {
+      "source": "/demo-copenhagen-optimization-marketing-student-assist",
+      "destination": "/demo-copenhagen-optimization-marketing-student-assist.html"
+    },
+    {
+      "source": "/demo-cosuno-senior-talent-acquisitio",
+      "destination": "/demo-cosuno-senior-talent-acquisitio.html"
+    },
+    {
       "source": "/demo-dreem-health-digital-workplace-",
       "destination": "/demo-dreem-health-digital-workplace-.html"
     },
     {
+      "source": "/demo-dreem-health-digital-workplace-au",
+      "destination": "/demo-dreem-health-digital-workplace-au.html"
+    },
+    {
+      "source": "/demo-dreem-health-digital-workplace-automa",
+      "destination": "/demo-dreem-health-digital-workplace-automa.html"
+    },
+    {
+      "source": "/demo-dreem-health-digital-workplace",
+      "destination": "/demo-dreem-health-digital-workplace.html"
+    },
+    {
+      "source": "/demo-dreem-health-software-engineer",
+      "destination": "/demo-dreem-health-software-engineer.html"
+    },
+    {
+      "source": "/demo-easybill-gmbh-freelancer-senior-mobile",
+      "destination": "/demo-easybill-gmbh-freelancer-senior-mobile.html"
+    },
+    {
+      "source": "/demo-foxelli-group-ai-filmmaker",
+      "destination": "/demo-foxelli-group-ai-filmmaker.html"
+    },
+    {
       "source": "/demo-fuel50-product-design-lea",
       "destination": "/demo-fuel50-product-design-lea.html"
+    },
+    {
+      "source": "/demo-fuel50-product-design-lead",
+      "destination": "/demo-fuel50-product-design-lead.html"
+    },
+    {
+      "source": "/demo-fuel50-senior-product-designer",
+      "destination": "/demo-fuel50-senior-product-designer.html"
+    },
+    {
+      "source": "/demo-haystack-junior-software-engineer",
+      "destination": "/demo-haystack-junior-software-engineer.html"
+    },
+    {
+      "source": "/demo-highlevel-lead-product-desig",
+      "destination": "/demo-highlevel-lead-product-desig.html"
+    },
+    {
+      "source": "/demo-highlevel-lead-product-designe",
+      "destination": "/demo-highlevel-lead-product-designe.html"
+    },
+    {
+      "source": "/demo-highlevel-lead-product-designer",
+      "destination": "/demo-highlevel-lead-product-designer.html"
+    },
+    {
+      "source": "/demo-hunt-st-marketing-and-sales-admi",
+      "destination": "/demo-hunt-st-marketing-and-sales-admi.html"
+    },
+    {
+      "source": "/demo-huzzle-account-executive",
+      "destination": "/demo-huzzle-account-executive.html"
+    },
+    {
+      "source": "/demo-huzzle-sales-development-",
+      "destination": "/demo-huzzle-sales-development-.html"
+    },
+    {
+      "source": "/demo-klardaten-senior-software-engineer",
+      "destination": "/demo-klardaten-senior-software-engineer.html"
+    },
+    {
+      "source": "/demo-lemon-devops",
+      "destination": "/demo-lemon-devops.html"
+    },
+    {
+      "source": "/demo-lemon-io-senior-devops-engi",
+      "destination": "/demo-lemon-io-senior-devops-engi.html"
+    },
+    {
+      "source": "/demo-lemon-io-senior-devops-engineer",
+      "destination": "/demo-lemon-io-senior-devops-engineer.html"
+    },
+    {
+      "source": "/demo-nova-commerce-clou-full-stack-next-js-e",
+      "destination": "/demo-nova-commerce-clou-full-stack-next-js-e.html"
+    },
+    {
+      "source": "/demo-nova-commerce-senior-frontend",
+      "destination": "/demo-nova-commerce-senior-frontend.html"
+    },
+    {
+      "source": "/demo-onebrief-ai-platform-engineer",
+      "destination": "/demo-onebrief-ai-platform-engineer.html"
+    },
+    {
+      "source": "/demo-plaid-accounting-operations",
+      "destination": "/demo-plaid-accounting-operations.html"
+    },
+    {
+      "source": "/demo-quantum-systems-gmbh-learning-experience-arch",
+      "destination": "/demo-quantum-systems-gmbh-learning-experience-arch.html"
+    },
+    {
+      "source": "/demo-thorit-working-student-ai-softw",
+      "destination": "/demo-thorit-working-student-ai-softw.html"
+    },
+    {
+      "source": "/demo-wagmo-senior-software-en",
+      "destination": "/demo-wagmo-senior-software-en.html"
+    },
+    {
+      "source": "/demo-wagmo-senior-software-engineer",
+      "destination": "/demo-wagmo-senior-software-engineer.html"
+    },
+    {
+      "source": "/demo-wripple-social-media-content-cre",
+      "destination": "/demo-wripple-social-media-content-cre.html"
     }
   ]
 }
