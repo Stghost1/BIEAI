@@ -45,8 +45,9 @@ from core.mailer import (
     get_operator_email,
 )
 from core.outreach_generator import generate_outreach, get_demo_registry, generate_followup
-from core.scanner import run_full_scan
-from core.autopilot import run_autopilot_pipeline, batch_autopilot
+from core.scanner import run_full_scan, rescore_all, enabled_sources, SOURCE_INFO
+from core.autopilot import run_autopilot_pipeline, batch_autopilot, autopilot_status, start_scheduler
+from core.media_library import list_clips, save_uploaded_clip
 from core.ats_analyzer import analyze_ats_fit
 from core.antijob import get_antijob_playbook
 from core.email_scourer import scour_company_email
@@ -54,15 +55,44 @@ from core.email_scourer import scour_company_email
 ROOT = Path(__file__).resolve().parent
 PORT = int(os.environ.get("PORT", 4174))
 IS_SCANNING = False
+SCAN_LOCK = threading.Lock()
+LAST_SCAN: dict = {}
+
+ALLOWED_ORIGINS = {f"http://127.0.0.1:{PORT}", f"http://localhost:{PORT}"}
+
+# Only these file types are ever served by the generic static fallback.
+SERVABLE_EXT = {".html", ".css", ".js", ".png", ".jpg", ".jpeg", ".webp", ".gif", ".svg",
+                ".ico", ".mp4", ".webm", ".mov", ".woff", ".woff2"}
+# Never served, whatever the extension: secrets, database, source, backups.
+BLOCKED_TOP = {"data", "core", "tests", "temp_backup", "__pycache__", "node_modules", "docs"}
+
+
+def safe_static_path(url_path: str):
+    """Resolve a URL path to a file inside ROOT, refusing dotfiles, secrets and source dirs."""
+    rel = url_path.lstrip("/")
+    if not rel:
+        return None
+    parts = Path(rel).parts
+    if any(p.startswith(".") for p in parts) or (parts and parts[0] in BLOCKED_TOP):
+        return None
+    candidate = (ROOT / rel).resolve()
+    if ROOT not in candidate.parents or not candidate.is_file():
+        return None
+    if candidate.suffix.lower() not in SERVABLE_EXT:
+        return None
+    return candidate
 
 
 def background_scan():
-    global IS_SCANNING
+    global IS_SCANNING, LAST_SCAN
+    if not SCAN_LOCK.acquire(blocking=False):
+        return
     IS_SCANNING = True
     try:
-        run_full_scan()
+        LAST_SCAN = run_full_scan()
     finally:
         IS_SCANNING = False
+        SCAN_LOCK.release()
 
 
 class AbrahamicEngineHandler(BaseHTTPRequestHandler):
@@ -83,16 +113,42 @@ class ScoutDeskHandler(AbrahamicEngineHandler):
     def log_message(self, format, *args):
         pass
 
+    def handle_media_upload(self, query):
+        """POST /api/media/upload?filename=x.mp4&title=..&tags=ugc,product&tool=Kling
+        Body: raw video bytes (fetch(url, {method:'POST', body:file})). Max 200 MB, streamed to disk."""
+        try:
+            length = int(self.headers.get("Content-Length", 0))
+        except ValueError:
+            length = 0
+        q = {k: v[0] for k, v in query.items()}
+        try:
+            clip = save_uploaded_clip(self.rfile, length, q.get("filename", "clip.mp4"),
+                                      title=q.get("title", ""), tags=q.get("tags", ""), tool=q.get("tool", ""))
+            self.json_response({"ok": True, "clip": clip})
+        except ValueError as exc:
+            self.json_response({"error": {"code": "invalid_upload", "message": str(exc), "details": None}}, 400)
+
     def handle_one_request(self):
         try:
             super().handle_one_request()
         except (ConnectionError, OSError):
             pass
 
+    def _origin_allowed(self) -> bool:
+        """Requests without an Origin header (curl, same-origin GET) are allowed.
+        Cross-origin browser requests are only allowed from the dashboard itself, so a random
+        website you visit cannot read your settings or trigger autopilot sends."""
+        origin = self.headers.get("Origin")
+        return (not origin) or origin in ALLOWED_ORIGINS
+
     def send_cors(self):
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        origin = self.headers.get("Origin")
+        if origin and origin in ALLOWED_ORIGINS:
+            self.send_header("Access-Control-Allow-Origin", origin)
+            self.send_header("Vary", "Origin")
+            self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.send_header("X-Content-Type-Options", "nosniff")
 
     def json_response(self, data: dict | list, status: int = 200):
         try:
@@ -197,21 +253,22 @@ class ScoutDeskHandler(AbrahamicEngineHandler):
             return
 
         if path in ("/styles.css", "/app.js") or path.startswith("/media/") or path.startswith("/assets/"):
-            file_path = ROOT / path.lstrip("/")
-            if file_path.is_file():
+            file_path = safe_static_path(path)
+            if file_path:
                 self.serve_file(file_path)
                 return
 
         # Clean Rewrites for Client Demos and Vault Prototypes
         clean_name = path.lstrip("/").replace(".html", "")
-        demo_candidate = ROOT / f"{clean_name}.html"
-        if demo_candidate.is_file():
-            self.serve_file(demo_candidate)
-            return
-        demos_sub_candidate = ROOT / "demos" / f"{clean_name}.html"
-        if demos_sub_candidate.is_file():
-            self.serve_file(demos_sub_candidate)
-            return
+        if clean_name and "/" not in clean_name and ".." not in clean_name and not clean_name.startswith("."):
+            demo_candidate = ROOT / f"{clean_name}.html"
+            if demo_candidate.is_file():
+                self.serve_file(demo_candidate)
+                return
+            demos_sub_candidate = ROOT / "demos" / f"{clean_name}.html"
+            if demos_sub_candidate.is_file():
+                self.serve_file(demos_sub_candidate)
+                return
 
         if path == "/api/opportunities":
             category = query.get("category", ["all"])[0]
@@ -261,56 +318,42 @@ class ScoutDeskHandler(AbrahamicEngineHandler):
             return
 
         if path == "/api/settings":
-            self.json_response({"settings": get_all_settings()})
+            settings = get_all_settings()
+            settings["smtp_pass_set"] = "true" if settings.get("smtp_pass") else "false"
+            settings["smtp_pass"] = ""  # never sent back to the browser
+            self.json_response({"settings": settings})
             return
 
         if path == "/api/sources":
             stats = get_stats()
-            sources_info = [
-                {
-                    "name": "RemoteOK",
-                    "type": "Remote Tech & Design API",
-                    "status": "Active",
-                    "url": "https://remoteok.com/api",
-                    "count": stats.get("sources", {}).get("RemoteOK", 0),
-                },
-                {
-                    "name": "Jobicy",
-                    "type": "Global Remote Jobs API",
-                    "status": "Active",
-                    "url": "https://jobicy.com/api/v2/remote-jobs",
-                    "count": stats.get("sources", {}).get("Jobicy", 0),
-                },
-                {
-                    "name": "Arbeitnow",
-                    "type": "Curated Engineering API",
-                    "status": "Active",
-                    "url": "https://www.arbeitnow.com/api/job-board-api",
-                    "count": stats.get("sources", {}).get("Arbeitnow", 0),
-                },
-                {
-                    "name": "Remotive",
-                    "type": "Global Remote & AI Roles API",
-                    "status": "Active",
-                    "url": "https://remotive.com/api/remote-jobs",
-                    "count": stats.get("sources", {}).get("Remotive", 0),
-                },
-                {
-                    "name": "Himalayas",
-                    "type": "Remote Roles API with Seniority Labels",
-                    "status": "Active",
-                    "url": "https://himalayas.app/jobs/api",
-                    "count": stats.get("sources", {}).get("Himalayas", 0),
-                },
-                {
-                    "name": "B.I.E.AI Signal Radar",
-                    "type": "Capability Fit Engine",
-                    "status": "Live",
-                    "url": "Local SQLite Engine",
-                    "count": stats.get("qualified", 0),
-                }
-            ]
-            self.json_response({"sources": sources_info})
+            counts = stats.get("sources", {})
+            last = {r["source"]: r for r in (LAST_SCAN.get("sources") or [])}
+            enabled = set(enabled_sources())
+            sources_info = []
+            for key, (label, kind, url) in SOURCE_INFO.items():
+                lr = last.get(label, {})
+                sources_info.append({
+                    "key": key, "name": label, "type": kind, "url": url,
+                    "status": ("Error" if str(lr.get("status", "")).startswith("error") else "Active") if key in enabled else "Disabled",
+                    "count": counts.get(label, 0),
+                    "last_found": lr.get("found"), "last_new": lr.get("new"),
+                    "last_status": lr.get("status", ""), "last_seconds": lr.get("seconds"),
+                })
+            sources_info.append({"name": "B.I.E.AI Signal Radar", "type": "Fit engine (eligible, score 58+)",
+                                 "status": "Live", "url": "Local SQLite", "count": stats.get("qualified", 0)})
+            self.json_response({"sources": sources_info, "scanning": IS_SCANNING, "last_scan": LAST_SCAN.get("finished_at")})
+            return
+
+        if path == "/api/scan/status":
+            self.json_response({"scanning": IS_SCANNING, "last_scan": LAST_SCAN})
+            return
+
+        if path == "/api/autopilot/status":
+            self.json_response(autopilot_status())
+            return
+
+        if path == "/api/media":
+            self.json_response({"clips": list_clips()})
             return
 
         if path == "/api/surveys":
@@ -349,8 +392,8 @@ class ScoutDeskHandler(AbrahamicEngineHandler):
             self.json_response({"ok": True, "analysis": analysis})
             return
 
-        file_candidate = ROOT / path.lstrip("/")
-        if file_candidate.is_file() and ROOT in file_candidate.resolve().parents:
+        file_candidate = safe_static_path(path)
+        if file_candidate:
             self.serve_file(file_candidate)
             return
 
@@ -358,11 +401,25 @@ class ScoutDeskHandler(AbrahamicEngineHandler):
 
     def do_POST(self):
         parsed = urlparse(self.path)
+        if not self._origin_allowed():
+            self.json_response({"error": {"code": "forbidden_origin", "message": "Cross-origin request refused", "details": None}}, 403)
+            return
+
+        # Binary clip upload: body is the raw video, metadata in the query string.
+        if parsed.path == "/api/media/upload":
+            self.handle_media_upload(parse_qs(parsed.query))
+            return
+
         length = int(self.headers.get("Content-Length", 0))
+        if length > 2_000_000:
+            self.json_response({"error": {"code": "payload_too_large", "message": "JSON body over 2 MB", "details": None}}, 413)
+            return
         body = self.rfile.read(length) if length > 0 else b"{}"
         try:
             payload = json.loads(body.decode("utf-8") or "{}")
         except Exception:
+            payload = {}
+        if not isinstance(payload, dict):
             payload = {}
 
         if parsed.path == "/api/scan":
@@ -373,6 +430,10 @@ class ScoutDeskHandler(AbrahamicEngineHandler):
             t = threading.Thread(target=background_scan, daemon=True)
             t.start()
             self.json_response({"ok": True, "message": "Live signal scan initiated across all sources."})
+            return
+
+        if parsed.path == "/api/rescore":
+            self.json_response({"ok": True, **rescore_all()})
             return
 
         if parsed.path == "/api/draft":
@@ -444,7 +505,9 @@ class ScoutDeskHandler(AbrahamicEngineHandler):
             if not target:
                 self.json_response({"error": "Opportunity not found"}, 404)
                 return
-            res = build_tailored_demo(target)
+            clips = [str(c) for c in (payload.get("clips") or []) if isinstance(c, str)][:6]
+            res = build_tailored_demo(target, clips=clips or None)
+            res.pop("html", None)  # the page is on disk; no need to ship 40 KB back to the UI
             self.json_response({"ok": True, "demo": res})
             return
 
@@ -480,7 +543,7 @@ class ScoutDeskHandler(AbrahamicEngineHandler):
             host = payload.get("host", "smtp.gmail.com")
             port = int(payload.get("port", 587))
             user = payload.get("user", "")
-            password = payload.get("password", "")
+            password = payload.get("password", "") or get_setting("smtp_pass", "")
             res = test_smtp_connection(host, port, user, password)
             self.json_response(res)
             return
@@ -568,9 +631,16 @@ This confirms that your Abrahamic Opportunities Engine is actively configured to
 
         if parsed.path == "/api/settings":
             for k, v in payload.items():
+                if k == "smtp_pass_set":
+                    continue
+                if k == "smtp_pass" and not str(v).strip():
+                    continue  # blank field in the UI means "keep the stored password"
                 if isinstance(v, (str, int, float, bool)):
                     set_setting(k, str(v).strip())
-            self.json_response({"ok": True, "settings": get_all_settings()})
+            out = get_all_settings()
+            out["smtp_pass_set"] = "true" if out.get("smtp_pass") else "false"
+            out["smtp_pass"] = ""
+            self.json_response({"ok": True, "settings": out})
             return
 
         self.json_response({"error": "Not found"}, 404)
@@ -586,13 +656,19 @@ def main():
     print(f"Autonomous Auto-Pilot: Ready")
     print("=" * 70)
 
+    start_scheduler()  # no-op unless autopilot_schedule_enabled = true in settings
     server = RobustThreadingHTTPServer(("127.0.0.1", PORT), ScoutDeskHandler)
-    try:
-        server.serve_forever()
-    except KeyboardInterrupt:
-        print("\nShutting down Abrahamic Opportunities Engine Server.")
-    finally:
-        server.server_close()
+    while True:
+        try:
+            server.serve_forever()
+        except KeyboardInterrupt:
+            print("\nShutting down Abrahamic Opportunities Engine Server.")
+            break
+        except Exception as e:
+            print(f"Server loop recovered from unexpected exception: {e}")
+            import time
+            time.sleep(0.5)
+    server.server_close()
 
 
 if __name__ == "__main__":
