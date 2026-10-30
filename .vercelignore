@@ -1,0 +1,25 @@
+# Only the public site (HTML, CSS, JS, media) is deployed. Everything below stays on your machine.
+.env
+.env.*
+apikeys.txt
+api_keys_pool.json
+data/
+core/
+tests/
+temp_backup/
+docs/
+__pycache__/
+.pytest_cache/
+.freebuff/
+*.py
+*.pyc
+*.log
+*.bat
+*.db
+*.db.bak
+*.md
+opencode.jsonc
+radar.html
+app.js
+scoutdesk.js
+clips.js
