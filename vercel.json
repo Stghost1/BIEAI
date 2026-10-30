@@ -233,6 +233,10 @@
     {
       "source": "/demo-wripple-social-media-content-cre",
       "destination": "/demo-wripple-social-media-content-cre.html"
+    },
+    {
+      "source": "/demo-lockwood-publishing-ltd-junior-software-engineer",
+      "destination": "/demo-lockwood-publishing-ltd-junior-software-engineer.html"
     }
   ]
 }
