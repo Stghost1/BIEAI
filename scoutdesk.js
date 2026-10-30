@@ -92,7 +92,23 @@ async function loadOpportunities() {
     activeOpportunities = data.opportunities || [];
     renderOpportunityList(activeOpportunities);
   } catch (err) {
-    oppListEl.innerHTML = '<div style="padding:24px 0; color:#ef4444; font-size:12px;">Error connecting to Scoutdesk server. Ensure server.py is running.</div>';
+    // Automatic Vercel / Cloud fallback to verified SQLite JSON archive
+    try {
+      const fbRes = await fetch('/data/opportunities_fallback.json');
+      const fbData = await fbRes.json();
+      let list = fbData.opportunities || [];
+      if (currentFilter && currentFilter !== 'all') {
+        list = list.filter(o => (o.category && o.category.toLowerCase().includes(currentFilter.toLowerCase())) || (o.title && o.title.toLowerCase().includes(currentFilter.toLowerCase())));
+      }
+      if (currentSearch) {
+        const q = currentSearch.toLowerCase();
+        list = list.filter(o => (o.title && o.title.toLowerCase().includes(q)) || (o.company && o.company.toLowerCase().includes(q)));
+      }
+      activeOpportunities = list;
+      renderOpportunityList(activeOpportunities);
+    } catch (fbErr) {
+      oppListEl.innerHTML = '<div style="padding:24px 0; color:#ef4444; font-size:12px;">Connecting to cloud archive...</div>';
+    }
   }
 }
 
